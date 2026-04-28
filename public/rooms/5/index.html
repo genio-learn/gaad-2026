@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room 5: The Signal Room — GAAD 2026</title>
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --surface: #1a1a2e;
+      --surface-raised: #22223a;
+      --border: #2e2e4a;
+      --accent: #7c6af7;
+      --accent-light: #a599ff;
+      --text: #e8e6f0;
+      --text-muted: #9896a8;
+      --text-faint: #4a4860;
+      --success: #4caf82;
+      --warning: #f0a050;
+      --danger: #e05c5c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    kbd {
+      font-family: monospace;
+      font-size: 0.8em;
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+      border-bottom-width: 2px;
+      border-radius: 3px;
+      padding: 0.1em 0.4em;
+      color: var(--text);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute;
+      top: -4rem;
+      left: 1rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 0 0 6px 6px;
+      font-weight: 700;
+      text-decoration: none;
+      z-index: 200;
+      transition: top 0.15s;
+    }
+    .skip-link:focus {
+      top: 0;
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .room-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    nav a.real-link {
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    nav a.real-link:hover { color: var(--text); }
+    nav a:focus-visible,
+    nav a.real-link:focus-visible {
+      outline: none;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 0 3px var(--accent-light);
+      pointer-events: auto;
+    }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+      width: 100%;
+    }
+
+    main:focus { outline: none; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .intro-text {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 48ch;
+    }
+
+    /* ── Progress dots ── */
+    .progress {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .progress-dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .progress-dot.active { background: var(--accent); }
+
+    /* ── Hint box ── */
+    .hint-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--warning);
+      border-radius: 0 6px 6px 0;
+      padding: 0.875rem 1.25rem;
+      margin-bottom: 1.75rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    .hint-box strong { color: var(--text); }
+
+    /* ── Calm mode controls ── */
+    .calm-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .calm-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      color: var(--text);
+      padding: 0.6rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .calm-toggle:hover { border-color: var(--accent); }
+    .calm-toggle:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+    .calm-toggle[aria-pressed="true"] {
+      border-color: var(--success);
+      background: color-mix(in srgb, var(--success) 12%, var(--surface));
+      color: var(--success);
+    }
+
+    .calm-status {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+
+    /* ── Signal panels grid ── */
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .signal-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .panel-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .panel-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .panel-value {
+      font-family: monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* ── Animations ── */
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-14px); }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translateX(0); }
+      33%       { transform: translateX(10px); }
+      66%       { transform: translateX(-10px); }
+    }
+
+    @keyframes pulse-border {
+      0%, 100% { border-color: var(--border); }
+      50%       { border-color: var(--danger); box-shadow: 0 0 12px color-mix(in srgb, var(--danger) 35%, transparent); }
+    }
+
+    @keyframes flicker {
+      0%, 90%, 100% { opacity: 1; }
+      92%            { opacity: 0.2; }
+      96%            { opacity: 0.8; }
+    }
+
+    @keyframes wander {
+      0%   { transform: translate(0px,   0px); }
+      20%  { transform: translate(10px, -12px); }
+      40%  { transform: translate(-8px,  8px); }
+      60%  { transform: translate(12px,  10px); }
+      80%  { transform: translate(-10px, -6px); }
+      100% { transform: translate(0px,   0px); }
+    }
+
+    .panel-bounce { animation: bounce 1.4s ease-in-out infinite; }
+
+    .panel-spin .panel-icon { animation: spin 2s linear infinite; }
+
+    .panel-drift { animation: drift 2.8s ease-in-out infinite; }
+
+    .panel-pulse {
+      animation: pulse-border 1.6s ease-in-out infinite;
+    }
+    .panel-pulse .panel-value {
+      animation: flicker 3s ease-in-out infinite;
+    }
+
+    .reveal-btn-container {
+      display: inline-block;
+      animation: wander 4s ease-in-out infinite;
+    }
+
+    /* ── Calm state: stop all animations ── */
+    /*
+      Applied either by the toggle (adds .calm to <body>)
+      or by the OS prefers-reduced-motion media query.
+    */
+    .calm .panel-bounce           { animation: none; }
+    .calm .panel-spin .panel-icon { animation: none; }
+    .calm .panel-drift            { animation: none; }
+    .calm .panel-pulse            { animation: none; box-shadow: none; }
+    .calm .panel-pulse .panel-value { animation: none; }
+    .calm .reveal-btn-container   { animation: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .panel-bounce,
+      .panel-spin .panel-icon,
+      .panel-drift,
+      .panel-pulse,
+      .panel-pulse .panel-value,
+      .reveal-btn-container {
+        animation: none !important;
+      }
+      .panel-pulse { box-shadow: none !important; }
+    }
+
+    /* ── Reveal section ── */
+    .reveal-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem 2rem 2.5rem;
+      text-align: center;
+    }
+
+    .reveal-heading {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .reveal-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 1.75rem;
+      max-width: 40ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .reveal-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.75rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .reveal-btn:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(5rem);
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--text-muted);
+      border-radius: 0 8px 8px 0;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.875rem;
+      color: var(--text);
+      z-index: 100;
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      max-width: min(420px, calc(100vw - 2rem));
+      text-align: center;
+      pointer-events: none;
+    }
+    .toast.visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .toast {
+        transition: opacity 0.15s ease;
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 20, 0.88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 150;
+      padding: 1.5rem;
+    }
+    .modal-overlay[hidden] { display: none; }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--success);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+    }
+    .modal:focus { outline: none; }
+
+    .modal .success-icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .modal h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal .modal-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .clue-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .clue-word {
+      font-size: 2.75rem;
+      font-weight: 900;
+      letter-spacing: 0.25em;
+      color: var(--success);
+      display: block;
+      font-family: monospace;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .btn-next {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+    }
+    .btn-next:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    .btn-close {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.6rem 1.5rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .btn-close:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+    .btn-close:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 560px) {
+      main   { padding: 2rem 1.25rem 3rem; }
+      header { padding: 0.75rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header>
+    <span class="room-badge" aria-label="Room 5 of 5: Reduced motion">
+      Room 5 / 5 &mdash; Reduced motion
+    </span>
+    <nav aria-label="Room navigation">
+      <ul>
+        <li><a href="../../" class="real-link">&#8592; Lab</a></li>
+        <li><a href="#" aria-label="Monitor (navigation only)">Monitor</a></li>
+        <li><a href="#" aria-label="Spectrum (navigation only)">Spectrum</a></li>
+        <li><a href="#" aria-label="Settings (navigation only)">Settings</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <p class="sr-only">
+      Room 5 tip: the Extract frequency code button is active, but will not
+      respond until calm mode is on. Enable it with the Calm Mode button below,
+      or turn on Reduce Motion in your operating system accessibility settings.
+    </p>
+
+    <p class="eyebrow">Challenge Room 5</p>
+    <h1>The Signal Room</h1>
+
+    <p class="intro-text">
+      This station is overwhelmed with interference. Something important is buried
+      in the noise &mdash; but the signal won&rsquo;t hold still long enough to read it.
+    </p>
+
+    <div class="progress" role="img" aria-label="Progress: room 5 of 5">
+      <div class="progress-dot active"></div>
+      <div class="progress-dot active"></div>
+      <div class="progress-dot active"></div>
+      <div class="progress-dot active"></div>
+      <div class="progress-dot active"></div>
+    </div>
+
+    <div class="hint-box" role="note">
+      <strong>Hint:</strong> Motion can make a page impossible to use &mdash; not
+      just distracting, but genuinely inaccessible for people with vestibular
+      disorders or sensory sensitivities. Try the <strong>Calm Mode</strong>
+      toggle below, or enable <strong>Reduce Motion</strong> in your OS settings
+      (<kbd>System Settings &rarr; Accessibility &rarr; Display</kbd> on Mac;
+      <kbd>Ease of Access &rarr; Visual effects</kbd> on Windows).
+    </div>
+
+    <div class="calm-controls">
+      <button
+        class="calm-toggle"
+        id="calm-toggle"
+        type="button"
+        aria-pressed="false"
+      >
+        <span aria-hidden="true">&#x1F300;</span>
+        Enable Calm Mode
+      </button>
+      <span class="calm-status" id="calm-status" aria-live="polite" aria-atomic="true">
+        Signal unstable &mdash; interference active
+      </span>
+    </div>
+
+    <section aria-labelledby="panels-heading">
+      <h2 class="sr-only" id="panels-heading">Signal monitoring panels</h2>
+      <div class="signal-grid" aria-hidden="true">
+
+        <div class="signal-panel panel-bounce">
+          <span class="panel-icon">&#x1F4E1;</span>
+          <span class="panel-label">Uplink</span>
+          <span class="panel-value">94.7 MHz</span>
+        </div>
+
+        <div class="signal-panel panel-spin">
+          <span class="panel-icon">&#x2699;&#xFE0F;</span>
+          <span class="panel-label">Processor</span>
+          <span class="panel-value">Active</span>
+        </div>
+
+        <div class="signal-panel panel-drift">
+          <span class="panel-icon">&#x1F4F6;</span>
+          <span class="panel-label">Signal</span>
+          <span class="panel-value">&#x2014;unstable&#x2014;</span>
+        </div>
+
+        <div class="signal-panel panel-pulse">
+          <span class="panel-icon">&#x1F534;</span>
+          <span class="panel-label">Alert</span>
+          <span class="panel-value">!!!</span>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="reveal-section" aria-labelledby="reveal-heading">
+      <h2 class="reveal-heading" id="reveal-heading">Frequency Code Extraction</h2>
+      <p class="reveal-desc">
+        Stabilise the signal first, then extract the frequency code.
+        In the current state the control won&rsquo;t respond.
+      </p>
+      <div class="reveal-btn-container">
+        <button class="reveal-btn" id="reveal-btn" type="button">
+          Extract frequency code
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <div
+    class="modal-overlay"
+    id="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    hidden
+  >
+    <div class="modal" id="modal" tabindex="-1">
+      <span class="success-icon" aria-hidden="true">&#x2728;</span>
+      <h2 id="modal-title">Signal Stabilised</h2>
+      <p class="modal-desc">
+        You reduced the motion and suddenly the page was usable. That&rsquo;s the
+        power of <code>prefers-reduced-motion</code> &mdash; a CSS media query
+        that lets people tell the browser they need less movement. Vestibular
+        disorders, sensory sensitivities, and cognitive differences all make
+        animated interfaces genuinely inaccessible. Respecting motion preferences
+        is a small change with a large impact.
+      </p>
+      <span class="clue-label">Your Room 5 clue</span>
+      <span class="clue-word" aria-label="Clue word: MOTION">MOTION</span>
+      <p class="modal-desc">You&rsquo;ve collected all five clues. Well done!</p>
+      <div class="modal-actions">
+        <a href="../../" class="btn-next">&#8592; Back to the Lab</a>
+        <button class="btn-close" id="close-btn" type="button">
+          Close &nbsp;<kbd>Esc</kbd>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <footer>
+    <p>The Reverse Accessibility Lab &mdash; GAAD 2026</p>
+  </footer>
+
+  <script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const body        = document.body;
+    const calmToggle  = document.getElementById('calm-toggle');
+    const calmStatus  = document.getElementById('calm-status');
+    const revealBtn   = document.getElementById('reveal-btn');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modal       = document.getElementById('modal');
+    const closeBtn    = document.getElementById('close-btn');
+    const toast       = document.getElementById('toast');
+    let toastTimer;
+
+    function isCalmActive() {
+      return body.classList.contains('calm') || prefersReducedMotion.matches;
+    }
+
+    function syncCalmUI() {
+      const calm = isCalmActive();
+      calmToggle.setAttribute('aria-pressed', calm ? 'true' : 'false');
+      calmToggle.innerHTML = calm
+        ? '<span aria-hidden="true">&#x2713;</span> Calm Mode on'
+        : '<span aria-hidden="true">&#x1F300;</span> Enable Calm Mode';
+      calmStatus.textContent = calm
+        ? 'Signal stable — ready to extract'
+        : 'Signal unstable — interference active';
+    }
+
+    // Apply calm immediately if OS already prefers reduced motion
+    if (prefersReducedMotion.matches) {
+      body.classList.add('calm');
+    }
+    syncCalmUI();
+
+    // Reflect OS preference changes live
+    prefersReducedMotion.addEventListener('change', () => {
+      if (prefersReducedMotion.matches) {
+        body.classList.add('calm');
+      }
+      syncCalmUI();
+    });
+
+    calmToggle.addEventListener('click', () => {
+      // If OS requires reduced motion, the toggle is informational only
+      if (prefersReducedMotion.matches) {
+        showToast('Calm Mode is already active via your system accessibility settings.');
+        return;
+      }
+      body.classList.toggle('calm');
+      syncCalmUI();
+    });
+
+    function showToast(msg) {
+      clearTimeout(toastTimer);
+      toast.textContent = msg;
+      toast.classList.add('visible');
+      toastTimer = setTimeout(() => toast.classList.remove('visible'), 3800);
+    }
+
+    function openModal() {
+      modalOverlay.removeAttribute('hidden');
+      modal.focus();
+    }
+
+    function closeModal() {
+      modalOverlay.setAttribute('hidden', '');
+      revealBtn.focus();
+    }
+
+    revealBtn.addEventListener('click', () => {
+      if (!isCalmActive()) {
+        showToast('Signal too unstable — enable Calm Mode or reduce motion in your OS settings first.');
+        return;
+      }
+      openModal();
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modalOverlay.hasAttribute('hidden')) {
+        closeModal();
+      }
+    });
+
+    // Focus trap within modal
+    modalOverlay.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const focusable = Array.from(
+        modalOverlay.querySelectorAll('a[href], button:not([disabled])')
+      );
+      const first = focusable[0];
+      const last  = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    document.querySelectorAll('nav a:not(.real-link)').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('Navigation is restricted in this room.');
+      });
+    });
+  </script>
+
+</body>
+</html>
