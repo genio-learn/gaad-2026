@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Reverse Accessibility Lab — GAAD 2026</title>
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --surface: #1a1a2e;
+      --border: #2e2e4a;
+      --accent: #7c6af7;
+      --accent-light: #a599ff;
+      --text: #e8e6f0;
+      --text-muted: #9896a8;
+      --success: #4caf82;
+      --warning: #f0a050;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--accent-light);
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-mark {
+      width: 2rem;
+      height: 2rem;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1rem;
+      color: #fff;
+      flex-shrink: 0;
+      aria-hidden: true;
+    }
+
+    header p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+      width: 100%;
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    .tagline {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      max-width: 55ch;
+    }
+
+    /* ── Callout box ── */
+    .callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .callout p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .callout strong {
+      color: var(--text);
+    }
+
+    /* ── How it works ── */
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .steps li {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent-light);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-text strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .step-text span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Rooms preview ── */
+    .rooms {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 3rem;
+    }
+
+    .room-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+
+    .room-card .room-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .room-card strong {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .room-card p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .room-card .tag {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--accent) 20%, transparent);
+      color: var(--accent-light);
+      border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    }
+
+    /* ── CTA ── */
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-light);
+      color: var(--bg);
+    }
+
+    .btn-primary:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    .cta-note {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--text-muted);
+    }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute;
+      top: -3rem;
+      left: 1rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 0 0 6px 6px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: top 0.1s;
+      z-index: 100;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    @media (max-width: 480px) {
+      main {
+        padding: 2rem 1.25rem 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="logo-mark" aria-hidden="true">A</div>
+    <div>
+      <strong>The Reverse Accessibility Lab</strong>
+      <p>Global Accessibility Awareness Day 2026</p>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <p class="eyebrow">GAAD 2026 Challenge</p>
+
+    <h1>Welcome to the Lab.<br />Things work differently here.</h1>
+
+    <p class="tagline">
+      This is a reverse accessibility lab. Each room is intentionally broken
+      for mainstream use — but works perfectly if you know the right way in.
+    </p>
+
+    <div class="callout" role="note">
+      <p>
+        <strong>No prior experience with assistive technology needed.</strong>
+        Each room gives you a hint. The goal is to feel the friction first —
+        then discover the "other way" that makes everything click.
+      </p>
+    </div>
+
+    <h2>How it works</h2>
+
+    <ol class="steps" aria-label="Steps to complete the challenge">
+      <li>
+        <span class="step-num" aria-hidden="true">1</span>
+        <div class="step-text">
+          <strong>Enter each challenge room</strong>
+          <span>There are 5 rooms, each focused on a different way of interacting with a page.</span>
+        </div>
+      </li>
+      <li>
+        <span class="step-num" aria-hidden="true">2</span>
+        <div class="step-text">
+          <strong>Find the hidden clue</strong>
+          <span>Each room hides a one-word clue. The mainstream path won't reveal it — you'll need to interact differently.</span>
+        </div>
+      </li>
+      <li>
+        <span class="step-num" aria-hidden="true">3</span>
+        <div class="step-text">
+          <strong>Collect all five clues</strong>
+          <span>Jot them down. They'll make sense when you reach the final quiz.</span>
+        </div>
+      </li>
+      <li>
+        <span class="step-num" aria-hidden="true">4</span>
+        <div class="step-text">
+          <strong>Answer the final quiz</strong>
+          <span>Combine your clues to unlock the answer and finish the challenge.</span>
+        </div>
+      </li>
+    </ol>
+
+    <h2>The five rooms</h2>
+
+    <ul class="rooms" aria-label="Challenge rooms">
+      <li class="room-card">
+        <span class="room-icon" aria-hidden="true">⌨️</span>
+        <strong>Room 1 — Keyboard only</strong>
+        <p>Mouse? Useless. Find the clue using nothing but your keyboard.</p>
+        <span class="tag">Keyboard navigation</span>
+      </li>
+      <li class="room-card">
+        <span class="room-icon" aria-hidden="true">🔊</span>
+        <strong>Room 2 — Screen reader</strong>
+        <p>The visual layout is a dead end. The semantic layer tells a different story.</p>
+        <span class="tag">Screen reader</span>
+      </li>
+      <li class="room-card">
+        <span class="room-icon" aria-hidden="true">🔍</span>
+        <strong>Room 3 — High contrast</strong>
+        <p>Something invisible becomes visible when you change how the page renders.</p>
+        <span class="tag">Display settings</span>
+      </li>
+      <li class="room-card">
+        <span class="room-icon" aria-hidden="true">🖱️</span>
+        <strong>Room 4 — Pointer precision</strong>
+        <p>Fine motor control is assumed everywhere. Can you find another way?</p>
+        <span class="tag">Motor accessibility</span>
+      </li>
+      <li class="room-card">
+        <span class="room-icon" aria-hidden="true">📝</span>
+        <strong>Room 5 — Plain language</strong>
+        <p>Jargon, complexity, and noise. The clue is buried — but readable tools surface it.</p>
+        <span class="tag">Cognitive access</span>
+      </li>
+    </ul>
+
+    <div class="cta-group">
+      <a href="/rooms/1" class="btn-primary" aria-label="Start the challenge, Room 1 of 5">
+        Start the challenge →
+      </a>
+      <p class="cta-note">No sign-up required. Takes about 10–15 minutes.</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      Made for <a href="https://accessibility.day">Global Accessibility Awareness Day 2026</a>.
+      Celebrating the difference that accessible design makes.
+    </p>
+  </footer>
+
+</body>
+</html>
