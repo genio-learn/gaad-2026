@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room 1: The Dead Mouse — GAAD 2026</title>
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --surface: #1a1a2e;
+      --surface-raised: #22223a;
+      --border: #2e2e4a;
+      --accent: #7c6af7;
+      --accent-light: #a599ff;
+      --text: #e8e6f0;
+      --text-muted: #9896a8;
+      --success: #4caf82;
+      --warning: #f0a050;
+      --danger: #e05c5c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    kbd {
+      font-family: monospace;
+      font-size: 0.8em;
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+      border-bottom-width: 2px;
+      border-radius: 3px;
+      padding: 0.1em 0.4em;
+      color: var(--text);
+    }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute;
+      top: -4rem;
+      left: 1rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 0 0 6px 6px;
+      font-weight: 700;
+      text-decoration: none;
+      z-index: 200;
+      transition: top 0.15s;
+    }
+    .skip-link:focus {
+      top: 0;
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .room-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    /* ── Nav: pointer-events disabled so mouse clicks do nothing ── */
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      pointer-events: none;
+      cursor: default;
+      /* deliberately no :hover style */
+    }
+
+    /* Keyboard focus on nav is very visible — that's the lesson */
+    nav a:focus-visible {
+      outline: none;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 0 3px var(--accent-light);
+      pointer-events: auto;
+    }
+
+    /* The one nav link that actually works */
+    nav a.real-link {
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    nav a.real-link:hover {
+      color: var(--text);
+    }
+    nav a.real-link:focus-visible {
+      outline: none;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+      width: 100%;
+    }
+
+    main:focus { outline: none; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .intro-text {
+      color: var(--text-muted);
+      max-width: 52ch;
+      margin-bottom: 2rem;
+    }
+
+    /* ── Progress dots ── */
+    .progress {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .progress-dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .progress-dot.active {
+      background: var(--accent);
+    }
+
+    /* ── Hint box ── */
+    .hint-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--warning);
+      border-radius: 0 6px 6px 0;
+      padding: 0.875rem 1.25rem;
+      margin-bottom: 2rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    .hint-box strong { color: var(--text); }
+
+    /* ── Panel card ── */
+    .panel-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .lock-icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .panel-card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .panel-card .panel-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 36ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Unlock button ──
+       Mouse: cursor signals "won't work", clicks intercepted by JS
+       Keyboard: strong glow on :focus-visible ── */
+    .unlock-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: not-allowed;
+      position: relative;
+    }
+
+    .unlock-btn:focus-visible {
+      outline: none;
+      box-shadow:
+        0 0 0 4px var(--bg),
+        0 0 0 7px var(--accent-light),
+        0 0 24px 4px color-mix(in srgb, var(--accent) 40%, transparent);
+      cursor: pointer;
+    }
+
+    .unlock-btn:focus-visible::after {
+      content: 'Press Enter or Space';
+      position: absolute;
+      bottom: -2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--accent-light);
+      white-space: nowrap;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(5rem);
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--danger);
+      border-radius: 0 8px 8px 0;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.875rem;
+      color: var(--text);
+      z-index: 100;
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      max-width: min(340px, calc(100vw - 2rem));
+      text-align: center;
+      pointer-events: none;
+    }
+    .toast.visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* ── Modal overlay ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 20, 0.88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 150;
+      padding: 1.5rem;
+    }
+    .modal-overlay[hidden] { display: none; }
+
+    /* ── Modal ── */
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--success);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+    .modal:focus { outline: none; }
+
+    .modal .unlock-icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .modal h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal .modal-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .clue-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .clue-word {
+      font-size: 2.75rem;
+      font-weight: 900;
+      letter-spacing: 0.25em;
+      color: var(--success);
+      display: block;
+      font-family: monospace;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn-next {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+      width: 100%;
+      justify-content: center;
+    }
+    .btn-next:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    .btn-close {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.6rem 1.5rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn-close:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+    .btn-close:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 480px) {
+      main { padding: 2rem 1.25rem 3rem; }
+      header { padding: 0.75rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skip link: demonstrates why skip links exist — Tab to reveal it -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header>
+    <span class="room-badge" aria-label="Room 1 of 5: Keyboard only">
+      Room 1 / 5 &mdash; Keyboard only
+    </span>
+    <nav aria-label="Room navigation">
+      <ul>
+        <!-- Only this link actually works with the mouse -->
+        <li><a href="../../" class="real-link">← Lab</a></li>
+        <li><a href="#" aria-label="Overview (keyboard only)">Overview</a></li>
+        <li><a href="#" aria-label="Archives (keyboard only)">Archives</a></li>
+        <li><a href="#" aria-label="Help (keyboard only)">Help</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <p class="eyebrow">Challenge Room 1</p>
+    <h1>The Dead Mouse</h1>
+    <p class="intro-text">
+      Your pointer device has stopped working. The panel is locked. Your clue
+      is inside — but the mouse won't get you there.
+    </p>
+
+    <div class="progress" role="img" aria-label="Progress: room 1 of 5">
+      <div class="progress-dot active"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <div class="hint-box" role="note">
+      <strong>Hint:</strong> When a mouse won't work, there's always another way in.
+      Try pressing <kbd>Tab</kbd> to move around the page.
+    </div>
+
+    <div class="panel-card">
+      <span class="lock-icon" aria-hidden="true">🔒</span>
+      <h2>Locked Panel</h2>
+      <p class="panel-desc">
+        The clue is inside. Mouse clicks have been disabled.
+        Something else will open this.
+      </p>
+      <button class="unlock-btn" id="unlock-btn" type="button">
+        Unlock Panel
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Modal: only reachable via keyboard activation of the button above -->
+  <div
+    class="modal-overlay"
+    id="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    hidden
+  >
+    <div class="modal" id="modal" tabindex="-1">
+      <span class="unlock-icon" aria-hidden="true">🔓</span>
+      <h2 id="modal-title">Panel Unlocked</h2>
+      <p class="modal-desc">
+        You navigated here without a mouse. That's keyboard accessibility in action —
+        every interactive element reachable and operable by keyboard alone.
+      </p>
+      <span class="clue-label">Your Room 1 clue</span>
+      <span class="clue-word" aria-label="Clue word: FOCUS">FOCUS</span>
+      <p class="modal-desc">Note it down, then head to Room 2.</p>
+      <div class="modal-actions">
+        <a href="../2/" class="btn-next">Room 2 →</a>
+        <button class="btn-close" id="close-btn" type="button">
+          Close &nbsp;<kbd>Esc</kbd>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live region for mouse-click feedback -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <footer>
+    <p>The Reverse Accessibility Lab &mdash; GAAD 2026</p>
+  </footer>
+
+  <script>
+    const unlockBtn = document.getElementById('unlock-btn');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modal = document.getElementById('modal');
+    const closeBtn = document.getElementById('close-btn');
+    const toast = document.getElementById('toast');
+    let toastTimer;
+
+    function showToast(msg) {
+      clearTimeout(toastTimer);
+      toast.textContent = msg;
+      toast.classList.add('visible');
+      toastTimer = setTimeout(() => toast.classList.remove('visible'), 3500);
+    }
+
+    function openModal() {
+      modalOverlay.removeAttribute('hidden');
+      modal.focus();
+    }
+
+    function closeModal() {
+      modalOverlay.setAttribute('hidden', '');
+      unlockBtn.focus();
+    }
+
+    // Intercept clicks on the unlock button:
+    // mouse/touch → show hint; keyboard (pointerType === '') → open modal
+    unlockBtn.addEventListener('click', (e) => {
+      if (e.pointerType === 'mouse' || e.pointerType === 'touch') {
+        showToast('Mouse clicks are disabled here. Tab to the button, then press Enter.');
+        return;
+      }
+      openModal();
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    // Escape closes modal from anywhere
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modalOverlay.hasAttribute('hidden')) {
+        closeModal();
+      }
+    });
+
+    // Focus trap: Tab and Shift+Tab cycle within the modal
+    modalOverlay.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const focusable = Array.from(
+        modalOverlay.querySelectorAll('a[href], button:not([disabled])')
+      );
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    // Dead nav links: intercept keyboard activation and explain
+    document.querySelectorAll('nav a:not(.real-link)').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('This link is decorative in Room 1. You found it with Tab — that\'s the point.');
+      });
+    });
+  </script>
+
+</body>
+</html>
