@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room 3: Signal Console — GAAD 2026</title>
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --surface: #1a1a2e;
+      --surface-raised: #22223a;
+      --border: #2e2e4a;
+      --accent: #7c6af7;
+      --accent-light: #a599ff;
+      --text: #e8e6f0;
+      --text-muted: #9896a8;
+      --success: #4caf82;
+      --warning: #f0a050;
+      --danger: #e05c5c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    kbd {
+      font-family: monospace;
+      font-size: 0.8em;
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+      border-bottom-width: 2px;
+      border-radius: 3px;
+      padding: 0.1em 0.4em;
+      color: var(--text);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute;
+      top: -4rem;
+      left: 1rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 0 0 6px 6px;
+      font-weight: 700;
+      text-decoration: none;
+      z-index: 200;
+      transition: top 0.15s;
+    }
+    .skip-link:focus {
+      top: 0;
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .room-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    nav a.real-link {
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    nav a.real-link:hover { color: var(--text); }
+    nav a:focus-visible,
+    nav a.real-link:focus-visible {
+      outline: none;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 0 3px var(--accent-light);
+      pointer-events: auto;
+    }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+      width: 100%;
+    }
+
+    main:focus { outline: none; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .intro-text {
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      font-weight: 900;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 2rem;
+      max-width: 28ch;
+    }
+
+    /* ── Progress dots ── */
+    .progress {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .progress-dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .progress-dot.active { background: var(--accent); }
+
+    /* ── Hint box ── */
+    .hint-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--warning);
+      border-radius: 0 6px 6px 0;
+      padding: 0.875rem 1.25rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    .hint-box strong { color: var(--text); }
+
+    /* ── Console ──
+       Four sections, each a column of three buttons.
+       Looks like a real control panel — dense, functional, intimidating. */
+    .console {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .console-section {
+      background: var(--surface);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    /* ── Section heading ── */
+    .console-section > h2 {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.55;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Button wrapper — positions the mouse-blocking overlay ── */
+    .btn-wrapper {
+      position: relative;
+    }
+
+    /*
+      Control button — the actual interactive element.
+      Keyboard Tab and AT (voice control) interact with this directly.
+      Mouse cannot reach it because .mouse-blocker sits on top (z-index).
+    */
+    .control-btn {
+      display: block;
+      width: 100%;
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.6rem 0.875rem;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      font-family: monospace;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+      z-index: 0;
+    }
+    .control-btn:hover {
+      border-color: var(--text-muted);
+      background: color-mix(in srgb, var(--surface-raised) 85%, var(--accent) 15%);
+    }
+    .control-btn:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+      z-index: 2; /* focus ring above the blocker so it's visible */
+    }
+
+    /*
+      Mouse-blocking overlay.
+      Sits above .control-btn (z-index: 1 vs 0).
+      aria-hidden="true" — voice control and screen readers skip it entirely
+      and interact with the button beneath via the accessibility tree.
+      Mouse pointer hits this layer first, so button.click() never fires from mouse.
+    */
+    .mouse-blocker {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      cursor: not-allowed;
+      border-radius: 4px;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(5rem);
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--text-muted);
+      border-radius: 0 8px 8px 0;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.875rem;
+      color: var(--text);
+      z-index: 100;
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      max-width: min(420px, calc(100vw - 2rem));
+      text-align: center;
+      pointer-events: none;
+    }
+    .toast.visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 20, 0.88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 150;
+      padding: 1.5rem;
+    }
+    .modal-overlay[hidden] { display: none; }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--success);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+    }
+    .modal:focus { outline: none; }
+
+    .modal .success-icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .modal h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal .modal-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .clue-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .clue-word {
+      font-size: 2.75rem;
+      font-weight: 900;
+      letter-spacing: 0.25em;
+      color: var(--success);
+      display: block;
+      font-family: monospace;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .btn-next {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+    }
+    .btn-next:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    .btn-close {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.6rem 1.5rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .btn-close:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+    .btn-close:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 560px) {
+      main { padding: 2rem 1.25rem 3rem; }
+      header { padding: 0.75rem 1.25rem; }
+      .console { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header>
+    <span class="room-badge" aria-label="Room 3 of 5: Voice control">
+      Room 3 / 5 &mdash; Voice control
+    </span>
+    <nav aria-label="Room navigation">
+      <ul>
+        <li><a href="../../" class="real-link">← Lab</a></li>
+        <li><a href="#" aria-label="Comms (voice only)">Comms</a></li>
+        <li><a href="#" aria-label="Status (voice only)">Status</a></li>
+        <li><a href="#" aria-label="Log (voice only)">Log</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <p class="sr-only">
+      Room 3 voice control tip: there are twelve controls on this page.
+      Only one has a unique, specific label. Say its exact visible name to activate it.
+      Mouse navigation is blocked. Keyboard tab order is scrambled.
+    </p>
+
+    <p class="eyebrow">Challenge Room 3</p>
+    <h1>Signal Console</h1>
+
+    <p class="intro-text">
+      12 controls. One way in.<br />
+      Say what you see.
+    </p>
+
+    <div class="progress" role="img" aria-label="Progress: room 3 of 5">
+      <div class="progress-dot active"></div>
+      <div class="progress-dot active"></div>
+      <div class="progress-dot active"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <div class="hint-box" role="note">
+      <strong>Hint:</strong> Mouse navigation is blocked. Keyboard tab order is scrambled.
+      The clean path is voice control &mdash; enable Windows Voice Access (<kbd>Win+H</kbd>)
+      or macOS Voice Control (System Settings &rarr; Accessibility &rarr; Voice Control), then say
+      <strong>&ldquo;Click &lsquo;Reveal final code&rsquo;&rdquo;</strong>.
+      No voice software? You can still Tab through all 12 controls to find it &mdash; it&rsquo;ll just take a while.
+    </div>
+
+    <!--
+      Four console sections, three buttons each = 12 controls total.
+
+      Tab order is scrambled via tabindex. Assigned values jump across sections
+      so keyboard users must Tab 9 times before reaching the target (tabindex="10").
+
+      Tab sequence: Next(Nav,1) → More info(Sys,2) → Submit(Comms,3) →
+        Click here(Archive,4) → Click here(Comms,5) → Go(Sys,6) →
+        Next(Archive,7) → Click here(Nav,8) → Submit(Sys,9) →
+        Reveal final code(Archive,10) → More info(Comms,11) → Option(Nav,12)
+
+      Voice control reads the accessibility tree: unique, specific labels
+      resolve instantly. Duplicate labels ("Click here" × 3, "Submit" × 2, etc.)
+      would trigger a disambiguation overlay in real voice software.
+    -->
+    <div
+      class="console"
+      role="region"
+      aria-label="Signal console controls"
+    >
+
+      <!-- Section 1: Communications -->
+      <section class="console-section" aria-labelledby="comms-heading">
+        <h2 id="comms-heading">Communications</h2>
+
+        <!--
+          "Click here" — the classic bad label. Three buttons share this name.
+          Say "Click Click here" in Dragon and you get a disambiguation grid.
+        -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="5"
+            data-label="Click here"
+            type="button"
+          >Click here</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+
+        <!--
+          "More info" — vague and duplicated (also in Systems).
+          More info about what? Voice users can't distinguish.
+        -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="11"
+            data-label="More info"
+            type="button"
+          >More info</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+
+        <!--
+          "Submit" — duplicated (also in Systems). Submit what?
+          Without context in the label, voice users are guessing.
+        -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="3"
+            data-label="Submit"
+            type="button"
+          >Submit</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- Section 2: Navigation -->
+      <section class="console-section" aria-labelledby="nav-heading">
+        <h2 id="nav-heading">Navigation</h2>
+
+        <!-- "Click here" × 2 of 3 -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="8"
+            data-label="Click here"
+            type="button"
+          >Click here</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+
+        <!--
+          "Next" — duplicated (also in Archive). Next what?
+          Two "Next" buttons is a disambiguation nightmare.
+        -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="1"
+            data-label="Next"
+            type="button"
+          >Next</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+
+        <!--
+          "Option" — a label so vague it's almost meaningless.
+          Unique, at least, but tells a voice user nothing about what it does.
+        -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="12"
+            data-label="Option"
+            type="button"
+          >Option</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- Section 3: Systems -->
+      <section class="console-section" aria-labelledby="sys-heading">
+        <h2 id="sys-heading">Systems</h2>
+
+        <!--
+          "Go" — a single word that could mean anything.
+          Unique on the page, but offers no actionable description.
+        -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="6"
+            data-label="Go"
+            type="button"
+          >Go</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+
+        <!-- "More info" × 2 of 2 -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="2"
+            data-label="More info"
+            type="button"
+          >More info</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+
+        <!-- "Submit" × 2 of 2 -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="9"
+            data-label="Submit"
+            type="button"
+          >Submit</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- Section 4: Archive -->
+      <section class="console-section" aria-labelledby="archive-heading">
+        <h2 id="archive-heading">Archive</h2>
+
+        <!-- "Click here" × 3 of 3 -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="4"
+            data-label="Click here"
+            type="button"
+          >Click here</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+
+        <!-- "Next" × 2 of 2 -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="7"
+            data-label="Next"
+            type="button"
+          >Next</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+
+        <!--
+          "Reveal final code" — the target.
+          Unique: appears exactly once.
+          Specific: tells you exactly what it does.
+          Actionable: you know what to say — "Click 'Reveal final code'".
+          This is a textbook good button label for voice control.
+        -->
+        <div class="btn-wrapper">
+          <button
+            class="control-btn"
+            tabindex="10"
+            data-entry="VOICE"
+            data-label="Reveal final code"
+            type="button"
+          >Reveal final code</button>
+          <div class="mouse-blocker" aria-hidden="true"></div>
+        </div>
+      </section>
+
+    </div><!-- /.console -->
+
+  </main>
+
+  <!-- Modal: opens when "Reveal final code" is activated -->
+  <div
+    class="modal-overlay"
+    id="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    hidden
+  >
+    <div class="modal" id="modal" tabindex="-1">
+      <span class="success-icon" aria-hidden="true">🎙️</span>
+      <h2 id="modal-title">Code Revealed</h2>
+      <p class="modal-desc">
+        You found it by naming it precisely. That&rsquo;s exactly how voice control works &mdash;
+        it targets controls by their visible label. A unique, specific name means no guessing,
+        no disambiguation overlay, no wrong turns.
+      </p>
+      <span class="clue-label">Your Room 3 clue</span>
+      <span class="clue-word" aria-label="Clue word: VOICE">VOICE</span>
+      <p class="modal-desc">Note it down, then move to Room 4.</p>
+      <div class="modal-actions">
+        <a href="../4/" class="btn-next">Room 4 &rarr;</a>
+        <button class="btn-close" id="close-btn" type="button">
+          Close &nbsp;<kbd>Esc</kbd>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live region for feedback on wrong activations -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <footer>
+    <p>The Reverse Accessibility Lab &mdash; GAAD 2026</p>
+  </footer>
+
+  <script>
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modal        = document.getElementById('modal');
+    const closeBtn     = document.getElementById('close-btn');
+    const toast        = document.getElementById('toast');
+    let toastTimer;
+
+    function showToast(msg) {
+      clearTimeout(toastTimer);
+      toast.textContent = msg;
+      toast.classList.add('visible');
+      toastTimer = setTimeout(() => toast.classList.remove('visible'), 4000);
+    }
+
+    function openModal() {
+      modalOverlay.removeAttribute('hidden');
+      modal.focus();
+    }
+
+    function closeModal() {
+      modalOverlay.setAttribute('hidden', '');
+      document.querySelector('[data-entry="VOICE"]').focus();
+    }
+
+    /*
+      Mouse-blocker overlays intercept pointer clicks before they reach the button.
+      The button beneath is still focusable via Tab and invokable via AT.
+    */
+    document.querySelectorAll('.mouse-blocker').forEach((blocker) => {
+      blocker.addEventListener('click', () => {
+        showToast('Mouse navigation is blocked in this room. Try voice control instead.');
+      });
+    });
+
+    /*
+      Control button click handlers.
+      These fire from keyboard (Enter/Space) and voice control AT — not from mouse
+      (mouse hits the overlay above and never reaches the button).
+    */
+    document.querySelectorAll('.control-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.entry === 'VOICE') {
+          openModal();
+          return;
+        }
+
+        const label = btn.dataset.label;
+
+        // Count how many buttons share this label to give a relevant hint
+        const siblings = document.querySelectorAll(
+          `.control-btn[data-label="${CSS.escape(label)}"]`
+        ).length;
+
+        if (siblings > 1) {
+          showToast(
+            `"${label}" — ${siblings} buttons share that label. ` +
+            `Voice control would show a disambiguation overlay asking which one you meant.`
+          );
+        } else {
+          showToast(
+            `"${label}" — unique, but too vague. ` +
+            `Good labels describe what the button does, not just that something happens.`
+          );
+        }
+      });
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modalOverlay.hasAttribute('hidden')) {
+        closeModal();
+      }
+    });
+
+    // Focus trap within modal
+    modalOverlay.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const focusable = Array.from(
+        modalOverlay.querySelectorAll('a[href], button:not([disabled])')
+      );
+      const first = focusable[0];
+      const last  = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    // Dead nav links feedback
+    document.querySelectorAll('nav a:not(.real-link)').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('Navigation is voice-controlled in this room.');
+      });
+    });
+  </script>
+
+</body>
+</html>
