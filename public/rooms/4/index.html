@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room 4: Intelligence Report — GAAD 2026</title>
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --surface: #1a1a2e;
+      --surface-raised: #22223a;
+      --border: #2e2e4a;
+      --accent: #7c6af7;
+      --accent-light: #a599ff;
+      --text: #e8e6f0;
+      --text-muted: #9896a8;
+      --text-faint: #4a4860;
+      --success: #4caf82;
+      --warning: #f0a050;
+      --danger: #e05c5c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    kbd {
+      font-family: monospace;
+      font-size: 0.8em;
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+      border-bottom-width: 2px;
+      border-radius: 3px;
+      padding: 0.1em 0.4em;
+      color: var(--text);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute;
+      top: -4rem;
+      left: 1rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 0 0 6px 6px;
+      font-weight: 700;
+      text-decoration: none;
+      z-index: 200;
+      transition: top 0.15s;
+    }
+    .skip-link:focus {
+      top: 0;
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .room-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 0.4rem 0.75rem;
+      border-radius: 4px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    nav a.real-link {
+      pointer-events: auto;
+      cursor: pointer;
+    }
+    nav a.real-link:hover { color: var(--text); }
+    nav a:focus-visible,
+    nav a.real-link:focus-visible {
+      outline: none;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 0 3px var(--accent-light);
+      pointer-events: auto;
+    }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+      width: 100%;
+    }
+
+    main:focus { outline: none; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .intro-text {
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      font-weight: 900;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 2rem;
+      max-width: 32ch;
+    }
+
+    /* ── Progress dots ── */
+    .progress {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .progress-dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .progress-dot.active { background: var(--accent); }
+
+    /* ── Hint box ── */
+    .hint-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--warning);
+      border-radius: 0 6px 6px 0;
+      padding: 0.875rem 1.25rem;
+      margin-bottom: 2rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    .hint-box strong { color: var(--text); }
+
+    /* ── Report banner ── */
+    .report-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px 6px 0 0;
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .report-banner .report-id {
+      font-family: monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .report-banner .classification-tag {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      border: 1px solid var(--danger);
+      color: var(--danger);
+    }
+
+    /*
+      ── Report grid ──
+      Three columns at full width: main body, signal metrics, priority annotations.
+
+      At normal zoom: three columns side-by-side. The annotations column is narrow
+      and renders at a tiny font size, easy to miss.
+
+      At ≈200% zoom: the viewport effectively halves in CSS pixels, dropping below
+      the 680px breakpoint. All three columns stack vertically in DOM order
+      (body → metrics → annotations). The annotations become full-width and readable.
+      This is CSS reflow — content adapts to viewport width rather than forcing
+      horizontal scrolling.
+    */
+    .report-grid {
+      display: grid;
+      grid-template-columns: 3fr 1.6fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 680px) {
+      .report-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Shared panel base ── */
+    .report-panel {
+      background: var(--surface);
+      padding: 1.25rem;
+    }
+
+    .panel-heading {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.55;
+      padding-bottom: 0.6rem;
+      margin-bottom: 0.875rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Main report body ── */
+    .body-col {
+      /* Nothing unusual — this column looks normal at all zoom levels */
+    }
+
+    .log-entry {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .log-entry:last-child { border-bottom: none; }
+
+    .log-entry .log-meta {
+      display: flex;
+      gap: 0.75rem;
+      align-items: baseline;
+      margin-bottom: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    .log-entry .log-id {
+      font-family: monospace;
+      font-size: 0.7rem;
+      color: var(--accent-light);
+      font-weight: 700;
+    }
+
+    .log-entry .log-ts {
+      font-family: monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    .log-entry .log-status {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.1rem 0.35rem;
+      border-radius: 3px;
+    }
+    .status-open {
+      background: color-mix(in srgb, var(--warning) 15%, transparent);
+      color: var(--warning);
+    }
+    .status-closed {
+      background: color-mix(in srgb, var(--success) 15%, transparent);
+      color: var(--success);
+    }
+    .status-review {
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent-light);
+    }
+
+    .log-entry p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* ── Signal metrics column ── */
+    .metrics-col { /* Normal styling, not the point of the room */ }
+
+    .metric-block {
+      margin-bottom: 1rem;
+    }
+
+    .metric-block:last-child { margin-bottom: 0; }
+
+    .metric-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.65;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .metric-value {
+      font-family: monospace;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .metric-sub {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 0.15rem;
+    }
+
+    .metric-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    .metric-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--accent);
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 0.5rem;
+    }
+    .metric-row:last-child { border-bottom: none; }
+
+    .metric-row .row-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .metric-row .row-val {
+      font-family: monospace;
+      font-size: 0.7rem;
+      color: var(--text);
+    }
+
+    /*
+      ── Priority annotations column ──
+      This is the column that matters.
+
+      At normal zoom: narrow, tiny text (0.67rem), low contrast — looks like
+      boilerplate metadata, easy to dismiss visually.
+
+      At ≈200%+ zoom: column becomes full-width. Browser zoom makes 0.67rem
+      effectively larger. The content is now obviously readable and the
+      acknowledge button is clearly visible.
+
+      This is intentionally bad design: critical controls buried in small
+      type in a cramped column. The fix is proper reflow support.
+    */
+    .annotations-col {
+      font-size: 0.67rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .annotations-col .panel-heading {
+      font-size: 0.58rem;
+    }
+
+    .annotation-entry {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .annotation-entry:last-child { border-bottom: none; }
+
+    .annotation-entry .ann-priority {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.58rem;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+    .ann-p1 { color: var(--danger); }
+    .ann-p2 { color: var(--warning); }
+    .ann-p3 { color: var(--text-muted); }
+
+    .annotation-entry p {
+      color: var(--text-faint);
+      font-size: 0.65rem;
+    }
+
+    /*
+      The acknowledge button.
+
+      At normal zoom: tiny, styled to blend with the surrounding annotation text.
+      Low padding, small font, faint border — looks like a metadata tag, not a button.
+
+      At high zoom: full width, clearly a button, easy to read and activate.
+      This is the control the user needs to find.
+    */
+    .acknowledge-btn {
+      display: block;
+      width: 100%;
+      margin-top: 0.5rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-faint);
+      padding: 0.3rem 0.5rem;
+      border-radius: 3px;
+      font-size: 0.65rem;
+      font-family: monospace;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .acknowledge-btn:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+    .acknowledge-btn:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(5rem);
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--text-muted);
+      border-radius: 0 8px 8px 0;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.875rem;
+      color: var(--text);
+      z-index: 100;
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      max-width: min(400px, calc(100vw - 2rem));
+      text-align: center;
+      pointer-events: none;
+    }
+    .toast.visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 20, 0.88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 150;
+      padding: 1.5rem;
+    }
+    .modal-overlay[hidden] { display: none; }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--success);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+    }
+    .modal:focus { outline: none; }
+
+    .modal .success-icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .modal h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal .modal-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .clue-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .clue-word {
+      font-size: 2.75rem;
+      font-weight: 900;
+      letter-spacing: 0.25em;
+      color: var(--success);
+      display: block;
+      font-family: monospace;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .btn-next {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+    }
+    .btn-next:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    .btn-close {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.6rem 1.5rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .btn-close:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+    .btn-close:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 560px) {
+      main { padding: 2rem 1.25rem 3rem; }
+      header { padding: 0.75rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header>
+    <span class="room-badge" aria-label="Room 4 of 5: Zoom and magnification">
+      Room 4 / 5 &mdash; Zoom &amp; magnification
+    </span>
+    <nav aria-label="Room navigation">
+      <ul>
+        <li><a href="../../" class="real-link">← Lab</a></li>
+        <li><a href="#" aria-label="Reports (navigation only)">Reports</a></li>
+        <li><a href="#" aria-label="Archive (navigation only)">Archive</a></li>
+        <li><a href="#" aria-label="Export (navigation only)">Export</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <p class="sr-only">
+      Room 4 zoom tip: the control you need is in the Priority Annotations panel
+      on the right. At normal zoom it renders in very small text. Zoom in to
+      200 percent or more to make the layout reflow — the panel will stack below
+      the main content and the button will be easy to see and activate.
+    </p>
+
+    <p class="eyebrow">Challenge Room 4</p>
+    <h1>Intelligence Report</h1>
+
+    <p class="intro-text">
+      Everything you need is here.<br />
+      You just can&rsquo;t see it yet.
+    </p>
+
+    <div class="progress" role="img" aria-label="Progress: room 4 of 5">
+      <div class="progress-dot active"></div>
+      <div class="progress-dot active"></div>
+      <div class="progress-dot active"></div>
+      <div class="progress-dot active"></div>
+      <div class="progress-dot"></div>
+    </div>
+
+    <div class="hint-box" role="note">
+      <strong>Hint:</strong> The control you need is somewhere in this report, but
+      the layout makes it hard to find at normal zoom. Try zooming in to 200% or
+      more (<kbd>Ctrl+=</kbd> on Windows/Linux, <kbd>Cmd+=</kbd> on Mac) and
+      watch what happens to the layout.
+    </div>
+
+    <!--
+      The report: three columns at full width, one column when zoomed.
+
+      DOM order: body column → metrics column → annotations column.
+      When columns stack at high zoom, annotations appear last —
+      but they're now full-width and readable instead of a cramped sliver.
+
+      This demonstrates reflow: content adapts to the available CSS pixel width
+      rather than overflowing horizontally. WCAG 1.4.10 requires reflow at 320px
+      (equivalent to 400% zoom on a 1280px screen) with no horizontal scrolling.
+    -->
+
+    <div
+      class="report-banner"
+      role="region"
+      aria-label="Report metadata"
+    >
+      <span class="report-id">
+        RPT&ndash;2026&ndash;04 &nbsp;/&nbsp;
+        COMMS INTELLIGENCE &nbsp;/&nbsp;
+        CYCLE: 04 APR 2026 &ndash; 28 APR 2026
+      </span>
+      <span class="classification-tag" aria-label="Classification: restricted">RESTRICTED</span>
+    </div>
+
+    <div class="report-grid">
+
+      <!-- ── Column 1: Incident log body ── -->
+      <section
+        class="report-panel body-col"
+        aria-labelledby="log-heading"
+      >
+        <h2 class="panel-heading" id="log-heading">Incident Log</h2>
+
+        <article class="log-entry">
+          <div class="log-meta">
+            <span class="log-id">INC-0041</span>
+            <span class="log-ts">2026-04-22 09:14 UTC</span>
+            <span class="log-status status-closed">Closed</span>
+          </div>
+          <p>
+            Signal degradation on northern relay — traced to atmospheric interference
+            during overnight maintenance window. Relay restored to nominal throughput
+            at 11:32 UTC. No data loss confirmed. Monitoring extended for 48 hours.
+          </p>
+        </article>
+
+        <article class="log-entry">
+          <div class="log-meta">
+            <span class="log-id">INC-0042</span>
+            <span class="log-ts">2026-04-23 14:07 UTC</span>
+            <span class="log-status status-review">Under review</span>
+          </div>
+          <p>
+            Unexpected authentication timeout on secure channel delta-7.
+            Preliminary analysis suggests certificate mismatch following last week&rsquo;s
+            rotation. Engineering hold placed pending full audit of credential chain.
+            Escalated to infrastructure team.
+          </p>
+        </article>
+
+        <article class="log-entry">
+          <div class="log-meta">
+            <span class="log-id">INC-0043</span>
+            <span class="log-ts">2026-04-24 07:55 UTC</span>
+            <span class="log-status status-open">Open</span>
+          </div>
+          <p>
+            Intermittent packet loss on southern trunk. Peak loss rate 3.2% during
+            0600&ndash;0900 window. Correlates with increased traffic from automated
+            batch jobs. Throttling policy under evaluation. No impact to priority
+            traffic confirmed.
+          </p>
+        </article>
+
+        <article class="log-entry">
+          <div class="log-meta">
+            <span class="log-id">INC-0044</span>
+            <span class="log-ts">2026-04-25 16:40 UTC</span>
+            <span class="log-status status-closed">Closed</span>
+          </div>
+          <p>
+            Scheduled maintenance on archive relay completed within window.
+            Firmware patched from v4.1.2 to v4.3.0. Post-patch diagnostics nominal.
+            Handoff log filed under MAINT-2026-112.
+          </p>
+        </article>
+
+        <article class="log-entry">
+          <div class="log-meta">
+            <span class="log-id">INC-0045</span>
+            <span class="log-ts">2026-04-28 03:20 UTC</span>
+            <span class="log-status status-open">Open</span>
+          </div>
+          <p>
+            Anomalous routing behaviour detected on segment Echo-9. Traffic is
+            completing but via non-optimal path. Root cause investigation ongoing.
+            Impact: minor latency increase (~40ms). SLA threshold not breached.
+          </p>
+        </article>
+
+      </section><!-- /.body-col -->
+
+      <!-- ── Column 2: Signal metrics ── -->
+      <section
+        class="report-panel metrics-col"
+        aria-labelledby="metrics-heading"
+      >
+        <h2 class="panel-heading" id="metrics-heading">Signal Metrics</h2>
+
+        <div class="metric-block">
+          <span class="metric-label">Uptime (30d)</span>
+          <span class="metric-value">99.61<span style="font-size:0.7em;color:var(--text-muted)">%</span></span>
+          <span class="metric-sub">Target: 99.5% &mdash; within tolerance</span>
+          <div class="metric-bar" aria-hidden="true">
+            <div class="metric-bar-fill" style="width:99.61%"></div>
+          </div>
+        </div>
+
+        <div class="metric-block">
+          <span class="metric-label">Avg latency</span>
+          <span class="metric-value">18<span style="font-size:0.7em;color:var(--text-muted)">ms</span></span>
+          <span class="metric-sub">Peak: 62ms (INC-0045 window)</span>
+          <div class="metric-bar" aria-hidden="true">
+            <div class="metric-bar-fill" style="width:22%;background:var(--success)"></div>
+          </div>
+        </div>
+
+        <div class="metric-block">
+          <span class="metric-label">Active channels</span>
+          <span class="metric-value">247</span>
+          <span class="metric-sub">+3 from previous cycle</span>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <div class="metric-row">
+            <span class="row-label">Alpha trunk</span>
+            <span class="row-val">Nominal</span>
+          </div>
+          <div class="metric-row">
+            <span class="row-label">Beta trunk</span>
+            <span class="row-val">Nominal</span>
+          </div>
+          <div class="metric-row">
+            <span class="row-label">Delta-7</span>
+            <span class="row-val">Review</span>
+          </div>
+          <div class="metric-row">
+            <span class="row-label">Echo-9</span>
+            <span class="row-val">Degraded</span>
+          </div>
+          <div class="metric-row">
+            <span class="row-label">Southern trunk</span>
+            <span class="row-val">Monitor</span>
+          </div>
+          <div class="metric-row">
+            <span class="row-label">Archive relay</span>
+            <span class="row-val">Nominal</span>
+          </div>
+          <div class="metric-row">
+            <span class="row-label">Northern relay</span>
+            <span class="row-val">Nominal</span>
+          </div>
+        </div>
+
+        <div class="metric-block" style="margin-top:1rem;">
+          <span class="metric-label">Packet loss (7d avg)</span>
+          <span class="metric-value">0.4<span style="font-size:0.7em;color:var(--text-muted)">%</span></span>
+          <span class="metric-sub">Within acceptable range</span>
+          <div class="metric-bar" aria-hidden="true">
+            <div class="metric-bar-fill" style="width:0.4%;background:var(--success)"></div>
+          </div>
+        </div>
+
+      </section><!-- /.metrics-col -->
+
+      <!--
+        ── Column 3: Priority annotations ──
+
+        At normal zoom this column is ~180px wide. Font size 0.67rem.
+        Colour is --text-faint (#4a4860) — near-invisible against the dark background.
+        The acknowledge button is styled to look like a metadata label.
+
+        Zoom to 200%+: the grid collapses to one column. This panel becomes
+        full-width, text is now at a comfortable reading size (browser zoom
+        scales everything up), and "Acknowledge priority access" is clearly
+        a button — not a label.
+
+        The lesson: tiny, low-contrast content in narrow columns isn't
+        "clean design" — it's inaccessible design that breaks at zoom.
+        WCAG 1.4.3 (contrast) and 1.4.10 (reflow) both speak to this.
+      -->
+      <section
+        class="report-panel annotations-col"
+        aria-labelledby="annotations-heading"
+      >
+        <h2 class="panel-heading" id="annotations-heading">Priority Annotations</h2>
+
+        <div class="annotation-entry">
+          <span class="ann-priority ann-p3">P3 &mdash; Info</span>
+          <p>INC-0041 post-mortem scheduled for 2026-05-02. No follow-up action required pending review sign-off.</p>
+        </div>
+
+        <div class="annotation-entry">
+          <span class="ann-priority ann-p2">P2 &mdash; Watch</span>
+          <p>Delta-7 credential audit must complete before cycle-end. Flag to security team if delayed past 30 Apr.</p>
+        </div>
+
+        <div class="annotation-entry">
+          <span class="ann-priority ann-p3">P3 &mdash; Info</span>
+          <p>Batch throttling policy draft circulated to operations. Feedback window closes 01 May.</p>
+        </div>
+
+        <!--
+          The critical annotation — and the button.
+          At normal zoom: the button text is tiny and the border blends with
+          the surrounding annotation metadata.
+          At high zoom: clearly labelled, clearly a button, easy to click.
+        -->
+        <div class="annotation-entry">
+          <span class="ann-priority ann-p1">P1 &mdash; Action required</span>
+          <p>
+            Echo-9 anomaly requires field acknowledgement before cycle close.
+            Confirm access to proceed with diagnostic handoff.
+          </p>
+          <button
+            class="acknowledge-btn"
+            data-entry="REFLOW"
+            type="button"
+          >Acknowledge priority access</button>
+        </div>
+
+        <div class="annotation-entry">
+          <span class="ann-priority ann-p3">P3 &mdash; Info</span>
+          <p>Next cycle review: 2026-05-26. Distribute agenda by 2026-05-19.</p>
+        </div>
+
+      </section><!-- /.annotations-col -->
+
+    </div><!-- /.report-grid -->
+
+  </main>
+
+  <!-- Modal: opens when "Acknowledge priority access" is activated -->
+  <div
+    class="modal-overlay"
+    id="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    hidden
+  >
+    <div class="modal" id="modal" tabindex="-1">
+      <span class="success-icon" aria-hidden="true">🔎</span>
+      <h2 id="modal-title">Access Acknowledged</h2>
+      <p class="modal-desc">
+        You found it by zooming in. That&rsquo;s reflow &mdash; the browser
+        adapts the layout to fit the viewport width instead of making you scroll
+        sideways. Without it, content crammed into narrow columns at 100% zoom
+        becomes completely inaccessible to anyone who needs magnification.
+      </p>
+      <span class="clue-label">Your Room 4 clue</span>
+      <span class="clue-word" aria-label="Clue word: REFLOW">REFLOW</span>
+      <p class="modal-desc">Note it down, then move to Room 5.</p>
+      <div class="modal-actions">
+        <a href="../5/" class="btn-next">Room 5 &rarr;</a>
+        <button class="btn-close" id="close-btn" type="button">
+          Close &nbsp;<kbd>Esc</kbd>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live region for incidental feedback -->
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <footer>
+    <p>The Reverse Accessibility Lab &mdash; GAAD 2026</p>
+  </footer>
+
+  <script>
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modal        = document.getElementById('modal');
+    const closeBtn     = document.getElementById('close-btn');
+    const toast        = document.getElementById('toast');
+    let toastTimer;
+
+    function showToast(msg) {
+      clearTimeout(toastTimer);
+      toast.textContent = msg;
+      toast.classList.add('visible');
+      toastTimer = setTimeout(() => toast.classList.remove('visible'), 3500);
+    }
+
+    function openModal() {
+      modalOverlay.removeAttribute('hidden');
+      modal.focus();
+    }
+
+    function closeModal() {
+      modalOverlay.setAttribute('hidden', '');
+      document.querySelector('[data-entry="REFLOW"]').focus();
+    }
+
+    document.querySelector('.acknowledge-btn').addEventListener('click', openModal);
+
+    closeBtn.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modalOverlay.hasAttribute('hidden')) {
+        closeModal();
+      }
+    });
+
+    // Focus trap within modal
+    modalOverlay.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const focusable = Array.from(
+        modalOverlay.querySelectorAll('a[href], button:not([disabled])')
+      );
+      const first = focusable[0];
+      const last  = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    // Dead nav links feedback
+    document.querySelectorAll('nav a:not(.real-link)').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showToast('Navigation is restricted in this report view.');
+      });
+    });
+  </script>
+
+</body>
+</html>
