@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <rect width="240" height="240" rx="48" fill="#0c0d1c"/>
+  <g fill="#a08bff" transform="translate(3.5, 10)">
+    <circle cx="100" cy="100" r="88" fill="none" stroke="#a08bff" stroke-width="9"
+            stroke-dasharray="461 92" stroke-dashoffset="-146"/>
+    <g transform="translate(-38.7 -38.7) scale(0.45)">
+      <path d="M218.26,453.13l-25.07-12.14c15.47-31.94,34.26-62.48,55.84-90.79l22.15,16.89c-20.46,26.83-38.26,55.78-52.93,86.04Z"/>
+      <path d="M308.22,434.36c-68.49,0-122.43-55.37-122.43-126.14s53.94-126.14,122.43-126.14,122.43,55.37,122.43,126.14-53.94,126.14-122.43,126.14ZM308.22,462.32c86.47,0,154.11-67.64,154.11-154.11s-67.64-154.11-154.11-154.11-154.11,67.64-154.11,154.11,67.64,154.11,154.11,154.11Z"/>
+      <path d="M296.92,335.98l-20.74-18.59c46.67-52.04,102.11-93.83,164.78-124.2l12.15,25.06c-59.41,28.79-111.96,68.4-156.19,117.73Z"/>
+      <path d="M238.38,313.16l-21.64-17.54c22.35-27.57,47.61-53.02,75.08-75.66l17.71,21.49c-26.03,21.45-49.98,45.58-71.16,71.7Z"/>
+    </g>
+    <g transform="translate(148 152) rotate(-15, 36, 26)">
+      <rect x="0" y="0" width="72" height="52" rx="6"/>
+      <rect x="5" y="5" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="18" y="5" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="31" y="5" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="44" y="5" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="57" y="5" width="10" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="5" y="16" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="18" y="16" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="31" y="16" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="44" y="16" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="57" y="16" width="10" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="5" y="27" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="18" y="27" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="31" y="27" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="44" y="27" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="57" y="27" width="10" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="5" y="38" width="62" height="9" rx="1.5" fill="#0c0d1c"/>
+    </g>
+  </g>
+</svg>
