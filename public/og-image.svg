@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="b1" cx="75%" cy="25%" r="55%">
+      <stop offset="0%" stop-color="#7C5CF5" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#7C5CF5" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b2" cx="85%" cy="85%" r="45%">
+      <stop offset="0%" stop-color="#EC1E8C" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#EC1E8C" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0c0d1c"/>
+  <ellipse cx="900" cy="160" rx="380" ry="380" fill="url(#b1)"/>
+  <ellipse cx="1020" cy="530" rx="300" ry="370" fill="url(#b2)"/>
+
+  <!-- Combined Genio+GAAD mark, scale 1.5×, centered left panel -->
+  <!-- translate(30, 165) scale(1.5): circle center (100,100) → (180, 315) -->
+  <g transform="translate(30 165) scale(1.5)" fill="#a08bff">
+    <!-- GAAD partial ring -->
+    <circle cx="100" cy="100" r="88" fill="none" stroke="#a08bff" stroke-width="9"
+            stroke-dasharray="461 92" stroke-dashoffset="-146"/>
+    <!-- Genio spiral -->
+    <g transform="translate(-38.7 -38.7) scale(0.45)">
+      <path d="M218.26,453.13l-25.07-12.14c15.47-31.94,34.26-62.48,55.84-90.79l22.15,16.89c-20.46,26.83-38.26,55.78-52.93,86.04Z"/>
+      <path d="M308.22,434.36c-68.49,0-122.43-55.37-122.43-126.14s53.94-126.14,122.43-126.14,122.43,55.37,122.43,126.14-53.94,126.14-122.43,126.14ZM308.22,462.32c86.47,0,154.11-67.64,154.11-154.11s-67.64-154.11-154.11-154.11-154.11,67.64-154.11,154.11,67.64,154.11,154.11,154.11Z"/>
+      <path d="M296.92,335.98l-20.74-18.59c46.67-52.04,102.11-93.83,164.78-124.2l12.15,25.06c-59.41,28.79-111.96,68.4-156.19,117.73Z"/>
+      <path d="M238.38,313.16l-21.64-17.54c22.35-27.57,47.61-53.02,75.08-75.66l17.71,21.49c-26.03,21.45-49.98,45.58-71.16,71.7Z"/>
+    </g>
+    <!-- Keyboard -->
+    <g transform="translate(148 152) rotate(-15, 36, 26)">
+      <rect x="0" y="0" width="72" height="52" rx="6" fill="#a08bff"/>
+      <rect x="5" y="5" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="18" y="5" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="31" y="5" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="44" y="5" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="57" y="5" width="10" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="5" y="16" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="18" y="16" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="31" y="16" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="44" y="16" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="57" y="16" width="10" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="5" y="27" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="18" y="27" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="31" y="27" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="44" y="27" width="11" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="57" y="27" width="10" height="9" rx="1.5" fill="#0c0d1c"/>
+      <rect x="5" y="38" width="62" height="9" rx="1.5" fill="#0c0d1c"/>
+    </g>
+  </g>
+
+  <!-- Vertical divider -->
+  <line x1="420" y1="80" x2="420" y2="550" stroke="#252545" stroke-width="1.5"/>
+
+  <!-- Text content -->
+  <text x="468" y="182" fill="#a08bff" font-family="system-ui, -apple-system, sans-serif"
+        font-size="20" font-weight="700" letter-spacing="3">A GENIO CHALLENGE · GAAD 2026</text>
+
+  <text x="468" y="272" fill="#f0eef8" font-family="system-ui, -apple-system, sans-serif"
+        font-size="64" font-weight="900">The Reverse</text>
+  <text x="468" y="348" fill="#f0eef8" font-family="system-ui, -apple-system, sans-serif"
+        font-size="64" font-weight="900">Accessibility Lab</text>
+
+  <text x="468" y="418" fill="#9896a8" font-family="system-ui, -apple-system, sans-serif"
+        font-size="26">5 rooms · assistive technology · a hidden password</text>
+
+  <line x1="468" y1="458" x2="820" y2="458" stroke="#252545" stroke-width="1.5"/>
+
+  <text x="468" y="494" font-family="system-ui, -apple-system, sans-serif" font-size="22">
+    <tspan fill="#a08bff" font-weight="700">genio.co</tspan>
+    <tspan fill="#9896a8"> · Global Accessibility Awareness Day</tspan>
+  </text>
+</svg>
