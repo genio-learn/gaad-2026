@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Final Verification — GAAD 2026</title>
+  <style>
+    :root {
+      --bg: #0f0f1a;
+      --surface: #1a1a2e;
+      --surface-raised: #22223a;
+      --border: #2e2e4a;
+      --accent: #7c6af7;
+      --accent-light: #a599ff;
+      --text: #e8e6f0;
+      --text-muted: #9896a8;
+      --success: #4caf82;
+      --danger: #e05c5c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -4rem;
+      left: 1rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 0 0 6px 6px;
+      font-weight: 700;
+      text-decoration: none;
+      z-index: 200;
+      transition: top 0.15s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    .home-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 0.35rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .home-link:hover {
+      color: var(--text);
+    }
+
+    .home-link:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--accent-light);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .intro {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 52ch;
+    }
+
+    .verify-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+
+    .verify-card label {
+      display: block;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .verify-card input {
+      width: 100%;
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      padding: 0.85rem 0.9rem;
+      font-size: 1rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .verify-card input:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 2px;
+    }
+
+    .help {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1.2rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-light);
+      color: #121212;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-secondary:hover {
+      color: var(--text);
+      border-color: var(--text-muted);
+    }
+
+    .btn:focus-visible,
+    .btn-secondary:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 2px;
+    }
+
+    .result {
+      margin-top: 1rem;
+      padding: 0.8rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      background: var(--surface-raised);
+      color: var(--text-muted);
+    }
+
+    .result.success {
+      border-color: color-mix(in srgb, var(--success) 60%, var(--border));
+      color: var(--success);
+    }
+
+    .result.error {
+      border-color: color-mix(in srgb, var(--danger) 60%, var(--border));
+      color: var(--danger);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 560px) {
+      header { padding: 0.75rem 1.25rem; }
+      main { padding: 2rem 1.25rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header>
+    <span class="badge">Final Step</span>
+    <a href="../" class="home-link">&#8592; Back to Lab</a>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <p class="eyebrow">GAAD 2026 Challenge</p>
+    <h1>Final Code Verification</h1>
+    <p class="intro">
+      Enter your name and the full code using the five clue words from Rooms 1-5.
+      Use spaces between words so we can verify your answer and enter you in the prize raffle.
+    </p>
+
+    <section class="verify-card" aria-labelledby="verify-heading">
+      <h2 id="verify-heading" class="eyebrow" style="margin-bottom:0.75rem;">Verify your answer</h2>
+      <label for="name-input">Your name</label>
+      <input id="name-input" type="text" autocomplete="name" spellcheck="false" placeholder="Type your name" />
+      <label for="code-input">Final code</label>
+      <input id="code-input" type="text" autocomplete="off" spellcheck="false" placeholder="Type your five-word code" />
+      <p class="help">Tip: The code check ignores uppercase/lowercase and extra spaces.</p>
+      <div class="actions">
+        <button class="btn btn-primary" id="verify-btn" type="button">Verify code</button>
+        <a class="btn btn-secondary" href="../rooms/1/">Restart challenge</a>
+      </div>
+      <div class="result" id="result" role="status" aria-live="polite" aria-atomic="true">
+        Awaiting code entry.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>The Reverse Accessibility Lab &mdash; GAAD 2026</p>
+  </footer>
+
+  <script>
+    const expectedCode = 'FOCUS SEMANTIC VOICE REFLOW MOTION';
+    const googleFormResponseUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeMvjYVEl7sprDbkIeVTeZ9SPcPfJ3KUTY0PIpoiDLgs0k_vQ/formResponse';
+    const googleNameEntry = 'entry.770948889';
+    const googleCodeEntry = 'entry.705062975';
+
+    const nameInput = document.getElementById('name-input');
+    const codeInput = document.getElementById('code-input');
+    const verifyBtn = document.getElementById('verify-btn');
+    const result = document.getElementById('result');
+    let hasSubmittedToForm = false;
+
+    function normalize(value) {
+      return value.trim().replace(/\s+/g, ' ').toUpperCase();
+    }
+
+    async function submitToGoogleForm(name, code) {
+      const formData = new URLSearchParams();
+      formData.append(googleNameEntry, name);
+      formData.append(googleCodeEntry, code);
+
+      // no-cors keeps this as a background fire-and-forget request.
+      await fetch(googleFormResponseUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        cache: 'no-store',
+        body: formData,
+      });
+    }
+
+    async function verifyCode() {
+      const name = nameInput.value.trim();
+      const typed = normalize(codeInput.value);
+
+      if (!name && !typed) {
+        result.className = 'result error';
+        result.textContent = 'Enter your name and five-word code before verifying.';
+        return;
+      }
+
+      if (!name) {
+        result.className = 'result error';
+        result.textContent = 'Enter your name to complete raffle entry.';
+        return;
+      }
+
+      if (!typed) {
+        result.className = 'result error';
+        result.textContent = 'Enter your five-word code before verifying.';
+        return;
+      }
+
+      if (typed === expectedCode) {
+        result.className = 'result success';
+        result.textContent = `Verified. Thanks ${name}, your code is correct and your raffle entry is being submitted.`;
+
+        if (!hasSubmittedToForm) {
+          try {
+            await submitToGoogleForm(name, typed);
+            hasSubmittedToForm = true;
+            result.textContent = `Verified. Thanks ${name}, your code is correct and your raffle entry is confirmed.`;
+          } catch (error) {
+            result.className = 'result error';
+            result.textContent = 'Code is verified, but there was a submission issue sending your raffle entry. Please try Verify code again.';
+          }
+        }
+      } else {
+        result.className = 'result error';
+        result.textContent = 'Code not recognised. Re-check your clues from all five rooms and try again to complete raffle entry.';
+      }
+    }
+
+    verifyBtn.addEventListener('click', verifyCode);
+
+    codeInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        verifyCode();
+      }
+    });
+  </script>
+</body>
+</html>
