@@ -247,7 +247,7 @@
       overflow: hidden;
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 960px) {
       .report-grid {
         grid-template-columns: 1fr;
       }
@@ -417,6 +417,19 @@
       font-size: 0.67rem;
       line-height: 1.5;
       color: var(--text-muted);
+      max-height: 17rem;
+      overflow: hidden;
+    }
+
+    @media (max-width: 960px) {
+      /*
+        At high zoom / narrower viewport, remove clipping so the hidden control
+        in the annotations panel becomes visible.
+      */
+      .annotations-col {
+        max-height: none;
+        overflow: visible;
+      }
     }
 
     .annotations-col .panel-heading {

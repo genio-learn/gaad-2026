@@ -190,46 +190,6 @@
     }
     .hint-box strong { color: var(--text); }
 
-    /* ── Calm mode controls ── */
-    .calm-controls {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-      flex-wrap: wrap;
-    }
-
-    .calm-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--surface);
-      border: 2px solid var(--border);
-      color: var(--text);
-      padding: 0.6rem 1.25rem;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
-    .calm-toggle:hover { border-color: var(--accent); }
-    .calm-toggle:focus-visible {
-      outline: 3px solid var(--accent-light);
-      outline-offset: 3px;
-    }
-    .calm-toggle[aria-pressed="true"] {
-      border-color: var(--success);
-      background: color-mix(in srgb, var(--success) 12%, var(--surface));
-      color: var(--success);
-    }
-
-    .calm-status {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      font-family: monospace;
-    }
-
     /* ── Signal panels grid ── */
     .signal-grid {
       display: grid;
@@ -300,10 +260,10 @@
 
     @keyframes wander {
       0%   { transform: translate(0px,   0px); }
-      20%  { transform: translate(10px, -12px); }
-      40%  { transform: translate(-8px,  8px); }
-      60%  { transform: translate(12px,  10px); }
-      80%  { transform: translate(-10px, -6px); }
+      20%  { transform: translate(28px, -36px); }
+      40%  { transform: translate(-30px, 24px); }
+      60%  { transform: translate(34px, 32px); }
+      80%  { transform: translate(-36px, -20px); }
       100% { transform: translate(0px,   0px); }
     }
 
@@ -322,20 +282,8 @@
 
     .reveal-btn-container {
       display: inline-block;
-      animation: wander 4s ease-in-out infinite;
+      animation: wander 1.45s ease-in-out infinite;
     }
-
-    /* ── Calm state: stop all animations ── */
-    /*
-      Applied either by the toggle (adds .calm to <body>)
-      or by the OS prefers-reduced-motion media query.
-    */
-    .calm .panel-bounce           { animation: none; }
-    .calm .panel-spin .panel-icon { animation: none; }
-    .calm .panel-drift            { animation: none; }
-    .calm .panel-pulse            { animation: none; box-shadow: none; }
-    .calm .panel-pulse .panel-value { animation: none; }
-    .calm .reveal-btn-container   { animation: none; }
 
     @media (prefers-reduced-motion: reduce) {
       .panel-bounce,
@@ -565,8 +513,8 @@
 
     <p class="sr-only">
       Room 5 tip: the Extract frequency code button is active, but will not
-      respond until calm mode is on. Enable it with the Calm Mode button below,
-      or turn on Reduce Motion in your operating system accessibility settings.
+      respond until reduced motion is active in your operating system
+      accessibility settings.
     </p>
 
     <p class="eyebrow">Challenge Room 5</p>
@@ -588,25 +536,10 @@
     <div class="hint-box" role="note">
       <strong>Hint:</strong> Motion can make a page impossible to use &mdash; not
       just distracting, but genuinely inaccessible for people with vestibular
-      disorders or sensory sensitivities. Try the <strong>Calm Mode</strong>
-      toggle below, or enable <strong>Reduce Motion</strong> in your OS settings
-      (<kbd>System Settings &rarr; Accessibility &rarr; Display</kbd> on Mac;
+      disorders or sensory sensitivities. Enable <strong>Reduce Motion</strong>
+      in your OS settings
+      (<kbd>System Settings &rarr; Accessibility &rarr; Motion</kbd> on Mac;
       <kbd>Ease of Access &rarr; Visual effects</kbd> on Windows).
-    </div>
-
-    <div class="calm-controls">
-      <button
-        class="calm-toggle"
-        id="calm-toggle"
-        type="button"
-        aria-pressed="false"
-      >
-        <span aria-hidden="true">&#x1F300;</span>
-        Enable Calm Mode
-      </button>
-      <span class="calm-status" id="calm-status" aria-live="polite" aria-atomic="true">
-        Signal unstable &mdash; interference active
-      </span>
     </div>
 
     <section aria-labelledby="panels-heading">
@@ -643,8 +576,8 @@
     <section class="reveal-section" aria-labelledby="reveal-heading">
       <h2 class="reveal-heading" id="reveal-heading">Frequency Code Extraction</h2>
       <p class="reveal-desc">
-        Stabilise the signal first, then extract the frequency code.
-        In the current state the control won&rsquo;t respond.
+        Reduce motion in your system accessibility settings first,
+        then extract the frequency code.
       </p>
       <div class="reveal-btn-container">
         <button class="reveal-btn" id="reveal-btn" type="button">
@@ -676,9 +609,9 @@
       </p>
       <span class="clue-label">Your Room 5 clue</span>
       <span class="clue-word" aria-label="Clue word: MOTION">MOTION</span>
-      <p class="modal-desc">You&rsquo;ve collected all five clues. Well done!</p>
+      <p class="modal-desc">You&rsquo;ve collected all five clues. Enter them on the final page to verify your code.</p>
       <div class="modal-actions">
-        <a href="../../" class="btn-next">&#8592; Back to the Lab</a>
+        <a href="../../final/" class="btn-next">Go to Final Verification &rarr;</a>
         <button class="btn-close" id="close-btn" type="button">
           Close &nbsp;<kbd>Esc</kbd>
         </button>
@@ -695,54 +628,12 @@
   <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    const body        = document.body;
-    const calmToggle  = document.getElementById('calm-toggle');
-    const calmStatus  = document.getElementById('calm-status');
     const revealBtn   = document.getElementById('reveal-btn');
     const modalOverlay = document.getElementById('modal-overlay');
     const modal       = document.getElementById('modal');
     const closeBtn    = document.getElementById('close-btn');
     const toast       = document.getElementById('toast');
     let toastTimer;
-
-    function isCalmActive() {
-      return body.classList.contains('calm') || prefersReducedMotion.matches;
-    }
-
-    function syncCalmUI() {
-      const calm = isCalmActive();
-      calmToggle.setAttribute('aria-pressed', calm ? 'true' : 'false');
-      calmToggle.innerHTML = calm
-        ? '<span aria-hidden="true">&#x2713;</span> Calm Mode on'
-        : '<span aria-hidden="true">&#x1F300;</span> Enable Calm Mode';
-      calmStatus.textContent = calm
-        ? 'Signal stable — ready to extract'
-        : 'Signal unstable — interference active';
-    }
-
-    // Apply calm immediately if OS already prefers reduced motion
-    if (prefersReducedMotion.matches) {
-      body.classList.add('calm');
-    }
-    syncCalmUI();
-
-    // Reflect OS preference changes live
-    prefersReducedMotion.addEventListener('change', () => {
-      if (prefersReducedMotion.matches) {
-        body.classList.add('calm');
-      }
-      syncCalmUI();
-    });
-
-    calmToggle.addEventListener('click', () => {
-      // If OS requires reduced motion, the toggle is informational only
-      if (prefersReducedMotion.matches) {
-        showToast('Calm Mode is already active via your system accessibility settings.');
-        return;
-      }
-      body.classList.toggle('calm');
-      syncCalmUI();
-    });
 
     function showToast(msg) {
       clearTimeout(toastTimer);
@@ -762,8 +653,8 @@
     }
 
     revealBtn.addEventListener('click', () => {
-      if (!isCalmActive()) {
-        showToast('Signal too unstable — enable Calm Mode or reduce motion in your OS settings first.');
+      if (!prefersReducedMotion.matches) {
+        showToast('Signal too unstable — turn on Reduce Motion in your OS accessibility settings first.');
         return;
       }
       openModal();
