@@ -6,13 +6,15 @@
   <title>Final Verification — GAAD 2026</title>
   <style>
     :root {
-      --bg: #0f0f1a;
-      --surface: #1a1a2e;
-      --surface-raised: #22223a;
-      --border: #2e2e4a;
-      --accent: #7c6af7;
-      --accent-light: #a599ff;
-      --text: #e8e6f0;
+      --bg: #0c0d1c;
+      --surface: #14152a;
+      --surface-raised: #1c1d38;
+      --border: #252545;
+      --accent: #7C5CF5;
+      --accent-light: #a08bff;
+      --accent-pink: #EC1E8C;
+      --accent-blue: #4A5BEF;
+      --text: #f0eef8;
       --text-muted: #9896a8;
       --success: #4caf82;
       --danger: #e05c5c;
@@ -242,12 +244,26 @@
       header { padding: 0.75rem 1.25rem; }
       main { padding: 2rem 1.25rem 3rem; }
     }
+
+    .genio-header-mark {
+      width: 1.5rem;
+      height: 1.5rem;
+      flex-shrink: 0;
+      color: var(--accent-light);
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
   <header>
+    <svg class="genio-header-mark" viewBox="0 0 616.43 616.43" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" focusable="false">
+      <path d="M218.26,453.13l-25.07-12.14c15.47-31.94,34.26-62.48,55.84-90.79l22.15,16.89c-20.46,26.83-38.26,55.78-52.93,86.04Z"/>
+      <path d="M308.22,434.36c-68.49,0-122.43-55.37-122.43-126.14s53.94-126.14,122.43-126.14,122.43,55.37,122.43,126.14-53.94,126.14-122.43,126.14ZM308.22,462.32c86.47,0,154.11-67.64,154.11-154.11s-67.64-154.11-154.11-154.11-154.11,67.64-154.11,154.11,67.64,154.11,154.11,154.11Z"/>
+      <path d="M296.92,335.98l-20.74-18.59c46.67-52.04,102.11-93.83,164.78-124.2l12.15,25.06c-59.41,28.79-111.96,68.4-156.19,117.73Z"/>
+      <path d="M238.38,313.16l-21.64-17.54c22.35-27.57,47.61-53.02,75.08-75.66l17.71,21.49c-26.03,21.45-49.98,45.58-71.16,71.7Z"/>
+    </svg>
     <span class="badge">Final Step</span>
     <a href="../" class="home-link">&#8592; Back to Lab</a>
   </header>
@@ -278,7 +294,7 @@
   </main>
 
   <footer>
-    <p>The Reverse Accessibility Lab &mdash; GAAD 2026</p>
+    <p>The Reverse Accessibility Lab &mdash; GAAD 2026 &middot; by Genio</p>
   </footer>
 
   <script>
