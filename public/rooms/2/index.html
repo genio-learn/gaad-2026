@@ -679,30 +679,6 @@
     </div>
   </div>
 
-  <!-- Modal: opens for all incorrect entries and forces restart -->
-  <div
-    class="modal-overlay"
-    id="wrong-modal-overlay"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="wrong-modal-title"
-    hidden
-  >
-    <div class="modal modal-wrong" id="wrong-modal" tabindex="-1">
-      <span class="success-icon" aria-hidden="true">✖</span>
-      <h2 id="wrong-modal-title">Incorrect Entry</h2>
-      <p class="modal-desc" id="wrong-modal-desc">
-        That was the wrong archive entry.
-      </p>
-      <p class="modal-desc">
-        Return to the landing page and start the challenge again.
-      </p>
-      <div class="modal-actions">
-        <a href="../../" class="btn-next">Back To Landing Page</a>
-      </div>
-    </div>
-  </div>
-
   <!-- Live region: feedback for wrong entries -->
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
@@ -715,9 +691,6 @@
     const modalOverlay = document.getElementById('modal-overlay');
     const modal = document.getElementById('modal');
     const closeBtn = document.getElementById('close-btn');
-    const wrongModalOverlay = document.getElementById('wrong-modal-overlay');
-    const wrongModal = document.getElementById('wrong-modal');
-    const wrongModalDesc = document.getElementById('wrong-modal-desc');
     const toast = document.getElementById('toast');
     let toastTimer;
 
@@ -733,12 +706,6 @@
       modal.focus();
     }
 
-    function openWrongModal(entry) {
-      wrongModalDesc.textContent = `Entry ${entry} is incorrect. You got it wrong.`;
-      wrongModalOverlay.removeAttribute('hidden');
-      wrongModal.focus();
-    }
-
     function closeModal() {
       modalOverlay.setAttribute('hidden', '');
       // Return focus to the button that triggered the modal
@@ -752,7 +719,7 @@
         if (entry === 'SEMANTIC') {
           openModal();
         } else {
-          openWrongModal(entry);
+          showToast(`Entry ${entry} is not the one you're looking for. Keep listening.`);
         }
       });
     });
@@ -785,7 +752,6 @@
     }
 
     trapFocus(modalOverlay);
-    trapFocus(wrongModalOverlay);
 
     // Dead nav links feedback
     document.querySelectorAll('nav a:not(.real-link)').forEach((link) => {
