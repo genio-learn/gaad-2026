@@ -334,6 +334,58 @@
       color: var(--text-muted);
     }
 
+    /* ── Lab disclosure ── */
+    .lab-disclosure {
+      margin-top: 2.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--warning);
+      border-radius: 0 8px 8px 0;
+      background: var(--surface);
+    }
+
+    .lab-disclosure summary {
+      padding: 0.85rem 1.25rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--warning);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .lab-disclosure summary::-webkit-details-marker { display: none; }
+
+    .lab-disclosure summary::before {
+      content: "▶";
+      font-size: 0.65rem;
+      transition: transform 0.15s;
+      display: inline-block;
+    }
+
+    .lab-disclosure[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .lab-disclosure summary:focus-visible {
+      outline: 3px solid var(--warning);
+      outline-offset: -3px;
+      border-radius: 0 6px 0 0;
+    }
+
+    .lab-disclosure .disclosure-body {
+      padding: 0 1.25rem 1rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .lab-disclosure .disclosure-body a {
+      color: var(--accent-light);
+    }
+
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
@@ -478,6 +530,13 @@
       </li>
     </ol>
 
+    <details class="lab-disclosure">
+      <summary>About this lab</summary>
+      <div class="disclosure-body">
+        <p>This lab intentionally breaks specific WCAG criteria — keyboard reachability, semantic structure, focus order, contrast, reflow, motion — so visitors can feel the friction firsthand. Each room cites the criterion it dramatises. Visit <a href="/about/">the full violations list</a> for details.</p>
+      </div>
+    </details>
+
     <h2>The five rooms</h2>
 
     <ul class="rooms" aria-label="Challenge rooms">
@@ -519,6 +578,7 @@
       </a>
       <p class="cta-note">No sign-up required. Takes about 10–15 minutes.</p>
     </div>
+
   </main>
 
   <footer>

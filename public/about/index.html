@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intentional Violations — The Reverse Accessibility Lab · GAAD 2026</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    :root {
+      --bg: #0c0d1c;
+      --surface: #14152a;
+      --border: #252545;
+      --accent: #6B47F0;
+      --accent-light: #a08bff;
+      --accent-pink: #EC1E8C;
+      --accent-blue: #4A5BEF;
+      --text: #f0eef8;
+      --text-muted: #9896a8;
+      --success: #4caf82;
+      --warning: #f0a050;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: var(--accent-light); }
+
+    a:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ── Genio blob decoration ── */
+    .blob-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .blob { position: absolute; }
+
+    .blob-purple {
+      top: -15vh; right: -5vw;
+      width: 55vw; height: 55vw;
+      background: radial-gradient(ellipse at 40% 40%, rgba(124,92,245,0.28) 0%, transparent 60%);
+      border-radius: 50%;
+    }
+
+    .blob-pink {
+      bottom: -10vh; right: 5vw;
+      width: 45vw; height: 55vw;
+      background: radial-gradient(ellipse at 55% 45%, rgba(236,30,140,0.22) 0%, transparent 65%);
+      border-radius: 30% 70% 70% 30% / 40% 40% 60% 60%;
+    }
+
+    header, main, footer { position: relative; z-index: 1; }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .header-brand { display: flex; align-items: center; gap: 0.75rem; }
+
+    .genio-mark {
+      width: 2.25rem; height: 2.25rem;
+      flex-shrink: 0;
+      color: var(--accent-light);
+    }
+
+    .header-title strong { display: block; font-size: 0.95rem; }
+    .header-meta { font-size: 0.75rem; color: var(--text-muted); }
+    .genio-credit { color: var(--accent-light); font-weight: 700; }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+      width: 100%;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-bottom: 2rem;
+    }
+
+    .back-link:hover { color: var(--accent-light); }
+    .back-link:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--warning);
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .intro {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 60ch;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Notice callout ── */
+    .notice {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--warning);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.25rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .notice strong { color: var(--text); }
+
+    /* ── Room sections ── */
+    .room-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .room-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .room-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--accent) 20%, transparent);
+      color: var(--accent-light);
+      border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .violation-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .violation-list li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.75rem 1rem;
+      align-items: start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+    }
+
+    .criterion-tag {
+      font-family: ui-monospace, monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: color-mix(in srgb, var(--warning) 15%, transparent);
+      color: var(--warning);
+      border: 1px solid color-mix(in srgb, var(--warning) 35%, transparent);
+      white-space: nowrap;
+      line-height: 1.8;
+    }
+
+    .violation-text strong {
+      display: block;
+      font-size: 0.88rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .violation-text p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Divider ── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    footer a { color: var(--text-muted); }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute;
+      top: -3rem; left: 1rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 0 0 999px 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: top 0.1s;
+      z-index: 100;
+    }
+
+    .skip-link:focus { top: 0; }
+
+    @media (max-width: 480px) {
+      main { padding: 2rem 1.25rem 3rem; }
+      .blob-purple { width: 90vw; height: 90vw; }
+      .blob-pink { width: 80vw; height: 90vw; }
+      .violation-list li { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="blob-bg" aria-hidden="true">
+    <div class="blob blob-purple"></div>
+    <div class="blob blob-pink"></div>
+  </div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="header-brand">
+      <svg class="genio-mark" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" focusable="false">
+        <circle cx="100" cy="100" r="88" fill="none" stroke="currentColor" stroke-width="9" stroke-dasharray="461 92" stroke-dashoffset="-146"/>
+        <g transform="translate(-38.7 -38.7) scale(0.45)">
+          <path d="M218.26,453.13l-25.07-12.14c15.47-31.94,34.26-62.48,55.84-90.79l22.15,16.89c-20.46,26.83-38.26,55.78-52.93,86.04Z"/>
+          <path d="M308.22,434.36c-68.49,0-122.43-55.37-122.43-126.14s53.94-126.14,122.43-126.14,122.43,55.37,122.43,126.14-53.94,126.14-122.43,126.14ZM308.22,462.32c86.47,0,154.11-67.64,154.11-154.11s-67.64-154.11-154.11-154.11-154.11,67.64-154.11,154.11,67.64,154.11,154.11,154.11Z"/>
+          <path d="M296.92,335.98l-20.74-18.59c46.67-52.04,102.11-93.83,164.78-124.2l12.15,25.06c-59.41,28.79-111.96,68.4-156.19,117.73Z"/>
+          <path d="M238.38,313.16l-21.64-17.54c22.35-27.57,47.61-53.02,75.08-75.66l17.71,21.49c-26.03,21.45-49.98,45.58-71.16,71.7Z"/>
+        </g>
+        <g transform="translate(148 152) rotate(-15, 36, 26)">
+          <rect x="0" y="0" width="72" height="52" rx="6"/>
+          <rect x="5" y="5" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="18" y="5" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="31" y="5" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="44" y="5" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="57" y="5" width="10" height="9" rx="1.5" fill="white"/>
+          <rect x="5" y="16" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="18" y="16" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="31" y="16" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="44" y="16" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="57" y="16" width="10" height="9" rx="1.5" fill="white"/>
+          <rect x="5" y="27" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="18" y="27" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="31" y="27" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="44" y="27" width="11" height="9" rx="1.5" fill="white"/>
+          <rect x="57" y="27" width="10" height="9" rx="1.5" fill="white"/>
+          <rect x="5" y="38" width="62" height="9" rx="1.5" fill="white"/>
+        </g>
+      </svg>
+      <div class="header-title">
+        <strong>The Reverse Accessibility Lab</strong>
+        <p class="header-meta">GAAD 2026 &mdash; by <span class="genio-credit">Genio</span></p>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <a href="/" class="back-link">← Back to the lab</a>
+
+    <p class="eyebrow">Transparency notice</p>
+    <h1>Intentional violations</h1>
+    <p class="intro">
+      The Reverse Accessibility Lab deliberately breaks WCAG 2.2 success criteria so visitors can feel inaccessible design firsthand. Every violation is scoped to one room and reversed once the lesson lands. This page documents each one.
+    </p>
+
+    <div class="notice" role="note">
+      <strong>For auditors and automated tools:</strong> violations on these pages are intentional and documented here. They are not regressions. The index page (<code>/</code>) and this page (<code>/about/</code>) are fully conformant.
+    </div>
+
+    <!-- Room 1 -->
+    <section class="room-section" aria-labelledby="room1-heading">
+      <div class="room-header">
+        <h2 id="room1-heading">Room 1 — Keyboard only</h2>
+        <span class="room-badge">⌨️ Keyboard navigation</span>
+      </div>
+      <ul class="violation-list">
+        <li>
+          <span class="criterion-tag">2.1.1</span>
+          <div class="violation-text">
+            <strong>Keyboard — pointer events disabled on all interactive elements</strong>
+            <p>Nav links have <code>pointer-events: none</code> and the unlock button intercepts pointer and touch events via JavaScript, making every control mouse-unreachable. The lesson: everything works by keyboard — tab focus is intentionally enhanced with a strong visible glow.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">2.4.7</span>
+          <div class="violation-text">
+            <strong>Focus Visible — no hover styles, mouse cursor signals failure</strong>
+            <p>Hover states are deliberately absent and the cursor is set to <code>not-allowed</code>. Focus-visible styles are amplified instead, inverting the usual pattern of hover-rich, focus-minimal interfaces.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- Room 2 -->
+    <section class="room-section" aria-labelledby="room2-heading">
+      <div class="room-header">
+        <h2 id="room2-heading">Room 2 — Screen reader</h2>
+        <span class="room-badge">🔊 Semantic structure</span>
+      </div>
+      <ul class="violation-list">
+        <li>
+          <span class="criterion-tag">1.3.1</span>
+          <div class="violation-text">
+            <strong>Info and Relationships — heading hierarchy inverted</strong>
+            <p>The <code>&lt;h1&gt;</code> is visually tiny and muted while a <code>&lt;p&gt;</code> is styled to look like the main heading (large, bold, high-contrast). Screen readers announce the correct DOM order; sighted users read the visual lie.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">1.3.2</span>
+          <div class="violation-text">
+            <strong>Meaningful Sequence — CSS <code>order</code> scrambles visual layout</strong>
+            <p>Archive cards are assigned <code>style="order: N"</code> values that rearrange their visual position without touching the DOM. A screen reader reads the logical sequence; mouse users see a shuffled grid with no obvious pattern.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">1.4.3</span>
+          <div class="violation-text">
+            <strong>Contrast (Minimum) — section headings rendered below threshold</strong>
+            <p>Card <code>&lt;h3&gt;</code> elements are set to 0.7 rem in a dark muted colour (#5a5870) against the dark surface, falling well below 4.5:1. They are semantically significant but visually dismissible — the reverse of decorative-but-high-contrast elements that carry <code>aria-hidden="true"</code>.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">2.4.6</span>
+          <div class="violation-text">
+            <strong>Headings and Labels — duplicate visible button labels</strong>
+            <p>Every access button reads "Access →" visually. Each has a distinct <code>aria-label</code> that identifies its target. Voice and screen-reader users can distinguish them; sighted users cannot.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- Room 3 -->
+    <section class="room-section" aria-labelledby="room3-heading">
+      <div class="room-header">
+        <h2 id="room3-heading">Room 3 — Voice control</h2>
+        <span class="room-badge">🎙️ Name, role, focus order</span>
+      </div>
+      <ul class="violation-list">
+        <li>
+          <span class="criterion-tag">2.4.3</span>
+          <div class="violation-text">
+            <strong>Focus Order — tabindex values create a non-sequential tab sequence</strong>
+            <p>Twelve controls are assigned explicit <code>tabindex</code> values that jump the keyboard cursor across sections in an illogical order, making keyboard navigation disorienting. One control — the correct target — has a unique, descriptive label.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">2.5.3</span>
+          <div class="violation-text">
+            <strong>Label in Name — buttons carry vague or duplicated visible labels</strong>
+            <p>Labels include "Click here" (×3), "Submit" (×2), "More info" (×2), "Go", "Option", and "Next" (×2) — none actionable for voice control. The target button's accessible name matches a specific, unique spoken phrase.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">1.3.1</span>
+          <div class="violation-text">
+            <strong>Info and Relationships — mouse-blocking overlay hides controls from pointer</strong>
+            <p>An <code>aria-hidden="true"</code> overlay sits above each interactive button at a higher z-index, intercepting mouse events. The accessibility tree exposes the real button beneath; pointer users hit a dead layer.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- Room 4 -->
+    <section class="room-section" aria-labelledby="room4-heading">
+      <div class="room-header">
+        <h2 id="room4-heading">Room 4 — Zoom &amp; magnification</h2>
+        <span class="room-badge">🔎 Reflow &amp; contrast</span>
+      </div>
+      <ul class="violation-list">
+        <li>
+          <span class="criterion-tag">1.4.10</span>
+          <div class="violation-text">
+            <strong>Reflow — critical control hidden in a narrow third column</strong>
+            <p>At 100% zoom a three-column grid keeps the "Acknowledge" button in a cramped annotations column with <code>overflow: hidden</code>, clipping it from view. At 200% zoom the viewport narrows below the grid breakpoint, columns stack, and the button becomes fully visible and operable — reflow reveals what bad layout hid.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">1.4.3</span>
+          <div class="violation-text">
+            <strong>Contrast (Minimum) — button and annotation text below threshold at normal zoom</strong>
+            <p>Annotation text is set to 0.67 rem in a near-background colour (#4a4860), and the button uses transparent background with a faint border — styled to blend with surrounding metadata so it reads as boilerplate rather than an action.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- Room 5 -->
+    <section class="room-section" aria-labelledby="room5-heading">
+      <div class="room-header">
+        <h2 id="room5-heading">Room 5 — Reduced motion</h2>
+        <span class="room-badge">🌀 Motion &amp; vestibular</span>
+      </div>
+      <ul class="violation-list">
+        <li>
+          <span class="criterion-tag">2.3.3</span>
+          <div class="violation-text">
+            <strong>Animation from Interactions — continuous motion with no page-level off switch</strong>
+            <p>Five keyframe animations run on page load: bounce, spin, drift, pulse-border, and flicker — including on the button container itself. There is no on-page toggle; motion stops only when the OS <code>prefers-reduced-motion: reduce</code> setting is enabled. The lesson: the OS setting exists precisely for this, and enabling it unlocks the room.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">1.4.3</span>
+          <div class="violation-text">
+            <strong>Contrast (Minimum) — flicker animation drops panel values below threshold</strong>
+            <p>The <code>flicker</code> animation cycles panel value opacity from 1 down to 0.2, repeatedly dropping text contrast below 4.5:1 during the animation cycle.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <hr class="section-divider" />
+
+    <p style="font-size: 0.85rem; color: var(--text-muted);">
+      Questions or corrections? Open an issue on <a href="https://github.com/genio-learn/gaad-2026">GitHub</a> or email <a href="mailto:hello@genio.co">hello@genio.co</a>.
+    </p>
+
+  </main>
+
+  <footer>
+    <p>
+      Made by <a href="https://genio.co">Genio</a> for <a href="https://accessibility.day">Global Accessibility Awareness Day 2026</a>.
+      Celebrating the difference that accessible design makes.
+    </p>
+  </footer>
+
+</body>
+</html>
