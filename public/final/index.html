@@ -225,6 +225,11 @@
     .result.success {
       border-color: color-mix(in srgb, var(--success) 60%, var(--border));
       color: var(--success);
+      font-size: 1.6rem;
+      font-weight: 800;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      line-height: 1.3;
     }
 
     .result.error {
@@ -272,14 +277,12 @@
     <p class="eyebrow">GAAD 2026 Challenge</p>
     <h1>Final Code Verification</h1>
     <p class="intro">
-      Enter your name and the full code using the five clue words from Rooms 1-5.
-      Use spaces between words so we can verify your answer and enter you in the prize raffle.
+      Enter the full code using the five clue words from Rooms 1-5.
+      Use spaces between words so we can verify your answer.
     </p>
 
     <section class="verify-card" aria-labelledby="verify-heading">
       <h2 id="verify-heading" class="eyebrow" style="margin-bottom:0.75rem;">Verify your answer</h2>
-      <label for="name-input">Your name</label>
-      <input id="name-input" type="text" autocomplete="name" spellcheck="false" placeholder="Type your name" />
       <label for="code-input">Final code</label>
       <input id="code-input" type="text" autocomplete="off" spellcheck="false" placeholder="Type your five-word code" />
       <p class="help">Tip: The code check ignores uppercase/lowercase and extra spaces.</p>
@@ -299,49 +302,17 @@
 
   <script>
     const expectedCode = 'FOCUS SEMANTIC VOICE REFLOW MOTION';
-    const googleFormResponseUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeMvjYVEl7sprDbkIeVTeZ9SPcPfJ3KUTY0PIpoiDLgs0k_vQ/formResponse';
-    const googleNameEntry = 'entry.770948889';
-    const googleCodeEntry = 'entry.705062975';
 
-    const nameInput = document.getElementById('name-input');
     const codeInput = document.getElementById('code-input');
     const verifyBtn = document.getElementById('verify-btn');
     const result = document.getElementById('result');
-    let hasSubmittedToForm = false;
 
     function normalize(value) {
       return value.trim().replace(/\s+/g, ' ').toUpperCase();
     }
 
-    async function submitToGoogleForm(name, code) {
-      const formData = new URLSearchParams();
-      formData.append(googleNameEntry, name);
-      formData.append(googleCodeEntry, code);
-
-      // no-cors keeps this as a background fire-and-forget request.
-      await fetch(googleFormResponseUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        cache: 'no-store',
-        body: formData,
-      });
-    }
-
-    async function verifyCode() {
-      const name = nameInput.value.trim();
+    function verifyCode() {
       const typed = normalize(codeInput.value);
-
-      if (!name && !typed) {
-        result.className = 'result error';
-        result.textContent = 'Enter your name and five-word code before verifying.';
-        return;
-      }
-
-      if (!name) {
-        result.className = 'result error';
-        result.textContent = 'Enter your name to complete raffle entry.';
-        return;
-      }
 
       if (!typed) {
         result.className = 'result error';
@@ -351,21 +322,10 @@
 
       if (typed === expectedCode) {
         result.className = 'result success';
-        result.textContent = `Verified. Thanks ${name}, your code is correct and your raffle entry is being submitted.`;
-
-        if (!hasSubmittedToForm) {
-          try {
-            await submitToGoogleForm(name, typed);
-            hasSubmittedToForm = true;
-            result.textContent = `Verified. Thanks ${name}, your code is correct and your raffle entry is confirmed.`;
-          } catch (error) {
-            result.className = 'result error';
-            result.textContent = 'Code is verified, but there was a submission issue sending your raffle entry. Please try Verify code again.';
-          }
-        }
+        result.textContent = '🎉 Well done! Your code is correct! 🎉';
       } else {
         result.className = 'result error';
-        result.textContent = 'Code not recognised. Re-check your clues from all five rooms and try again to complete raffle entry.';
+        result.textContent = 'That code is not correct. Re-check your clues from all five rooms and try again.';
       }
     }
 
