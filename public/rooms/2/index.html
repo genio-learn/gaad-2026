@@ -1,790 +1,899 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Room 2: Archive Terminal — GAAD 2026</title>
-  <style>
-    :root {
-      --bg: #0c0d1c;
-      --surface: #14152a;
-      --surface-raised: #1c1d38;
-      --border: #252545;
-      --accent: #6B47F0;
-      --accent-light: #a08bff;
-      --accent-pink: #EC1E8C;
-      --accent-blue: #4A5BEF;
-      --text: #f0eef8;
-      --text-muted: #9896a8;
-      --success: #4caf82;
-      --warning: #f0a050;
-      --danger: #e05c5c;
-      /* Decorative ref-code colour — high contrast, looks important (it isn't) */
-      --ref-color: #f0eef8;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Room 2: The Reading Room — GAAD 2026</title>
+    <style>
+      :root {
+        --bg: #0c0d1c;
+        --surface: #14152a;
+        --surface-raised: #1c1d38;
+        --border: #252545;
+        --accent: #6b47f0;
+        --accent-light: #a08bff;
+        --accent-pink: #ec1e8c;
+        --accent-blue: #4a5bef;
+        --text: #f0eef8;
+        --text-muted: #9896a8;
+        --success: #4caf82;
+        --warning: #f0a050;
+        --danger: #e05c5c;
+        /* Decorative ref-code colour — high contrast, looks important (it isn't) */
+        --ref-color: #f0eef8;
+      }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, sans-serif;
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
 
-    kbd {
-      font-family: monospace;
-      font-size: 0.8em;
-      background: var(--surface-raised);
-      border: 1px solid var(--border);
-      border-bottom-width: 2px;
-      border-radius: 3px;
-      padding: 0.1em 0.4em;
-    }
+      kbd {
+        font-family: monospace;
+        font-size: 0.8em;
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        border-bottom-width: 2px;
+        border-radius: 3px;
+        padding: 0.1em 0.4em;
+      }
 
-    /* ── Utility: screen-reader only ──
+      /* ── Utility: screen-reader only ──
        Content here is announced by screen readers but invisible to sighted users.
        This is a legitimate pattern — extra context that doesn't clutter the visual UI. */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
 
-    /* ── Skip link ── */
-    .skip-link {
-      position: absolute;
-      top: -4rem;
-      left: 1rem;
-      background: var(--accent);
-      color: #fff;
-      padding: 0.6rem 1.2rem;
-      border-radius: 0 0 6px 6px;
-      font-weight: 700;
-      text-decoration: none;
-      z-index: 200;
-      transition: top 0.15s;
-    }
-    .skip-link:focus {
-      top: 0;
-      outline: 3px solid #fff;
-      outline-offset: 2px;
-    }
+      /* ── Skip link ── */
+      .skip-link {
+        position: absolute;
+        top: -4rem;
+        left: 1rem;
+        background: var(--accent);
+        color: #fff;
+        padding: 0.6rem 1.2rem;
+        border-radius: 0 0 6px 6px;
+        font-weight: 700;
+        text-decoration: none;
+        z-index: 200;
+        transition: top 0.15s;
+      }
+      .skip-link:focus {
+        top: 0;
+        outline: 3px solid #fff;
+        outline-offset: 2px;
+      }
 
-    /* ── Header ── */
-    header {
-      border-bottom: 1px solid var(--border);
-      padding: 0.75rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
+      /* ── Header ── */
+      header {
+        border-bottom: 1px solid var(--border);
+        padding: 0.75rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
 
-    .room-badge {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent-light);
-      background: color-mix(in srgb, var(--accent) 15%, transparent);
-      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-    }
+      .room-badge {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent-light);
+        background: color-mix(in srgb, var(--accent) 15%, transparent);
+        border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px;
+      }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 0.25rem;
-    }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 0.25rem;
+      }
 
-    nav a {
-      display: inline-block;
-      padding: 0.4rem 0.75rem;
-      border-radius: 4px;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.875rem;
-      pointer-events: none;
-      cursor: default;
-    }
+      nav a {
+        display: inline-block;
+        padding: 0.4rem 0.75rem;
+        border-radius: 4px;
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.875rem;
+        pointer-events: none;
+        cursor: default;
+      }
 
-    nav a.real-link {
-      pointer-events: auto;
-      cursor: pointer;
-    }
-    nav a.real-link:hover { color: var(--text); }
-    nav a:focus-visible,
-    nav a.real-link:focus-visible {
-      outline: none;
-      background: var(--accent);
-      color: #fff;
-      box-shadow: 0 0 0 3px var(--accent-light);
-      pointer-events: auto;
-    }
+      nav a.real-link {
+        pointer-events: auto;
+        cursor: pointer;
+      }
+      nav a.real-link:hover {
+        color: var(--text);
+      }
+      nav a:focus-visible,
+      nav a.real-link:focus-visible {
+        outline: none;
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 0 0 3px var(--accent-light);
+        pointer-events: auto;
+      }
 
-    /* ── Main ── */
-    main {
-      flex: 1;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 3rem 2rem 4rem;
-      width: 100%;
-    }
+      /* ── Main ── */
+      main {
+        flex: 1;
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 3rem 2rem 4rem;
+        width: 100%;
+      }
 
-    main:focus { outline: none; }
+      main:focus {
+        outline: none;
+      }
 
-    .eyebrow {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent-light);
-      margin-bottom: 0.5rem;
-    }
+      .eyebrow {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent-light);
+        margin-bottom: 0.5rem;
+      }
 
-    /* h1 is semantically correct but visually understated — bad design choice */
-    h1 {
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.02em;
-    }
+      /* h1 is semantically correct but visually understated — bad design choice */
+      h1 {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.02em;
+      }
 
-    .intro-text {
-      /* Styled like a heading visually — wrong visual hierarchy */
-      font-size: clamp(1.4rem, 3.5vw, 2rem);
-      font-weight: 900;
-      line-height: 1.2;
-      color: var(--text);
-      margin-bottom: 2rem;
-      max-width: 28ch;
-    }
+      .intro-text {
+        /* Styled like a heading visually — wrong visual hierarchy */
+        font-size: clamp(1.4rem, 3.5vw, 2rem);
+        font-weight: 900;
+        line-height: 1.2;
+        color: var(--text);
+        margin-bottom: 2rem;
+        max-width: 28ch;
+      }
 
-    /* ── Progress dots ── */
-    .progress {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-    }
-    .progress-dot {
-      width: 0.55rem;
-      height: 0.55rem;
-      border-radius: 50%;
-      background: var(--border);
-    }
-    .progress-dot.active { background: var(--accent); }
+      /* ── Progress dots ── */
+      .progress {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+      }
+      .progress-dot {
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 50%;
+        background: var(--border);
+      }
+      .progress-dot.active {
+        background: var(--accent);
+      }
 
-    /* ── Hint box ── */
-    .hint-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--warning);
-      border-radius: 0 6px 6px 0;
-      padding: 0.875rem 1.25rem;
-      margin-bottom: 2.5rem;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-    .hint-box strong { color: var(--text); }
+      /* ── Hint box ── */
+      .hint-box {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--warning);
+        border-radius: 0 6px 6px 0;
+        padding: 0.875rem 1.25rem;
+        margin-bottom: 2.5rem;
+        font-size: 0.875rem;
+        color: var(--text-muted);
+      }
+      .hint-box strong {
+        color: var(--text);
+      }
 
-    /* ── Archive section ──
+      /* ── Archive section ──
        h2 is semantically a section heading but visually styled like a footnote.
        This is the kind of bad design that breaks visual hierarchy. */
-    .archive-section > h2 {
-      font-size: 0.68rem;
-      font-weight: 400;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-bottom: 1.25rem;
-      opacity: 0.6;
-    }
+      .archive-section > h2 {
+        font-size: 0.68rem;
+        font-weight: 400;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 1.25rem;
+        opacity: 0.6;
+      }
 
-    /* ── Card grid ──
-       CSS `order` scrambles visual position without changing DOM/reading order.
-       A screen reader reads DOM order (logical). Visual users see scrambled order. */
-    .archive-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-    }
+      /* ── Card grid ──
+       Six article cards in a simple grid. DOM order and visual order match —
+       they read 1 through 6 either way. The trick in this room isn't ordering,
+       it's that one card's "button" isn't a button. */
+      .archive-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
 
-    /* ── Archive card ── */
-    .archive-card {
-      background: var(--surface);
-      padding: 1.25rem;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      min-height: 180px;
-    }
+      /* ── Archive card ── */
+      .archive-card {
+        background: var(--surface);
+        padding: 1.25rem;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        min-height: 180px;
+      }
 
-    /* Scan-line noise on some cards — purely decorative visual clutter */
-    .archive-card.noisy::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 3px,
-        rgba(255,255,255,0.018) 3px,
-        rgba(255,255,255,0.018) 4px
-      );
-      pointer-events: none;
-    }
+      /* Scan-line noise on some cards — purely decorative visual clutter */
+      .archive-card.noisy::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 3px,
+          rgba(255, 255, 255, 0.018) 3px,
+          rgba(255, 255, 255, 0.018) 4px
+        );
+        pointer-events: none;
+      }
 
-    /* ── Decorative reference code ──
+      /* ── Decorative reference code ──
        aria-hidden so screen readers skip it.
        Visually HUGE and HIGH CONTRAST — looks important, means nothing.
        This is the bad design trap: sighted users fixate on it, screen readers ignore it. */
-    .ref-code {
-      font-family: monospace;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--ref-color);
-      letter-spacing: 0.05em;
-      line-height: 1;
-    }
+      .ref-code {
+        font-family: monospace;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--ref-color);
+        letter-spacing: 0.05em;
+        line-height: 1;
+      }
 
-    /* ── Entry name (h3) ──
+      /* ── Article title (h3) ──
        Semantically a heading but visually tiny and easy to miss.
        Low contrast — looks like metadata, IS the content. */
-    .archive-card h3 {
-      font-size: 0.7rem;
-      font-weight: 400;
-      color: #5a5870;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-top: auto;
-    }
+      .archive-card h3 {
+        font-size: 0.7rem;
+        font-weight: 400;
+        color: #5a5870;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        margin-top: auto;
+      }
 
-    /* ── Entry description ──
+      /* ── Article dek ──
        Visually prominent (looks like a heading) but semantically just a paragraph. */
-    .archive-card p {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
+      .archive-card p {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
 
-    /* ── Access button ──
-       All buttons visually say "Access →" — indistinguishable by sight.
-       Their aria-labels are distinct — distinguishable by ear. */
-    .access-btn {
-      align-self: flex-end;
-      margin-top: auto;
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 0.35rem 0.75rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      font-family: monospace;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .access-btn:hover {
-      border-color: var(--text-muted);
-      color: var(--text);
-    }
-    .access-btn:focus-visible {
-      outline: 3px solid var(--accent-light);
-      outline-offset: 3px;
-    }
+      /* ── "Read" control ──
+       Five of these are real <button>s. The sixth is a <div> wearing this exact
+       same class — pixel-identical to the eye, but not a button to the browser,
+       the keyboard, or a screen reader. That mismatch is the whole lesson. */
+      .access-btn {
+        align-self: flex-end;
+        margin-top: auto;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        padding: 0.35rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        font-family: monospace;
+        transition:
+          border-color 0.15s,
+          color 0.15s;
+      }
+      .access-btn:hover {
+        border-color: var(--text-muted);
+        color: var(--text);
+      }
+      .access-btn:focus-visible {
+        outline: 3px solid var(--accent-light);
+        outline-offset: 3px;
+      }
 
-    /* ── Toast ── */
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(5rem);
-      background: var(--surface-raised);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--text-muted);
-      border-radius: 0 8px 8px 0;
-      padding: 0.75rem 1.25rem;
-      font-size: 0.875rem;
-      color: var(--text);
-      z-index: 100;
-      opacity: 0;
-      transition: transform 0.2s ease, opacity 0.2s ease;
-      max-width: min(360px, calc(100vw - 2rem));
-      text-align: center;
-      pointer-events: none;
-    }
-    .toast.visible {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
+      /* ── Toast ── */
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(5rem);
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--text-muted);
+        border-radius: 0 8px 8px 0;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.875rem;
+        color: var(--text);
+        z-index: 100;
+        opacity: 0;
+        transition:
+          transform 0.2s ease,
+          opacity 0.2s ease;
+        max-width: min(360px, calc(100vw - 2rem));
+        text-align: center;
+        pointer-events: none;
+      }
+      .toast.visible {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
 
-    /* ── Modal overlay ── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 10, 20, 0.88);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 150;
-      padding: 1.5rem;
-    }
-    .modal-overlay[hidden] { display: none; }
+      /* ── Modal overlay ── */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 10, 20, 0.88);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 150;
+        padding: 1.5rem;
+      }
+      .modal-overlay[hidden] {
+        display: none;
+      }
 
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: 4px solid var(--success);
-      border-radius: 12px;
-      padding: 2.5rem 2rem;
-      max-width: 440px;
-      width: 100%;
-      text-align: center;
-    }
-    .modal.modal-wrong {
-      border-top-color: var(--danger);
-    }
-    .modal:focus { outline: none; }
+      .modal {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-top: 4px solid var(--success);
+        border-radius: 12px;
+        padding: 2.5rem 2rem;
+        max-width: 440px;
+        width: 100%;
+        text-align: center;
+      }
+      .modal.modal-wrong {
+        border-top-color: var(--danger);
+      }
+      .modal:focus {
+        outline: none;
+      }
 
-    .modal .success-icon {
-      font-size: 2.5rem;
-      display: block;
-      margin-bottom: 1rem;
-    }
+      .modal .success-icon {
+        font-size: 2.5rem;
+        display: block;
+        margin-bottom: 1rem;
+      }
 
-    .modal h2 {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-    }
+      .modal h2 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+      }
 
-    .modal .modal-desc {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-    }
+      .modal .modal-desc {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+      }
 
-    .clue-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      display: block;
-      margin-bottom: 0.4rem;
-    }
+      .clue-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        display: block;
+        margin-bottom: 0.4rem;
+      }
 
-    .clue-word {
-      font-size: 2.75rem;
-      font-weight: 900;
-      letter-spacing: 0.25em;
-      color: var(--success);
-      display: block;
-      font-family: monospace;
-      margin-bottom: 1.5rem;
-    }
+      .clue-word {
+        font-size: 2.75rem;
+        font-weight: 900;
+        letter-spacing: 0.25em;
+        color: var(--success);
+        display: block;
+        font-family: monospace;
+        margin-bottom: 1.5rem;
+      }
 
-    .modal-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+      .modal-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
 
-    .btn-next {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.95rem;
-      padding: 0.7rem 1.5rem;
-      border-radius: 6px;
-    }
-    .btn-next:focus-visible {
-      outline: 3px solid var(--accent-light);
-      outline-offset: 3px;
-    }
+      .btn-next {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background: var(--accent);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        padding: 0.7rem 1.5rem;
+        border-radius: 6px;
+      }
+      .btn-next:focus-visible {
+        outline: 3px solid var(--accent-light);
+        outline-offset: 3px;
+      }
 
-    .btn-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: transparent;
-      color: var(--accent-light);
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.95rem;
-      padding: 0.7rem 1.5rem;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      width: 100%;
-      justify-content: center;
-    }
-    .btn-back:hover {
-      border-color: var(--accent);
-    }
-    .btn-back:focus-visible {
-      outline: 3px solid var(--accent-light);
-      outline-offset: 3px;
-    }
+      .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: transparent;
+        color: var(--accent-light);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.95rem;
+        padding: 0.7rem 1.5rem;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        width: 100%;
+        justify-content: center;
+      }
+      .btn-back:hover {
+        border-color: var(--accent);
+      }
+      .btn-back:focus-visible {
+        outline: 3px solid var(--accent-light);
+        outline-offset: 3px;
+      }
 
-    .btn-close {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 0.6rem 1.5rem;
-      border-radius: 6px;
-      font-size: 0.875rem;
-      cursor: pointer;
-    }
-    .btn-close:hover {
-      border-color: var(--text-muted);
-      color: var(--text);
-    }
-    .btn-close:focus-visible {
-      outline: 3px solid var(--accent-light);
-      outline-offset: 3px;
-    }
+      .btn-close {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        padding: 0.6rem 1.5rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        cursor: pointer;
+      }
+      .btn-close:hover {
+        border-color: var(--text-muted);
+        color: var(--text);
+      }
+      .btn-close:focus-visible {
+        outline: 3px solid var(--accent-light);
+        outline-offset: 3px;
+      }
 
-    /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 1rem 2rem;
-      text-align: center;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
+      /* ── Footer ── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 1rem 2rem;
+        text-align: center;
+        font-size: 0.78rem;
+        color: var(--text-muted);
+      }
 
-    @media (max-width: 560px) {
-      main { padding: 2rem 1.25rem 3rem; }
-      header { padding: 0.75rem 1.25rem; }
-      .archive-grid { grid-template-columns: 1fr 1fr; }
-    }
+      @media (max-width: 560px) {
+        main {
+          padding: 2rem 1.25rem 3rem;
+        }
+        header {
+          padding: 0.75rem 1.25rem;
+        }
+        .archive-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
 
-    .genio-header-mark {
-      width: 2.25rem;
-      height: 2.25rem;
-      flex-shrink: 0;
-      color: var(--accent-light);
-      opacity: 0.8;
-    }
-  </style>
-</head>
-<body>
+      .genio-header-mark {
+        width: 2.25rem;
+        height: 2.25rem;
+        flex-shrink: 0;
+        color: var(--accent-light);
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
 
-  <a href="#main" class="skip-link">Skip to main content</a>
+    <!-- LANDMARK: header — a screen reader user can jump straight here -->
+    <header>
+      <svg
+        class="genio-header-mark"
+        viewBox="0 0 616.43 616.43"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M218.26,453.13l-25.07-12.14c15.47-31.94,34.26-62.48,55.84-90.79l22.15,16.89c-20.46,26.83-38.26,55.78-52.93,86.04Z"
+        />
+        <path
+          d="M308.22,434.36c-68.49,0-122.43-55.37-122.43-126.14s53.94-126.14,122.43-126.14,122.43,55.37,122.43,126.14-53.94,126.14-122.43,126.14ZM308.22,462.32c86.47,0,154.11-67.64,154.11-154.11s-67.64-154.11-154.11-154.11-154.11,67.64-154.11,154.11,67.64,154.11,154.11,154.11Z"
+        />
+        <path
+          d="M296.92,335.98l-20.74-18.59c46.67-52.04,102.11-93.83,164.78-124.2l12.15,25.06c-59.41,28.79-111.96,68.4-156.19,117.73Z"
+        />
+        <path
+          d="M238.38,313.16l-21.64-17.54c22.35-27.57,47.61-53.02,75.08-75.66l17.71,21.49c-26.03,21.45-49.98,45.58-71.16,71.7Z"
+        />
+      </svg>
+      <span class="room-badge" aria-label="Room 2 of 5: Screen reader">
+        Room 2 / 5 &mdash; Screen reader
+      </span>
+      <!-- LANDMARK: nav — named so it's distinguishable from other navs -->
+      <nav aria-label="Room navigation">
+        <ul>
+          <li><a href="../../" class="real-link">← Lab</a></li>
+        </ul>
+      </nav>
+    </header>
 
-  <!-- LANDMARK: header — a screen reader user can jump straight here -->
-  <header>
-    <svg class="genio-header-mark" viewBox="0 0 616.43 616.43" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" focusable="false">
-      <path d="M218.26,453.13l-25.07-12.14c15.47-31.94,34.26-62.48,55.84-90.79l22.15,16.89c-20.46,26.83-38.26,55.78-52.93,86.04Z"/>
-      <path d="M308.22,434.36c-68.49,0-122.43-55.37-122.43-126.14s53.94-126.14,122.43-126.14,122.43,55.37,122.43,126.14-53.94,126.14-122.43,126.14ZM308.22,462.32c86.47,0,154.11-67.64,154.11-154.11s-67.64-154.11-154.11-154.11-154.11,67.64-154.11,154.11,67.64,154.11,154.11,154.11Z"/>
-      <path d="M296.92,335.98l-20.74-18.59c46.67-52.04,102.11-93.83,164.78-124.2l12.15,25.06c-59.41,28.79-111.96,68.4-156.19,117.73Z"/>
-      <path d="M238.38,313.16l-21.64-17.54c22.35-27.57,47.61-53.02,75.08-75.66l17.71,21.49c-26.03,21.45-49.98,45.58-71.16,71.7Z"/>
-    </svg>
-    <span class="room-badge" aria-label="Room 2 of 5: Screen reader">
-      Room 2 / 5 &mdash; Screen reader
-    </span>
-    <!-- LANDMARK: nav — named so it's distinguishable from other navs -->
-    <nav aria-label="Room navigation">
-      <ul>
-        <li><a href="../../" class="real-link">← Lab</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- LANDMARK: main — the primary content region -->
-  <main id="main" tabindex="-1">
-
-    <!--
+    <!-- LANDMARK: main — the primary content region -->
+    <main id="main" tabindex="-1">
+      <!--
       SR-ONLY INSTRUCTIONS
       Sighted users don't see this paragraph at all.
       Screen reader users hear it when they land on <main>.
       This is legitimate use of .sr-only: extra context that clutters the visual UI
       but is genuinely helpful when you can't see the page.
     -->
-    <p class="sr-only">
-      Room 2 screen reader tip: this archive has six entries.
-      Navigate by headings or use your button list to browse.
-      The entry you need has an unusual name — activate it to find your clue.
-    </p>
+      <p class="sr-only">
+        Room 2 screen reader tip: this page has six articles, each with a "Read"
+        control. Navigate by buttons to move between them — but you will only
+        find five. The sixth article's control was built as a plain element, not
+        a real button, so it is never announced and the keyboard cannot reach
+        it. Find that article to reveal your clue.
+      </p>
 
-    <!-- Visually this looks like metadata, but it IS the section heading -->
-    <p class="eyebrow">Challenge Room 2</p>
+      <!-- Visually this looks like metadata, but it IS the section heading -->
+      <p class="eyebrow">Challenge Room 2</p>
 
-    <!--
+      <!--
       h1 is semantically the page title but styled to look unimportant.
       The large visual text below is a <p> — looks like a heading, isn't one.
       This is the visual/semantic mismatch at work.
     -->
-    <h1>Archive Terminal</h1>
+      <h1>The Reading Room</h1>
 
-    <!-- This looks like the heading but is just a paragraph -->
-    <p class="intro-text">
-      Six entries. One doesn't belong.<br />
-      Can you find it?
-    </p>
+      <!-- This looks like the heading but is just a paragraph -->
+      <p class="intro-text">
+        Six articles. Five real buttons.<br />
+        One impostor.
+      </p>
 
-    <div class="progress" role="img" aria-label="Progress: room 2 of 5">
-      <div class="progress-dot active"></div>
-      <div class="progress-dot active"></div>
-      <div class="progress-dot"></div>
-      <div class="progress-dot"></div>
-      <div class="progress-dot"></div>
-    </div>
+      <div class="progress" role="img" aria-label="Progress: room 2 of 5">
+        <div class="progress-dot active"></div>
+        <div class="progress-dot active"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+      </div>
 
-    <div class="hint-box" role="note">
-      <strong>Hint:</strong> All six buttons look the same. But a screen reader would
-      announce each one differently. Try enabling VoiceOver (<kbd>Cmd+F5</kbd> on Mac)
-      or NVDA on Windows, then navigate by buttons (<kbd>B</kbd> in browse mode).
-    </div>
+      <div class="hint-box" role="note">
+        <strong>Hint:</strong> All six "Read" controls look identical. But only
+        five are real buttons &mdash; the sixth is a styled
+        <kbd>&lt;div&gt;</kbd> pretending to be one. The keyboard can reach all
+        of them, however one will be read out differently. Enable VoiceOver
+        (<kbd>Cmd+F5</kbd> on Mac) or NVDA on Windows, navigate by buttons (<kbd
+          >B</kbd
+        >
+        in browse mode), and notice that one article button is read out
+        differently.
+      </div>
 
-    <!-- LANDMARK: section with its own heading — screen reader users can navigate here -->
-    <section aria-labelledby="archive-heading">
-
-      <!--
+      <!-- LANDMARK: section with its own heading — screen reader users can navigate here -->
+      <section aria-labelledby="archive-heading">
+        <!--
         h2 is semantically correct as a section heading.
         Visually it's styled tiny and muted — easy to overlook.
         A screen reader navigating by heading level announces it clearly.
       -->
-      <h2 id="archive-heading">Archive Entries</h2>
+        <h2 id="archive-heading">This Month's Articles</h2>
 
-      <div class="archive-grid">
+        <div class="archive-grid">
+          <!--
+          Six magazine articles, each with a "Read" control.
+          DOM order and visual order match — they read 1 through 6 either way.
 
-        <!--
-          Six archive cards.
-          DOM order: Alpha, Beta, SEMANTIC, Delta, Epsilon, Theta.
-          CSS visual order: Delta(1), Beta(2), Epsilon(3), Alpha(4), Theta(5), SEMANTIC(6).
+          Five of the controls are real <button> elements: keyboard-focusable,
+          announced as "button" by a screen reader, distinctly labelled.
 
-          Screen readers follow DOM order — SEMANTIC is 3rd.
-          Visual scanners see SEMANTIC last, buried at the end.
-
-          Each button visually says "Access →" — identical to sighted users.
-          Each button's aria-label is distinct — distinguishable to screen reader users.
+          The sixth (article 6, "Built for Everyone") is a <div> styled with the
+          exact same class. Visually identical. Semantically nothing — no role,
+          no focusability, invisible to the screen reader's button list.
+          It is also the one you must activate to escape. That's the point:
+          looking the same is not being the same.
         -->
 
-        <!-- Card 1 (DOM): Entry Alpha — visual order: 4 -->
-        <article class="archive-card noisy" style="order: 4">
-          <!-- aria-hidden: screen readers skip this entirely. Visual users fixate on it. -->
-          <span class="ref-code" aria-hidden="true">REF-7834</span>
-          <!--
+          <!-- Article 1 — real button -->
+          <article class="archive-card noisy">
+            <!-- aria-hidden: screen readers skip this entirely. Visual users fixate on it. -->
+            <span class="ref-code" aria-hidden="true">page 12</span>
+            <!--
             h3 is the actual content heading.
             Styled tiny and low-contrast — visually dismissible, semantically significant.
           -->
-          <h3>Entry Alpha</h3>
-          <p>Cross-indexed material from the northern quadrant. Filed under general correspondence.</p>
-          <button
-            class="access-btn"
-            data-entry="Alpha"
-            aria-label="Access"
-            type="button"
-          >Access</button>
-        </article>
+            <h3>The Four-Day Week, One Year On</h3>
+            <p>
+              Companies that cut a day report happier staff and steadier output.
+              The numbers behind the trial.
+            </p>
+            <button
+              class="access-btn"
+              data-title="The Four-Day Week, One Year On"
+              aria-label="Read the article: The Four-Day Week, One Year On"
+              type="button"
+            >
+              Read
+            </button>
+          </article>
 
-        <!-- Card 2 (DOM): Entry Beta — visual order: 2 -->
-        <article class="archive-card" style="order: 2">
-          <span class="ref-code" aria-hidden="true">REF-2291</span>
-          <h3>Entry Beta</h3>
-          <p>Supplementary ledger records recovered from the eastern storage block. Partially indexed.</p>
-          <button
-            class="access-btn"
-            data-entry="Beta"
-            aria-label="Access"
-            type="button"
-          >Access</button>
-        </article>
+          <!-- Article 2 — real button -->
+          <article class="archive-card">
+            <span class="ref-code" aria-hidden="true">page 24</span>
+            <h3>Cooking With What's Left</h3>
+            <p>
+              How a generation of home cooks learned to turn leftovers and odd
+              ends into something worth the table.
+            </p>
+            <button
+              class="access-btn"
+              data-title="Cooking With What's Left"
+              aria-label="Read the article: Cooking With What's Left"
+              type="button"
+            >
+              Read
+            </button>
+          </article>
 
-        <!--
-          Card 3 (DOM): Entry SEMANTIC — visual order: 6 (last visually).
-          This is the target entry. The button text is visually distinct to make it more noticeable.
+          <!-- Article 3 — real button -->
+          <article class="archive-card noisy">
+            <span class="ref-code" aria-hidden="true">page 31</span>
+            <h3>The Quiet Return of the Library</h3>
+            <p>
+              Once written off, local libraries are busier than ever. A look at
+              why people keep coming back.
+            </p>
+            <button
+              class="access-btn"
+              data-title="The Quiet Return of the Library"
+              aria-label="Read the article: The Quiet Return of the Library"
+              type="button"
+            >
+              Read
+            </button>
+          </article>
+
+          <!-- Article 4 — real button -->
+          <article class="archive-card">
+            <span class="ref-code" aria-hidden="true">page 40</span>
+            <h3>Why We Still Love Vinyl</h3>
+            <p>
+              Records outsell CDs again. Collectors and first-timers explain the
+              pull of the physical.
+            </p>
+            <button
+              class="access-btn"
+              data-title="Why We Still Love Vinyl"
+              aria-label="Read the article: Why We Still Love Vinyl"
+              type="button"
+            >
+              Read
+            </button>
+          </article>
+
+          <!-- Article 5 — real button -->
+          <article class="archive-card noisy">
+            <span class="ref-code" aria-hidden="true">page 52</span>
+            <h3>Notes From a Car-Free City</h3>
+            <p>
+              One month, no cars in the centre. Residents on what changed, for
+              better and worse.
+            </p>
+            <button
+              class="access-btn"
+              data-title="Notes From a Car-Free City"
+              aria-label="Read the article: Notes From a Car-Free City"
+              type="button"
+            >
+              Read
+            </button>
+          </article>
+
+          <!--
+          Article 6 — the impostor.
+          This "Read" control is a <div>, not a <button>. It carries the same
+          .access-btn class, so it is pixel-for-pixel identical on screen.
+          It has tabindex="0", so a keyboard user can even focus it — but that's
+          where the resemblance ends. What it deliberately lacks: a button role
+          (so a screen reader never announces it as a button, and it's absent
+          from the button list / "B" navigation) and any keyboard activation
+          (no Enter/Space handler, so focusing it does nothing). Only a mouse
+          click works. Same look, different meaning — the accessibility failure
+          this room teaches.
         -->
-        <article class="archive-card noisy" style="order: 6">
-          <span class="ref-code" aria-hidden="true">REF-0047</span>
-          <h3>Entry SEMANTIC</h3>
-          <p>Annotated records from the central repository. Contains cross-referenced terminology.</p>
-          <button
-            class="access-btn"
-            data-entry="SEMANTIC"
-            aria-label="Access Entry SEMANTIC"
-            type="button"
-          >Access</button>
-        </article>
+          <article class="archive-card" id="target-article" tabindex="-1">
+            <span class="ref-code" aria-hidden="true">page 63</span>
+            <h3>Built for Everyone</h3>
+            <p>
+              What it really takes to design a product that works for every
+              reader — not just most of them.
+            </p>
+            <div
+              tabindex="0"
+              class="access-btn"
+              id="impostor"
+              data-title="Built for Everyone"
+              aria-label="Read the article: Built for Everyone"
+            >
+              Read
+            </div>
+          </article>
+        </div>
+        <!-- /.archive-grid -->
+      </section>
+    </main>
 
-        <!-- Card 4 (DOM): Entry Delta — visual order: 1 -->
-        <article class="archive-card" style="order: 1">
-          <span class="ref-code" aria-hidden="true">REF-5519</span>
-          <h3>Entry Delta</h3>
-          <p>Inventory transfer logs from the southern depot. Requires counter-signature to release.</p>
-          <button
-            class="access-btn"
-            data-entry="Delta"
-            aria-label="Access"
-            type="button"
-          >Access</button>
-        </article>
-
-        <!-- Card 5 (DOM): Entry Epsilon — visual order: 3 -->
-        <article class="archive-card noisy" style="order: 3">
-          <span class="ref-code" aria-hidden="true">REF-3381</span>
-          <h3>Entry Epsilon</h3>
-          <p>Field dispatch notices, third quarter. Archived pending final reconciliation.</p>
-          <button
-            class="access-btn"
-            data-entry="Epsilon"
-            aria-label="Access"
-            type="button"
-          >Access</button>
-        </article>
-
-        <!-- Card 6 (DOM): Entry Theta — visual order: 5 -->
-        <article class="archive-card" style="order: 5">
-          <span class="ref-code" aria-hidden="true">REF-9023</span>
-          <h3>Entry Theta</h3>
-          <p>Decommissioned asset register. Contents transferred to long-term storage vault.</p>
-          <button
-            class="access-btn"
-            data-entry="Theta"
-            aria-label="Access"
-            type="button"
-          >Access</button>
-        </article>
-
-      </div><!-- /.archive-grid -->
-    </section>
-
-  </main>
-
-  <!-- Modal: opens when Entry SEMANTIC is accessed -->
-  <div
-    class="modal-overlay"
-    id="modal-overlay"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="modal-title"
-    hidden
-  >
-    <div class="modal" id="modal" tabindex="-1">
-      <span class="success-icon" aria-hidden="true">📡</span>
-      <h2 id="modal-title">Entry Accessed</h2>
-      <p class="modal-desc">
-        You found it by listening, not by looking.
-        That's what semantic HTML does for screen reader users every day —
-        it makes structure audible.
-      </p>
-      <span class="clue-label">Your Room 2 clue</span>
-      <span class="clue-word" aria-label="Clue word: SEMANTIC">SEMANTIC</span>
-      <p class="modal-desc">Note it down, then continue to the next room &mdash; or head back to the Lab to choose your own path.</p>
-      <div class="modal-actions">
-        <a href="../3/" class="btn-next">Continue to Room 3 &rarr;</a>
-        <a href="../../" class="btn-back">&larr; Back to the Lab</a>
-        <button class="btn-close" id="close-btn" type="button">
-          Close &nbsp;<kbd>Esc</kbd>
-        </button>
+    <!-- Modal: opens when the impostor <div> in article 6 is clicked -->
+    <div
+      class="modal-overlay"
+      id="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      hidden
+    >
+      <div class="modal" id="modal" tabindex="-1">
+        <span class="success-icon" aria-hidden="true">📰</span>
+        <h2 id="modal-title">You Found the Impostor</h2>
+        <p class="modal-desc">
+          That last "Read" control looked exactly like the other five &mdash;
+          same style, same label. But it was a <kbd>&lt;div&gt;</kbd>, not a
+          <kbd>&lt;button&gt;</kbd>. A mouse user can't tell the difference, but
+          to someone who cannot rely on their vision, this labeling makes all
+          the difference in being able to interact with the page or not.
+          Identical on screen, completely different underneath. That's why
+          semantic HTML matters.
+        </p>
+        <span class="clue-label">Your Room 2 clue</span>
+        <span class="clue-word" aria-label="Clue word: SEMANTIC">SEMANTIC</span>
+        <p class="modal-desc">
+          Note it down, then continue to the next room &mdash; or head back to
+          the Lab to choose your own path.
+        </p>
+        <div class="modal-actions">
+          <a href="../3/" class="btn-next">Continue to Room 3 &rarr;</a>
+          <a href="../../" class="btn-back">&larr; Back to the Lab</a>
+          <button class="btn-close" id="close-btn" type="button">
+            Close &nbsp;<kbd>Esc</kbd>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Live region: feedback for wrong entries -->
-  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+    <!-- Live region: feedback for wrong entries -->
+    <div
+      class="toast"
+      id="toast"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
 
-  <!-- LANDMARK: footer -->
-  <footer>
-    <p>The Reverse Accessibility Lab &mdash; GAAD 2026 &middot; by Genio</p>
-  </footer>
+    <!-- LANDMARK: footer -->
+    <footer>
+      <p>The Reverse Accessibility Lab &mdash; GAAD 2026 &middot; by Genio</p>
+    </footer>
 
-  <script>
-    const modalOverlay = document.getElementById('modal-overlay');
-    const modal = document.getElementById('modal');
-    const closeBtn = document.getElementById('close-btn');
-    const toast = document.getElementById('toast');
-    let toastTimer;
+    <script>
+      const modalOverlay = document.getElementById("modal-overlay");
+      const modal = document.getElementById("modal");
+      const closeBtn = document.getElementById("close-btn");
+      const toast = document.getElementById("toast");
+      let toastTimer;
 
-    function showToast(msg) {
-      clearTimeout(toastTimer);
-      toast.textContent = msg;
-      toast.classList.add('visible');
-      toastTimer = setTimeout(() => toast.classList.remove('visible'), 3500);
-    }
-
-    function openModal() {
-      modalOverlay.removeAttribute('hidden');
-      modal.focus();
-    }
-
-    function closeModal() {
-      modalOverlay.setAttribute('hidden', '');
-      // Return focus to the button that triggered the modal
-      document.querySelector('[data-entry="SEMANTIC"]').focus();
-    }
-
-    // All access buttons — distinguish right from wrong entries
-    document.querySelectorAll('.access-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const entry = btn.dataset.entry;
-        if (entry === 'SEMANTIC') {
-          openModal();
-        } else {
-          showToast(`Entry ${entry} is not the one you're looking for. Keep listening.`);
-        }
-      });
-    });
-
-    closeBtn.addEventListener('click', closeModal);
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !modalOverlay.hasAttribute('hidden')) {
-        closeModal();
+      function showToast(msg) {
+        clearTimeout(toastTimer);
+        toast.textContent = msg;
+        toast.classList.add("visible");
+        toastTimer = setTimeout(() => toast.classList.remove("visible"), 3500);
       }
-    });
 
-    function trapFocus(overlay) {
-      overlay.addEventListener('keydown', (e) => {
-        if (e.key !== 'Tab') return;
-        const focusable = Array.from(
-          overlay.querySelectorAll('a[href], button:not([disabled])')
-        );
-        if (focusable.length === 0) return;
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
+      function openModal() {
+        modalOverlay.removeAttribute("hidden");
+        modal.focus();
+      }
+
+      function closeModal() {
+        modalOverlay.setAttribute("hidden", "");
+        // The control that opened this modal is a <div>, so it can't receive focus —
+        // which is the very bug this room is about. We return focus to the article
+        // region instead. With a real <button>, we'd just refocus the button.
+        document.getElementById("target-article").focus();
+      }
+
+      // The five REAL buttons are decoys. Note the selector: `button.access-btn`
+      // matches only the genuine <button>s, not the <div> impostor that shares the class.
+      document.querySelectorAll("button.access-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          showToast(
+            `“${btn.dataset.title}” is a real, working button — but it isn't your clue. Look for the one control that isn't a button at all.`,
+          );
+        });
+      });
+
+      // The impostor: a <div> with only a click handler. A mouse fires this. A
+      // keyboard user can focus the div (it has tabindex="0") but Enter/Space won't
+      // trigger it — divs, unlike <button>s, have no built-in activation — and a
+      // screen reader never announces it as a button. Wiring interactivity onto a
+      // non-interactive element like this is the anti-pattern the room demonstrates.
+      document.getElementById("impostor").addEventListener("click", openModal);
+
+      closeBtn.addEventListener("click", closeModal);
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !modalOverlay.hasAttribute("hidden")) {
+          closeModal();
         }
       });
-    }
 
-    trapFocus(modalOverlay);
+      function trapFocus(overlay) {
+        overlay.addEventListener("keydown", (e) => {
+          if (e.key !== "Tab") return;
+          const focusable = Array.from(
+            overlay.querySelectorAll("a[href], button:not([disabled])"),
+          );
+          if (focusable.length === 0) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        });
+      }
 
-    // Dead nav links feedback
-    document.querySelectorAll('nav a:not(.real-link)').forEach((link) => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        showToast('Navigation is keyboard-only in this room.');
+      trapFocus(modalOverlay);
+
+      // Dead nav links feedback
+      document.querySelectorAll("nav a:not(.real-link)").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          showToast("Navigation is keyboard-only in this room.");
+        });
       });
-    });
-  </script>
-
-</body>
+    </script>
+  </body>
 </html>
