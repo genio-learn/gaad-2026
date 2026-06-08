@@ -605,6 +605,29 @@
       outline-offset: 3px;
     }
 
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: var(--accent-light);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      width: 100%;
+      justify-content: center;
+    }
+    .btn-back:hover {
+      border-color: var(--accent);
+    }
+    .btn-back:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
     .btn-close {
       background: transparent;
       border: 1px solid var(--border);
@@ -962,9 +985,10 @@
       </p>
       <span class="clue-label">Your Room 4 clue</span>
       <span class="clue-word" aria-label="Clue word: REFLOW">REFLOW</span>
-      <p class="modal-desc">Note it down, then move to Room 5.</p>
+      <p class="modal-desc">Note it down, then continue to the next room &mdash; or head back to the Lab to choose your own path.</p>
       <div class="modal-actions">
-        <a href="../5/" class="btn-next">Room 5 &rarr;</a>
+        <a href="../5/" class="btn-next">Continue to Room 5 &rarr;</a>
+        <a href="../../" class="btn-back">&larr; Back to the Lab</a>
         <button class="btn-close" id="close-btn" type="button">
           Close &nbsp;<kbd>Esc</kbd>
         </button>

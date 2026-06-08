@@ -253,6 +253,13 @@
     }
 
     /* ── Rooms preview ── */
+    .rooms-intro {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      max-width: 55ch;
+    }
+
     .rooms {
       list-style: none;
       display: grid;
@@ -262,10 +269,33 @@
     }
 
     .room-card {
+      display: block;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1rem;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, transform 0.15s, background 0.15s;
+    }
+
+    .room-card:hover {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+      transform: translateY(-2px);
+    }
+
+    .room-card:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
+    .room-card .room-arrow {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent-light);
     }
 
     .room-card .room-icon {
@@ -329,9 +359,35 @@
       outline-offset: 3px;
     }
 
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: var(--accent-light);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+
+    .btn-secondary:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 3px;
+    }
+
     .cta-note {
       font-size: 0.82rem;
       color: var(--text-muted);
+      flex-basis: 100%;
     }
 
     /* ── Lab disclosure ── */
@@ -539,36 +595,53 @@
 
     <h2>The five rooms</h2>
 
+    <p class="rooms-intro">Pick any room to begin — you can tackle them in any order. Each one returns you here when you've found its clue.</p>
+
     <ul class="rooms" aria-label="Challenge rooms">
-      <li class="room-card">
-        <span class="room-icon" aria-hidden="true">⌨️</span>
-        <strong>Room 1 — Keyboard only</strong>
-        <p>Mouse? Useless. Find the clue using nothing but your keyboard.</p>
-        <span class="tag">Keyboard navigation</span>
+      <li>
+        <a class="room-card" href="rooms/1/" aria-label="Room 1, Keyboard only">
+          <span class="room-icon" aria-hidden="true">⌨️</span>
+          <strong>Room 1 — Keyboard only</strong>
+          <p>Mouse? Useless. Find the clue using nothing but your keyboard.</p>
+          <span class="tag">Keyboard navigation</span>
+          <span class="room-arrow" aria-hidden="true">Enter room →</span>
+        </a>
       </li>
-      <li class="room-card">
-        <span class="room-icon" aria-hidden="true">🔊</span>
-        <strong>Room 2 — Screen reader</strong>
-        <p>The visual layout is a dead end. The semantic layer tells a different story.</p>
-        <span class="tag">Screen reader</span>
+      <li>
+        <a class="room-card" href="rooms/2/" aria-label="Room 2, Screen reader">
+          <span class="room-icon" aria-hidden="true">🔊</span>
+          <strong>Room 2 — Screen reader</strong>
+          <p>The visual layout is a dead end. The semantic layer tells a different story.</p>
+          <span class="tag">Screen reader</span>
+          <span class="room-arrow" aria-hidden="true">Enter room →</span>
+        </a>
       </li>
-      <li class="room-card">
-        <span class="room-icon" aria-hidden="true">🎙️</span>
-        <strong>Room 3 — Voice control</strong>
-        <p>Mouse is dead. Keyboard is a maze. One button has the name you need to say.</p>
-        <span class="tag">Voice control</span>
+      <li>
+        <a class="room-card" href="rooms/3/" aria-label="Room 3, Voice control">
+          <span class="room-icon" aria-hidden="true">🎙️</span>
+          <strong>Room 3 — Voice control</strong>
+          <p>Mouse is dead. Keyboard is a maze. One button has the name you need to say.</p>
+          <span class="tag">Voice control</span>
+          <span class="room-arrow" aria-hidden="true">Enter room →</span>
+        </a>
       </li>
-      <li class="room-card">
-        <span class="room-icon" aria-hidden="true">🔎</span>
-        <strong>Room 4 — Zoom &amp; magnification</strong>
-        <p>The control you need is there. The layout is hiding it. Zoom in and watch everything shift.</p>
-        <span class="tag">Zoom &amp; reflow</span>
+      <li>
+        <a class="room-card" href="rooms/4/" aria-label="Room 4, Zoom and magnification">
+          <span class="room-icon" aria-hidden="true">🔎</span>
+          <strong>Room 4 — Zoom &amp; magnification</strong>
+          <p>The control you need is there. The layout is hiding it. Zoom in and watch everything shift.</p>
+          <span class="tag">Zoom &amp; reflow</span>
+          <span class="room-arrow" aria-hidden="true">Enter room →</span>
+        </a>
       </li>
-      <li class="room-card">
-        <span class="room-icon" aria-hidden="true">🌀</span>
-        <strong>Room 5 — Reduced motion</strong>
-        <p>The page is alive with interference. Calm the signal to extract the hidden code.</p>
-        <span class="tag">Motion &amp; vestibular</span>
+      <li>
+        <a class="room-card" href="rooms/5/" aria-label="Room 5, Reduced motion">
+          <span class="room-icon" aria-hidden="true">🌀</span>
+          <strong>Room 5 — Reduced motion</strong>
+          <p>The page is alive with interference. Calm the signal to extract the hidden code.</p>
+          <span class="tag">Motion &amp; vestibular</span>
+          <span class="room-arrow" aria-hidden="true">Enter room →</span>
+        </a>
       </li>
     </ul>
 
@@ -576,7 +649,10 @@
       <a href="rooms/1/" class="btn-primary" aria-label="Start the challenge, Room 1 of 5">
         Start the challenge →
       </a>
-      <p class="cta-note">No sign-up required. Takes about 10–15 minutes.</p>
+      <a href="final/" class="btn-secondary">
+        Enter your final code →
+      </a>
+      <p class="cta-note">No sign-up required. Takes about 10–15 minutes. Collected all five clues? Head to the final code.</p>
     </div>
 
   </main>
