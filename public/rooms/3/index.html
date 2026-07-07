@@ -10,6 +10,7 @@
         --surface: #14152a;
         --surface-raised: #1c1d38;
         --border: #252545;
+        --border-strong: #6f6e92; /* ≥3:1 against surfaces — for interactive component boundaries */
         --accent: #6b47f0;
         --accent-light: #a08bff;
         --accent-pink: #ec1e8c;
@@ -187,7 +188,7 @@
         width: 0.55rem;
         height: 0.55rem;
         border-radius: 50%;
-        background: var(--border);
+        background: var(--border-strong);
       }
       .progress-dot.active {
         background: var(--accent);
@@ -236,7 +237,6 @@
         letter-spacing: 0.18em;
         text-transform: uppercase;
         color: var(--text-muted);
-        opacity: 0.55;
         padding-bottom: 0.5rem;
         border-bottom: 1px solid var(--border);
       }
@@ -255,7 +255,7 @@
         display: block;
         width: 100%;
         background: var(--surface-raised);
-        border: 1px solid var(--border);
+        border: 1px solid var(--border-strong);
         color: var(--text);
         padding: 0.6rem 0.875rem;
         border-radius: 4px;
@@ -426,7 +426,7 @@
         font-size: 0.95rem;
         padding: 0.7rem 1.5rem;
         border-radius: 6px;
-        border: 1px solid var(--border);
+        border: 1px solid var(--border-strong);
         width: 100%;
         justify-content: center;
       }
@@ -440,7 +440,7 @@
 
       .btn-close {
         background: transparent;
-        border: 1px solid var(--border);
+        border: 1px solid var(--border-strong);
         color: var(--text-muted);
         padding: 0.6rem 1.5rem;
         border-radius: 6px;

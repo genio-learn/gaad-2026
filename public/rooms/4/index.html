@@ -10,13 +10,14 @@
       --surface: #14152a;
       --surface-raised: #1c1d38;
       --border: #252545;
+      --border-strong: #6f6e92; /* ≥3:1 against surfaces — for interactive component boundaries */
       --accent: #6B47F0;
       --accent-light: #a08bff;
       --accent-pink: #EC1E8C;
       --accent-blue: #4A5BEF;
       --text: #f0eef8;
       --text-muted: #9896a8;
-      --text-faint: #4a4860;
+      --text-faint: #8785a3; /* ~5:1 on --surface — dimmer than --text-muted but still AA */
       --success: #4caf82;
       --warning: #f0a050;
       --danger: #e05c5c;
@@ -177,7 +178,7 @@
       width: 0.55rem;
       height: 0.55rem;
       border-radius: 50%;
-      background: var(--border);
+      background: var(--border-strong);
     }
     .progress-dot.active { background: var(--accent); }
 
@@ -267,7 +268,6 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--text-muted);
-      opacity: 0.55;
       padding-bottom: 0.6rem;
       margin-bottom: 0.875rem;
       border-bottom: 1px solid var(--border);
@@ -347,7 +347,6 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-muted);
-      opacity: 0.65;
       display: block;
       margin-bottom: 0.2rem;
     }
@@ -405,14 +404,16 @@
       ── Priority annotations column ──
       This is the column that matters.
 
-      At normal zoom: narrow, tiny text (0.67rem), low contrast — looks like
-      boilerplate metadata, easy to dismiss visually.
+      At normal zoom: narrow, tiny text (0.67rem) in a cramped, height-clipped
+      column — looks like boilerplate metadata, easy to dismiss visually.
+      (Text colours still meet WCAG AA contrast; the challenge comes from
+      size and clipping, not from illegible colour.)
 
       At ≈200%+ zoom: column becomes full-width. Browser zoom makes 0.67rem
       effectively larger. The content is now obviously readable and the
       acknowledge button is clearly visible.
 
-      This is intentionally bad design: critical controls buried in small
+      This is intentionally awkward design: critical controls buried in small
       type in a cramped column. The fix is proper reflow support.
     */
     .annotations-col {
@@ -465,7 +466,7 @@
       The acknowledge button.
 
       At normal zoom: tiny, styled to blend with the surrounding annotation text.
-      Low padding, small font, faint border — looks like a metadata tag, not a button.
+      Low padding, small font — looks like a metadata tag, not a button.
 
       At high zoom: full width, clearly a button, easy to read and activate.
       This is the control the user needs to find.
@@ -475,8 +476,8 @@
       width: 100%;
       margin-top: 0.5rem;
       background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-faint);
+      border: 1px solid var(--border-strong);
+      color: var(--text);
       padding: 0.3rem 0.5rem;
       border-radius: 3px;
       font-size: 0.65rem;
@@ -616,7 +617,7 @@
       font-size: 0.95rem;
       padding: 0.7rem 1.5rem;
       border-radius: 6px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       width: 100%;
       justify-content: center;
     }
@@ -630,7 +631,7 @@
 
     .btn-close {
       background: transparent;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       color: var(--text-muted);
       padding: 0.6rem 1.5rem;
       border-radius: 6px;
@@ -902,17 +903,18 @@
         ── Column 3: Priority annotations ──
 
         At normal zoom this column is ~180px wide. Font size 0.67rem.
-        Colour is --text-faint (#4a4860) — near-invisible against the dark background.
         The acknowledge button is styled to look like a metadata label.
+        (All text meets WCAG AA contrast — the difficulty is size and
+        clipping, not colour.)
 
         Zoom to 200%+: the grid collapses to one column. This panel becomes
         full-width, text is now at a comfortable reading size (browser zoom
         scales everything up), and "Acknowledge priority access" is clearly
         a button — not a label.
 
-        The lesson: tiny, low-contrast content in narrow columns isn't
+        The lesson: tiny content crammed into narrow columns isn't
         "clean design" — it's inaccessible design that breaks at zoom.
-        WCAG 1.4.3 (contrast) and 1.4.10 (reflow) both speak to this.
+        WCAG 1.4.10 (reflow) speaks to this.
       -->
       <section
         class="report-panel annotations-col"

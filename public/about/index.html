@@ -374,13 +374,6 @@
           </div>
         </li>
         <li>
-          <span class="criterion-tag">1.4.3</span>
-          <div class="violation-text">
-            <strong>Contrast (Minimum) — section headings rendered below threshold</strong>
-            <p>Card <code>&lt;h3&gt;</code> elements are set to 0.7 rem in a dark muted colour (#5a5870) against the dark surface, falling well below 4.5:1. They are semantically significant but visually dismissible — the reverse of decorative-but-high-contrast elements that carry <code>aria-hidden="true"</code>.</p>
-          </div>
-        </li>
-        <li>
           <span class="criterion-tag">2.4.6</span>
           <div class="violation-text">
             <strong>Headings and Labels — duplicate visible button labels</strong>
@@ -429,21 +422,14 @@
     <section class="room-section" aria-labelledby="room4-heading">
       <div class="room-header">
         <h2 id="room4-heading">Room 4 — Zoom &amp; magnification</h2>
-        <span class="room-badge">🔎 Reflow &amp; contrast</span>
+        <span class="room-badge">🔎 Reflow</span>
       </div>
       <ul class="violation-list">
         <li>
           <span class="criterion-tag">1.4.10</span>
           <div class="violation-text">
             <strong>Reflow — critical control hidden in a narrow third column</strong>
-            <p>At 100% zoom a three-column grid keeps the "Acknowledge" button in a cramped annotations column with <code>overflow: hidden</code>, clipping it from view. At 200% zoom the viewport narrows below the grid breakpoint, columns stack, and the button becomes fully visible and operable — reflow reveals what bad layout hid.</p>
-          </div>
-        </li>
-        <li>
-          <span class="criterion-tag">1.4.3</span>
-          <div class="violation-text">
-            <strong>Contrast (Minimum) — button and annotation text below threshold at normal zoom</strong>
-            <p>Annotation text is set to 0.67 rem in a near-background colour (#4a4860), and the button uses transparent background with a faint border — styled to blend with surrounding metadata so it reads as boilerplate rather than an action.</p>
+            <p>At 100% zoom a three-column grid keeps the "Acknowledge" button in a cramped annotations column with <code>overflow: hidden</code>, clipping it from view. At 200% zoom the viewport narrows below the grid breakpoint, columns stack, and the button becomes fully visible and operable — reflow reveals what bad layout hid. (All text meets contrast minimums; the difficulty is size and clipping, not colour.)</p>
           </div>
         </li>
       </ul>
@@ -463,13 +449,6 @@
           <div class="violation-text">
             <strong>Animation from Interactions — continuous motion with no page-level off switch</strong>
             <p>Five keyframe animations run on page load: bounce, spin, drift, pulse-border, and flicker — including on the button container itself. There is no on-page toggle; motion stops only when the OS <code>prefers-reduced-motion: reduce</code> setting is enabled. The lesson: the OS setting exists precisely for this, and enabling it unlocks the room.</p>
-          </div>
-        </li>
-        <li>
-          <span class="criterion-tag">1.4.3</span>
-          <div class="violation-text">
-            <strong>Contrast (Minimum) — flicker animation drops panel values below threshold</strong>
-            <p>The <code>flicker</code> animation cycles panel value opacity from 1 down to 0.2, repeatedly dropping text contrast below 4.5:1 during the animation cycle.</p>
           </div>
         </li>
       </ul>

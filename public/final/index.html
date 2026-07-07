@@ -10,6 +10,7 @@
       --surface: #14152a;
       --surface-raised: #1c1d38;
       --border: #252545;
+      --border-strong: #6f6e92; /* ≥3:1 against surfaces — for interactive component boundaries */
       --accent: #6B47F0;
       --accent-light: #a08bff;
       --accent-pink: #EC1E8C;
@@ -147,12 +148,17 @@
     .verify-card input {
       width: 100%;
       background: var(--surface-raised);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 6px;
       color: var(--text);
       padding: 0.85rem 0.9rem;
       font-size: 1rem;
       margin-bottom: 0.9rem;
+    }
+
+    .verify-card input::placeholder {
+      color: var(--text-muted);
+      opacity: 1;
     }
 
     .verify-card input:focus-visible {
@@ -193,7 +199,7 @@
 
     .btn-secondary {
       background: transparent;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       color: var(--text-muted);
       text-decoration: none;
       display: inline-flex;
