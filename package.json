@@ -1,7 +1,7 @@
 {
   "name": "gaad-2026",
   "version": "1.0.0",
-  "description": "Reverse Accessibility Lab — GAAD 2026",
+  "description": "The Reverse Accessibility Lab — a Genio challenge simulating the barriers students with disabilities face",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
