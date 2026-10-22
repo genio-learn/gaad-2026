@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Reverse Accessibility Lab — GAAD 2026 · by Genio</title>
+  <title>The Reverse Accessibility Lab · by Genio</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-  <meta name="description" content="A 5-room reverse accessibility challenge. Each room is broken for mainstream use — but works perfectly if you use the right assistive technology.">
+  <meta name="description" content="A five-room challenge that is deliberately inaccessible, so you can experience some of the barriers students with disabilities face with digital tools, and the assistive technology that gets them through.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://genio-learn.github.io/gaad-2026/">
   <meta property="og:site_name" content="Genio">
-  <meta property="og:title" content="The Reverse Accessibility Lab — GAAD 2026 · by Genio">
-  <meta property="og:description" content="A 5-room reverse accessibility challenge. Each room is broken for mainstream use — but works perfectly if you use the right assistive technology.">
+  <meta property="og:title" content="The Reverse Accessibility Lab · by Genio">
+  <meta property="og:description" content="A five-room challenge that is deliberately inaccessible, so you can experience some of the barriers students with disabilities face with digital tools, and the assistive technology that gets them through.">
   <meta property="og:image" content="https://genio-learn.github.io/gaad-2026/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="The Reverse Accessibility Lab — GAAD 2026 · by Genio">
-  <meta name="twitter:description" content="A 5-room reverse accessibility challenge. Each room is broken for mainstream use — but works perfectly if you use the right assistive technology.">
+  <meta name="twitter:title" content="The Reverse Accessibility Lab · by Genio">
+  <meta name="twitter:description" content="A five-room challenge that is deliberately inaccessible, so you can experience some of the barriers students with disabilities face with digital tools, and the assistive technology that gets them through.">
   <meta name="twitter:image" content="https://genio-learn.github.io/gaad-2026/og-image.png">
   <style>
     :root {
@@ -203,6 +203,32 @@
       color: var(--text);
     }
 
+    /* ── "Broken on purpose" notice ── */
+    .purpose-notice {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--warning);
+      border-radius: 0 8px 8px 0;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .purpose-notice p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .purpose-notice .purpose-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--warning);
+      margin-bottom: 0.35rem;
+    }
+
+    .purpose-notice a {
+      color: var(--accent-light);
+    }
+
     /* ── How it works ── */
     h2 {
       font-size: 1.1rem;
@@ -314,6 +340,11 @@
     .room-card p {
       font-size: 0.78rem;
       color: var(--text-muted);
+    }
+
+    .room-card .room-sim {
+      margin-top: 0.4rem;
+      color: var(--text);
     }
 
     .room-card .tag {
@@ -498,59 +529,46 @@
 
   <header>
     <div class="header-brand">
-      <svg class="genio-mark" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" focusable="false">
-        <!-- GAAD-style partial ring: 60° gap at bottom-right (35°–95° from 3-o'clock) -->
-        <circle cx="100" cy="100" r="88" fill="none" stroke="currentColor" stroke-width="9" stroke-dasharray="461 92" stroke-dashoffset="-146"/>
-        <!-- Genio spiral, scaled 0.45 and centered at (100,100) -->
-        <g transform="translate(-38.7 -38.7) scale(0.45)">
-          <path d="M218.26,453.13l-25.07-12.14c15.47-31.94,34.26-62.48,55.84-90.79l22.15,16.89c-20.46,26.83-38.26,55.78-52.93,86.04Z"/>
-          <path d="M308.22,434.36c-68.49,0-122.43-55.37-122.43-126.14s53.94-126.14,122.43-126.14,122.43,55.37,122.43,126.14-53.94,126.14-122.43,126.14ZM308.22,462.32c86.47,0,154.11-67.64,154.11-154.11s-67.64-154.11-154.11-154.11-154.11,67.64-154.11,154.11,67.64,154.11,154.11,154.11Z"/>
-          <path d="M296.92,335.98l-20.74-18.59c46.67-52.04,102.11-93.83,164.78-124.2l12.15,25.06c-59.41,28.79-111.96,68.4-156.19,117.73Z"/>
-          <path d="M238.38,313.16l-21.64-17.54c22.35-27.57,47.61-53.02,75.08-75.66l17.71,21.49c-26.03,21.45-49.98,45.58-71.16,71.7Z"/>
-        </g>
-        <!-- GAAD-style keyboard in the ring gap, rotated to match the gap angle -->
-        <g transform="translate(148 152) rotate(-15, 36, 26)">
-          <rect x="0" y="0" width="72" height="52" rx="6"/>
-          <rect x="5" y="5" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="18" y="5" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="31" y="5" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="44" y="5" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="57" y="5" width="10" height="9" rx="1.5" fill="white"/>
-          <rect x="5" y="16" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="18" y="16" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="31" y="16" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="44" y="16" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="57" y="16" width="10" height="9" rx="1.5" fill="white"/>
-          <rect x="5" y="27" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="18" y="27" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="31" y="27" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="44" y="27" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="57" y="27" width="10" height="9" rx="1.5" fill="white"/>
-          <rect x="5" y="38" width="62" height="9" rx="1.5" fill="white"/>
-        </g>
+      <svg class="genio-mark" viewBox="0 0 616.43 616.43" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" focusable="false">
+        <path d="M218.26,453.13l-25.07-12.14c15.47-31.94,34.26-62.48,55.84-90.79l22.15,16.89c-20.46,26.83-38.26,55.78-52.93,86.04Z"/>
+        <path d="M308.22,434.36c-68.49,0-122.43-55.37-122.43-126.14s53.94-126.14,122.43-126.14,122.43,55.37,122.43,126.14-53.94,126.14-122.43,126.14ZM308.22,462.32c86.47,0,154.11-67.64,154.11-154.11s-67.64-154.11-154.11-154.11-154.11,67.64-154.11,154.11,67.64,154.11,154.11,154.11Z"/>
+        <path d="M296.92,335.98l-20.74-18.59c46.67-52.04,102.11-93.83,164.78-124.2l12.15,25.06c-59.41,28.79-111.96,68.4-156.19,117.73Z"/>
+        <path d="M238.38,313.16l-21.64-17.54c22.35-27.57,47.61-53.02,75.08-75.66l17.71,21.49c-26.03,21.45-49.98,45.58-71.16,71.7Z"/>
       </svg>
       <div class="header-title">
         <strong>The Reverse Accessibility Lab</strong>
-        <p class="header-meta">GAAD 2026 &mdash; by <span class="genio-credit">Genio</span></p>
+        <p class="header-meta">A challenge by <span class="genio-credit">Genio</span></p>
       </div>
     </div>
   </header>
 
   <main id="main-content">
-    <p class="eyebrow">A Genio Challenge &middot; GAAD 2026</p>
+    <p class="eyebrow">A Genio Challenge</p>
 
     <h1>Welcome to the Lab.<br />Things work differently here.</h1>
 
     <p class="tagline">
-      This is a reverse accessibility lab. Each room is intentionally broken
-      for mainstream use — but works perfectly if you know the right way in.
+      Students with disabilities run into barriers in digital tools every day.
+      This challenge puts you in their shoes. Each room is deliberately broken
+      for the way most people use a computer &mdash; and only works if you use
+      the assistive technology or setting those students rely on.
     </p>
+
+    <div class="purpose-notice" role="note">
+      <p class="purpose-title">Everything broken here is broken on purpose.</p>
+      <p>
+        The rooms deliberately break accessibility guidelines so you can feel the
+        frustration for yourself. They&rsquo;re a simulation, not a mistake.
+        <a href="about/">See every issue we&rsquo;ve built in, and why</a>.
+      </p>
+    </div>
 
     <div class="callout" role="note">
       <p>
         <strong>No prior experience with assistive technology needed.</strong>
-        Each room gives you a hint. The goal is to feel the friction first —
-        then discover the "other way" that makes everything click.
+        Each room explains what it simulates and gives you a hint. Try to feel the
+        friction first &mdash; and if you get stuck, every room has an
+        <strong>&ldquo;I can&rsquo;t work this out&rdquo;</strong> button that shows you how.
       </p>
     </div>
 
@@ -561,14 +579,14 @@
         <span class="step-num" aria-hidden="true">1</span>
         <div class="step-text">
           <strong>Enter each challenge room</strong>
-          <span>There are 5 rooms, each focused on a different way of interacting with a page.</span>
+          <span>There are 5 rooms. Each one simulates a barrier faced by students with a different disability, and the way they get around it.</span>
         </div>
       </li>
       <li>
         <span class="step-num" aria-hidden="true">2</span>
         <div class="step-text">
           <strong>Find the hidden clue</strong>
-          <span>Each room hides a one-word clue. The mainstream path won't reveal it — you'll need to interact differently.</span>
+          <span>Each room hides a one-word clue. Clicking around as usual won't reveal it &mdash; you'll need to interact the way that student would.</span>
         </div>
       </li>
       <li>
@@ -588,9 +606,9 @@
     </ol>
 
     <details class="lab-disclosure">
-      <summary>About this lab</summary>
+      <summary>Which accessibility guidelines does this break?</summary>
       <div class="disclosure-body">
-        <p>This lab intentionally breaks specific WCAG criteria — keyboard reachability, semantic structure, focus order, reflow, motion — so visitors can feel the friction firsthand. Each room cites the criterion it dramatises. Visit <a href="/about/">the full violations list</a> for details.</p>
+        <p>Each room deliberately fails specific criteria from WCAG (the Web Content Accessibility Guidelines, the international standard for accessible websites) &mdash; covering keyboard access, semantic structure, focus order, reflow and motion. These failures are intentional and limited to the challenge rooms. Visit <a href="about/">the full list of intentional violations</a> for details.</p>
       </div>
     </details>
 
@@ -600,46 +618,51 @@
 
     <ul class="rooms" aria-label="Challenge rooms">
       <li>
-        <a class="room-card" href="rooms/1/" aria-label="Room 1, Keyboard only">
+        <a class="room-card" href="rooms/1/" aria-label="Room 1, Keyboard only" aria-describedby="room1-sim">
           <span class="room-icon" aria-hidden="true">⌨️</span>
           <strong>Room 1 — Keyboard only</strong>
           <p>Mouse? Useless. Find the clue using nothing but your keyboard.</p>
+          <p class="room-sim" id="room1-sim">Simulates: students who can&rsquo;t use a mouse &mdash; because of a physical disability, a tremor or sight loss &mdash; and rely on the keyboard.</p>
           <span class="tag">Keyboard navigation</span>
           <span class="room-arrow" aria-hidden="true">Enter room →</span>
         </a>
       </li>
       <li>
-        <a class="room-card" href="rooms/2/" aria-label="Room 2, Screen reader">
+        <a class="room-card" href="rooms/2/" aria-label="Room 2, Screen reader" aria-describedby="room2-sim">
           <span class="room-icon" aria-hidden="true">🔊</span>
           <strong>Room 2 — Screen reader</strong>
           <p>The visual layout is a dead end. The semantic layer tells a different story.</p>
+          <p class="room-sim" id="room2-sim">Simulates: blind and partially sighted students who use a screen reader to hear the page read aloud.</p>
           <span class="tag">Screen reader</span>
           <span class="room-arrow" aria-hidden="true">Enter room →</span>
         </a>
       </li>
       <li>
-        <a class="room-card" href="rooms/3/" aria-label="Room 3, Voice control">
+        <a class="room-card" href="rooms/3/" aria-label="Room 3, Voice control" aria-describedby="room3-sim">
           <span class="room-icon" aria-hidden="true">🎙️</span>
           <strong>Room 3 — Voice control</strong>
           <p>Mouse is dead. Keyboard is a maze. One button has the name you need to say.</p>
+          <p class="room-sim" id="room3-sim">Simulates: students with limited hand movement, pain or fatigue who control their computer by voice.</p>
           <span class="tag">Voice control</span>
           <span class="room-arrow" aria-hidden="true">Enter room →</span>
         </a>
       </li>
       <li>
-        <a class="room-card" href="rooms/4/" aria-label="Room 4, Zoom and magnification">
+        <a class="room-card" href="rooms/4/" aria-label="Room 4, Zoom and magnification" aria-describedby="room4-sim">
           <span class="room-icon" aria-hidden="true">🔎</span>
           <strong>Room 4 — Zoom &amp; magnification</strong>
           <p>The control you need is there. The layout is hiding it. Zoom in and watch everything shift.</p>
+          <p class="room-sim" id="room4-sim">Simulates: students with low vision who zoom in or magnify the screen to read.</p>
           <span class="tag">Zoom &amp; reflow</span>
           <span class="room-arrow" aria-hidden="true">Enter room →</span>
         </a>
       </li>
       <li>
-        <a class="room-card" href="rooms/5/" aria-label="Room 5, Reduced motion">
+        <a class="room-card" href="rooms/5/" aria-label="Room 5, Reduced motion" aria-describedby="room5-sim">
           <span class="room-icon" aria-hidden="true">🌀</span>
           <strong>Room 5 — Reduced motion</strong>
           <p>The page is alive with interference. Calm the signal to extract the hidden code.</p>
+          <p class="room-sim" id="room5-sim">Simulates: students for whom movement on screen causes dizziness, migraines or difficulty concentrating.</p>
           <span class="tag">Motion &amp; vestibular</span>
           <span class="room-arrow" aria-hidden="true">Enter room →</span>
         </a>
@@ -660,8 +683,8 @@
 
   <footer>
     <p>
-      Made by <a href="https://genio.co">Genio</a> for <a href="https://accessibility.day">Global Accessibility Awareness Day 2026</a>.
-      Celebrating the difference that accessible design makes.
+      Made by <a href="https://genio.co">Genio</a> to show the difference accessible design makes for students with disabilities.
+      The accessibility issues in the challenge rooms are deliberate &mdash; <a href="about/">see what we broke on purpose</a>.
     </p>
   </footer>
 

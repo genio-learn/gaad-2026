@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Room 5: The Signal Room — GAAD 2026</title>
+  <title>Room 5: The Signal Room — The Reverse Accessibility Lab</title>
   <style>
     :root {
       --bg: #0c0d1c;
@@ -524,6 +524,82 @@
       color: var(--accent-light);
       opacity: 0.8;
     }
+
+    /* ── Simulation notice + "I can't work this out" help ──
+       These sit outside the challenge, so they are deliberately kept fully
+       accessible: mouse, keyboard, screen reader and voice all work here. ── */
+    .sim-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent-light);
+      border-radius: 0 6px 6px 0;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .sim-box .sim-heading {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin: 0 0 0.4rem;
+    }
+    .sim-box p { margin: 0; }
+    .sim-box p + p { margin-top: 0.5rem; }
+    .sim-box strong { color: var(--text); }
+
+    .hint-box + .help-details { margin-top: -0.75rem; }
+    .help-details {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .help-details > summary {
+      cursor: pointer;
+      padding: 0.75rem 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .help-details summary:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .help-body { padding: 0 1.25rem 1.25rem; }
+    .help-body .help-heading {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: normal;
+      text-transform: none;
+      color: var(--text);
+      margin: 1rem 0 0.4rem;
+    }
+    .help-body .help-heading:first-child { margin-top: 0.25rem; }
+    .help-body ol,
+    .help-body ul { margin: 0; padding-left: 1.25rem; }
+    .help-body li + li { margin-top: 0.35rem; }
+    .help-body p { margin: 0.5rem 0 0; }
+    .help-body strong { color: var(--text); }
+    .clue-details {
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .clue-details > summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent-light);
+    }
+
+    .footer-note { margin-top: 0.35rem; }
+    .footer-note a { color: var(--accent-light); }
   </style>
 </head>
 <body>
@@ -571,14 +647,46 @@
       <div class="progress-dot active"></div>
     </div>
 
+    <aside class="sim-box" aria-labelledby="sim-heading">
+      <h2 class="sim-heading" id="sim-heading">What this room simulates</h2>
+      <p><strong>Sensitivity to motion.</strong> Movement on screen can cause dizziness, nausea or migraines for students with vestibular disorders, and can make it very hard to concentrate for some students with ADHD, autism or a concussion. Most devices have a &ldquo;Reduce motion&rdquo; setting, and good websites respect it.</p>
+      <p>We&rsquo;ve filled this room with movement <strong>on purpose</strong>. It only settles down once that setting is switched on.</p>
+    </aside>
+
     <div class="hint-box" role="note">
       <strong>Hint:</strong> Motion can make a page impossible to use &mdash; not
       just distracting, but genuinely inaccessible for people with vestibular
       disorders or sensory sensitivities. Enable <strong>Reduce Motion</strong>
       in your OS settings
-      (<kbd>System Settings &rarr; Accessibility &rarr; Motion</kbd> on Mac;
-      <kbd>Ease of Access &rarr; Visual effects</kbd> on Windows).
+      (<kbd>System Settings &rarr; Accessibility</kbd> on Mac;
+      <kbd>Settings &rarr; Accessibility &rarr; Visual effects</kbd> on Windows).
     </div>
+
+    <details class="help-details">
+      <summary>I can&rsquo;t work this out &mdash; show me how</summary>
+      <div class="help-body">
+        <h3 class="help-heading">How to solve it</h3>
+        <ol>
+          <li>Turn on Reduce Motion:
+            <ul>
+              <li><strong>Mac:</strong> System Settings &rarr; Accessibility &rarr; Reduce motion (under Display or Motion, depending on your macOS version)</li>
+              <li><strong>Windows 11:</strong> Settings &rarr; Accessibility &rarr; Visual effects &rarr; turn off Animation effects</li>
+              <li><strong>iPhone or iPad:</strong> Settings &rarr; Accessibility &rarr; Motion &rarr; Reduce Motion</li>
+              <li><strong>Android:</strong> Settings &rarr; Accessibility &rarr; Remove animations (the wording varies by device)</li>
+            </ul>
+          </li>
+          <li>Come back to this page. The movement should stop &mdash; refresh the page if it doesn&rsquo;t.</li>
+          <li>Select <strong>Extract frequency code</strong>.</li>
+        </ol>
+        <p>You can switch the setting back off afterwards.</p>
+        <h3 class="help-heading">Why this matters for students</h3>
+        <p>For most visitors this room is mildly annoying. For a student with a vestibular disorder, a page like this can trigger symptoms that last long after they&rsquo;ve closed it. The fix is small: respect the Reduce Motion setting, and give people a way to pause anything that moves.</p>
+        <details class="clue-details">
+          <summary>Still stuck? Just show me the clue</summary>
+          <p>Your Room 5 clue is <strong>MOTION</strong>. Note it down for the final code.</p>
+        </details>
+      </div>
+    </details>
 
     <section aria-labelledby="panels-heading">
       <h2 class="sr-only" id="panels-heading">Signal monitoring panels</h2>
@@ -661,7 +769,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <footer>
-    <p>The Reverse Accessibility Lab &mdash; GAAD 2026 &middot; by Genio</p>
+    <p>The Reverse Accessibility Lab &middot; by Genio</p>
+    <p class="footer-note">Every accessibility issue in this room is deliberate. <a href="../../about/">See what we broke on purpose, and why</a>.</p>
   </footer>
 
   <script>

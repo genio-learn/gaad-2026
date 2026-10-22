@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Room 1: The Dead Mouse — GAAD 2026</title>
+  <title>Room 1: The Dead Mouse — The Reverse Accessibility Lab</title>
   <style>
     :root {
       --bg: #0c0d1c;
@@ -435,6 +435,82 @@
       color: var(--accent-light);
       opacity: 0.8;
     }
+
+    /* ── Simulation notice + "I can't work this out" help ──
+       These sit outside the challenge, so they are deliberately kept fully
+       accessible: mouse, keyboard, screen reader and voice all work here. ── */
+    .sim-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent-light);
+      border-radius: 0 6px 6px 0;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .sim-box .sim-heading {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin: 0 0 0.4rem;
+    }
+    .sim-box p { margin: 0; }
+    .sim-box p + p { margin-top: 0.5rem; }
+    .sim-box strong { color: var(--text); }
+
+    .hint-box + .help-details { margin-top: -0.75rem; }
+    .help-details {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .help-details > summary {
+      cursor: pointer;
+      padding: 0.75rem 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .help-details summary:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .help-body { padding: 0 1.25rem 1.25rem; }
+    .help-body .help-heading {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: normal;
+      text-transform: none;
+      color: var(--text);
+      margin: 1rem 0 0.4rem;
+    }
+    .help-body .help-heading:first-child { margin-top: 0.25rem; }
+    .help-body ol,
+    .help-body ul { margin: 0; padding-left: 1.25rem; }
+    .help-body li + li { margin-top: 0.35rem; }
+    .help-body p { margin: 0.5rem 0 0; }
+    .help-body strong { color: var(--text); }
+    .clue-details {
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .clue-details > summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent-light);
+    }
+
+    .footer-note { margin-top: 0.35rem; }
+    .footer-note a { color: var(--accent-light); }
   </style>
 </head>
 <body>
@@ -476,10 +552,35 @@
       <div class="progress-dot"></div>
     </div>
 
+    <aside class="sim-box" aria-labelledby="sim-heading">
+      <h2 class="sim-heading" id="sim-heading">What this room simulates</h2>
+      <p><strong>Using a computer without a mouse.</strong> Many students can&rsquo;t use a mouse or trackpad &mdash; because of a physical disability, a tremor, repetitive strain injury, or because they&rsquo;re blind and navigate with a screen reader. They rely on the keyboard, or on switch devices that work like one.</p>
+      <p>We&rsquo;ve switched the mouse off in this room <strong>on purpose</strong> so you can try it for yourself.</p>
+    </aside>
+
     <div class="hint-box" role="note">
       <strong>Hint:</strong> When a mouse won't work, there's always another way in.
       Try pressing <kbd>Tab</kbd> to move around the page.
     </div>
+
+    <details class="help-details">
+      <summary>I can&rsquo;t work this out &mdash; show me how</summary>
+      <div class="help-body">
+        <h3 class="help-heading">How to solve it</h3>
+        <ol>
+          <li>Press <kbd>Tab</kbd>. A glowing outline shows which part of the page you&rsquo;re on.</li>
+          <li>Keep pressing <kbd>Tab</kbd> until the <strong>Unlock Panel</strong> button is outlined. (<kbd>Shift+Tab</kbd> moves backwards.)</li>
+          <li>Press <kbd>Enter</kbd> to open the panel and reveal your clue.</li>
+        </ol>
+        <p>On a phone or tablet you&rsquo;ll need a connected keyboard for this room.</p>
+        <h3 class="help-heading">Why this matters for students</h3>
+        <p>A student who can&rsquo;t use a mouse depends on every link, button and menu being reachable with <kbd>Tab</kbd> and usable with <kbd>Enter</kbd> or <kbd>Space</kbd> &mdash; and on a clear outline showing where they are. When a website or app misses either one, the student is simply stuck, often with no workaround.</p>
+        <details class="clue-details">
+          <summary>Still stuck? Just show me the clue</summary>
+          <p>Your Room 1 clue is <strong>FOCUS</strong>. Note it down for the final code.</p>
+        </details>
+      </div>
+    </details>
 
     <div class="panel-card">
       <span class="lock-icon" aria-hidden="true">🔒</span>
@@ -528,7 +629,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <footer>
-    <p>The Reverse Accessibility Lab &mdash; GAAD 2026 &middot; by Genio</p>
+    <p>The Reverse Accessibility Lab &middot; by Genio</p>
+    <p class="footer-note">Every accessibility issue in this room is deliberate. <a href="../../about/">See what we broke on purpose, and why</a>.</p>
   </footer>
 
   <script>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Intentional Violations — The Reverse Accessibility Lab · GAAD 2026</title>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <title>Intentional Violations — The Reverse Accessibility Lab · by Genio</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <style>
     :root {
       --bg: #0c0d1c;
@@ -182,6 +182,14 @@
       font-weight: 700;
     }
 
+    .room-sim {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .room-sim strong { color: var(--text); }
+
     .violation-list {
       list-style: none;
       display: flex;
@@ -277,53 +285,31 @@
 
   <header>
     <div class="header-brand">
-      <svg class="genio-mark" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" focusable="false">
-        <circle cx="100" cy="100" r="88" fill="none" stroke="currentColor" stroke-width="9" stroke-dasharray="461 92" stroke-dashoffset="-146"/>
-        <g transform="translate(-38.7 -38.7) scale(0.45)">
-          <path d="M218.26,453.13l-25.07-12.14c15.47-31.94,34.26-62.48,55.84-90.79l22.15,16.89c-20.46,26.83-38.26,55.78-52.93,86.04Z"/>
-          <path d="M308.22,434.36c-68.49,0-122.43-55.37-122.43-126.14s53.94-126.14,122.43-126.14,122.43,55.37,122.43,126.14-53.94,126.14-122.43,126.14ZM308.22,462.32c86.47,0,154.11-67.64,154.11-154.11s-67.64-154.11-154.11-154.11-154.11,67.64-154.11,154.11,67.64,154.11,154.11,154.11Z"/>
-          <path d="M296.92,335.98l-20.74-18.59c46.67-52.04,102.11-93.83,164.78-124.2l12.15,25.06c-59.41,28.79-111.96,68.4-156.19,117.73Z"/>
-          <path d="M238.38,313.16l-21.64-17.54c22.35-27.57,47.61-53.02,75.08-75.66l17.71,21.49c-26.03,21.45-49.98,45.58-71.16,71.7Z"/>
-        </g>
-        <g transform="translate(148 152) rotate(-15, 36, 26)">
-          <rect x="0" y="0" width="72" height="52" rx="6"/>
-          <rect x="5" y="5" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="18" y="5" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="31" y="5" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="44" y="5" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="57" y="5" width="10" height="9" rx="1.5" fill="white"/>
-          <rect x="5" y="16" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="18" y="16" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="31" y="16" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="44" y="16" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="57" y="16" width="10" height="9" rx="1.5" fill="white"/>
-          <rect x="5" y="27" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="18" y="27" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="31" y="27" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="44" y="27" width="11" height="9" rx="1.5" fill="white"/>
-          <rect x="57" y="27" width="10" height="9" rx="1.5" fill="white"/>
-          <rect x="5" y="38" width="62" height="9" rx="1.5" fill="white"/>
-        </g>
+      <svg class="genio-mark" viewBox="0 0 616.43 616.43" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" focusable="false">
+        <path d="M218.26,453.13l-25.07-12.14c15.47-31.94,34.26-62.48,55.84-90.79l22.15,16.89c-20.46,26.83-38.26,55.78-52.93,86.04Z"/>
+        <path d="M308.22,434.36c-68.49,0-122.43-55.37-122.43-126.14s53.94-126.14,122.43-126.14,122.43,55.37,122.43,126.14-53.94,126.14-122.43,126.14ZM308.22,462.32c86.47,0,154.11-67.64,154.11-154.11s-67.64-154.11-154.11-154.11-154.11,67.64-154.11,154.11,67.64,154.11,154.11,154.11Z"/>
+        <path d="M296.92,335.98l-20.74-18.59c46.67-52.04,102.11-93.83,164.78-124.2l12.15,25.06c-59.41,28.79-111.96,68.4-156.19,117.73Z"/>
+        <path d="M238.38,313.16l-21.64-17.54c22.35-27.57,47.61-53.02,75.08-75.66l17.71,21.49c-26.03,21.45-49.98,45.58-71.16,71.7Z"/>
       </svg>
       <div class="header-title">
         <strong>The Reverse Accessibility Lab</strong>
-        <p class="header-meta">GAAD 2026 &mdash; by <span class="genio-credit">Genio</span></p>
+        <p class="header-meta">A challenge by <span class="genio-credit">Genio</span></p>
       </div>
     </div>
   </header>
 
   <main id="main-content">
 
-    <a href="/" class="back-link">← Back to the lab</a>
+    <a href="../" class="back-link">← Back to the lab</a>
 
     <p class="eyebrow">Transparency notice</p>
     <h1>Intentional violations</h1>
     <p class="intro">
-      The Reverse Accessibility Lab deliberately breaks WCAG 2.2 success criteria so visitors can feel inaccessible design firsthand. Every violation is scoped to one room and reversed once the lesson lands. This page documents each one.
+      The Reverse Accessibility Lab is a simulation. Each room deliberately breaks criteria from WCAG 2.2 (the Web Content Accessibility Guidelines, the international standard for accessible websites) so that visitors can experience some of the barriers students with disabilities face in digital tools. Every issue below is intentional, limited to a single challenge room, and there to teach something. This page lists each one.
     </p>
 
     <div class="notice" role="note">
-      <strong>For auditors and automated tools:</strong> violations on these pages are intentional and documented here. They are not regressions. The index page (<code>/</code>) and this page (<code>/about/</code>) are fully conformant.
+      <strong>For auditors and automated tools:</strong> the issues in the challenge rooms (<code>rooms/1/</code> to <code>rooms/5/</code>) are intentional and documented here. They are not bugs or regressions. The landing page, this page and the final code page are not part of the challenge and are designed to be fully accessible &mdash; if you find a problem on them, please let us know.
     </div>
 
     <!-- Room 1 -->
@@ -332,6 +318,7 @@
         <h2 id="room1-heading">Room 1 — Keyboard only</h2>
         <span class="room-badge">⌨️ Keyboard navigation</span>
       </div>
+      <p class="room-sim"><strong>Simulates:</strong> Students who can&rsquo;t use a mouse or trackpad &mdash; because of a physical disability, a tremor, repetitive strain injury or sight loss &mdash; and rely on the keyboard or a switch device.</p>
       <ul class="violation-list">
         <li>
           <span class="criterion-tag">2.1.1</span>
@@ -358,6 +345,7 @@
         <h2 id="room2-heading">Room 2 — Screen reader</h2>
         <span class="room-badge">🔊 Semantic structure</span>
       </div>
+      <p class="room-sim"><strong>Simulates:</strong> Blind and partially sighted students who use a screen reader to hear the page and its structure read aloud.</p>
       <ul class="violation-list">
         <li>
           <span class="criterion-tag">1.3.1</span>
@@ -367,17 +355,24 @@
           </div>
         </li>
         <li>
-          <span class="criterion-tag">1.3.2</span>
+          <span class="criterion-tag">4.1.2</span>
           <div class="violation-text">
-            <strong>Meaningful Sequence — CSS <code>order</code> scrambles visual layout</strong>
-            <p>Archive cards are assigned <code>style="order: N"</code> values that rearrange their visual position without touching the DOM. A screen reader reads the logical sequence; mouse users see a shuffled grid with no obvious pattern.</p>
+            <strong>Name, Role, Value — a <code>&lt;div&gt;</code> pretending to be a button</strong>
+            <p>Six articles each have a "Read" control. Five are real <code>&lt;button&gt;</code> elements; the sixth is a <code>&lt;div&gt;</code> with the same styling and no button role. It looks identical on screen, but a screen reader never announces it as a button and it is missing from the screen reader's list of buttons.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">2.1.1</span>
+          <div class="violation-text">
+            <strong>Keyboard — the impostor control only responds to a mouse click</strong>
+            <p>The <code>&lt;div&gt;</code> can receive keyboard focus, but has no <kbd>Enter</kbd> or <kbd>Space</kbd> handler, so it can only be activated with a pointer. Keyboard and screen-reader users cannot open the article it belongs to.</p>
           </div>
         </li>
         <li>
           <span class="criterion-tag">2.4.6</span>
           <div class="violation-text">
-            <strong>Headings and Labels — duplicate visible button labels</strong>
-            <p>Every access button reads "Access →" visually. Each has a distinct <code>aria-label</code> that identifies its target. Voice and screen-reader users can distinguish them; sighted users cannot.</p>
+            <strong>Headings and Labels — identical visible button labels</strong>
+            <p>Every control reads "Read" visually. Each real button has a distinct <code>aria-label</code> naming its article, so screen-reader users can tell them apart; sighted users see six identical labels.</p>
           </div>
         </li>
       </ul>
@@ -391,6 +386,7 @@
         <h2 id="room3-heading">Room 3 — Voice control</h2>
         <span class="room-badge">🎙️ Name, role, focus order</span>
       </div>
+      <p class="room-sim"><strong>Simulates:</strong> Students with limited hand movement, chronic pain, fatigue or an injury who control their computer by voice.</p>
       <ul class="violation-list">
         <li>
           <span class="criterion-tag">2.4.3</span>
@@ -424,6 +420,7 @@
         <h2 id="room4-heading">Room 4 — Zoom &amp; magnification</h2>
         <span class="room-badge">🔎 Reflow</span>
       </div>
+      <p class="room-sim"><strong>Simulates:</strong> Students with low vision who zoom in to 200% or more, or use screen magnification, to read.</p>
       <ul class="violation-list">
         <li>
           <span class="criterion-tag">1.4.10</span>
@@ -443,6 +440,7 @@
         <h2 id="room5-heading">Room 5 — Reduced motion</h2>
         <span class="room-badge">🌀 Motion &amp; vestibular</span>
       </div>
+      <p class="room-sim"><strong>Simulates:</strong> Students with vestibular disorders, migraines, ADHD, autism or a concussion, for whom movement on screen can cause dizziness, nausea or difficulty concentrating.</p>
       <ul class="violation-list">
         <li>
           <span class="criterion-tag">2.3.3</span>
@@ -457,15 +455,14 @@
     <hr class="section-divider" />
 
     <p style="font-size: 0.85rem; color: var(--text-muted);">
-      Questions or corrections? Open an issue on <a href="https://github.com/genio-learn/gaad-2026">GitHub</a> or email <a href="mailto:hello@genio.co">hello@genio.co</a>.
+      Questions or corrections? Email <a href="mailto:hello@genio.co">hello@genio.co</a>.
     </p>
 
   </main>
 
   <footer>
     <p>
-      Made by <a href="https://genio.co">Genio</a> for <a href="https://accessibility.day">Global Accessibility Awareness Day 2026</a>.
-      Celebrating the difference that accessible design makes.
+      Made by <a href="https://genio.co">Genio</a> to show the difference accessible design makes for students with disabilities.
     </p>
   </footer>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Room 4: Intelligence Report — GAAD 2026</title>
+  <title>Room 4: Intelligence Report — The Reverse Accessibility Lab</title>
   <style>
     :root {
       --bg: #0c0d1c;
@@ -668,6 +668,82 @@
       color: var(--accent-light);
       opacity: 0.8;
     }
+
+    /* ── Simulation notice + "I can't work this out" help ──
+       These sit outside the challenge, so they are deliberately kept fully
+       accessible: mouse, keyboard, screen reader and voice all work here. ── */
+    .sim-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent-light);
+      border-radius: 0 6px 6px 0;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .sim-box .sim-heading {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin: 0 0 0.4rem;
+    }
+    .sim-box p { margin: 0; }
+    .sim-box p + p { margin-top: 0.5rem; }
+    .sim-box strong { color: var(--text); }
+
+    .hint-box + .help-details { margin-top: -0.75rem; }
+    .help-details {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .help-details > summary {
+      cursor: pointer;
+      padding: 0.75rem 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .help-details summary:focus-visible {
+      outline: 3px solid var(--accent-light);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .help-body { padding: 0 1.25rem 1.25rem; }
+    .help-body .help-heading {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: normal;
+      text-transform: none;
+      color: var(--text);
+      margin: 1rem 0 0.4rem;
+    }
+    .help-body .help-heading:first-child { margin-top: 0.25rem; }
+    .help-body ol,
+    .help-body ul { margin: 0; padding-left: 1.25rem; }
+    .help-body li + li { margin-top: 0.35rem; }
+    .help-body p { margin: 0.5rem 0 0; }
+    .help-body strong { color: var(--text); }
+    .clue-details {
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .clue-details > summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent-light);
+    }
+
+    .footer-note { margin-top: 0.35rem; }
+    .footer-note a { color: var(--accent-light); }
   </style>
 </head>
 <body>
@@ -716,12 +792,38 @@
       <div class="progress-dot"></div>
     </div>
 
+    <aside class="sim-box" aria-labelledby="sim-heading">
+      <h2 class="sim-heading" id="sim-heading">What this room simulates</h2>
+      <p><strong>Low vision and screen magnification.</strong> Many students with low vision zoom in to 200%, 400% or more to read. A well-built page rearranges itself to fit &mdash; this is called &ldquo;reflow&rdquo;.</p>
+      <p>In this room we&rsquo;ve <strong>deliberately</strong> squeezed the button you need into a narrow column of tiny text, so at normal size it&rsquo;s easy to miss.</p>
+    </aside>
+
     <div class="hint-box" role="note">
       <strong>Hint:</strong> The control you need is somewhere in this report, but
       the layout makes it hard to find at normal zoom. Try zooming in to 200% or
       more (<kbd>Ctrl+=</kbd> on Windows/Linux, <kbd>Cmd+=</kbd> on Mac) and
       watch what happens to the layout.
     </div>
+
+    <details class="help-details">
+      <summary>I can&rsquo;t work this out &mdash; show me how</summary>
+      <div class="help-body">
+        <h3 class="help-heading">How to solve it</h3>
+        <ol>
+          <li>Zoom in: <kbd>Ctrl</kbd> and <kbd>+</kbd> on Windows, or <kbd>Cmd</kbd> and <kbd>+</kbd> on a Mac. Keep going until you reach at least 200%.</li>
+          <li>Watch the three columns stack on top of each other. Scroll down to the <strong>Priority Annotations</strong> section.</li>
+          <li>Under the <strong>P1 &mdash; Action required</strong> note, select <strong>Acknowledge priority access</strong>.</li>
+          <li>Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> and <kbd>0</kbd> to reset the zoom afterwards.</li>
+        </ol>
+        <p>On a phone the columns are already stacked &mdash; just scroll down to Priority Annotations.</p>
+        <h3 class="help-heading">Why this matters for students</h3>
+        <p>Here, zooming in makes things <em>better</em>, because the page is built to reflow. On many sites it&rsquo;s the opposite: zooming in squashes text, pushes buttons off the edge of the screen or forces sideways scrolling on every line. For a student with low vision, that can turn a five-minute task into a frustrating one &mdash; or make it impossible.</p>
+        <details class="clue-details">
+          <summary>Still stuck? Just show me the clue</summary>
+          <p>Your Room 4 clue is <strong>REFLOW</strong>. Note it down for the final code.</p>
+        </details>
+      </div>
+    </details>
 
     <!--
       The report: three columns at full width, one column when zoomed.
@@ -1002,7 +1104,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <footer>
-    <p>The Reverse Accessibility Lab &mdash; GAAD 2026 &middot; by Genio</p>
+    <p>The Reverse Accessibility Lab &middot; by Genio</p>
+    <p class="footer-note">Every accessibility issue in this room is deliberate. <a href="../../about/">See what we broke on purpose, and why</a>.</p>
   </footer>
 
   <script>

@@ -7,5 +7,5 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
-  console.log(`GAAD 2026 server running at http://localhost:${PORT}`);
+  console.log(`Reverse Accessibility Lab running at http://localhost:${PORT}`);
 });
