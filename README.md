@@ -21,6 +21,15 @@ Every room has a "What this room simulates" box and an "I can't work this out" p
 ## The violations are intentional
 The rooms break WCAG criteria **on purpose**. Every one is documented on [`/about/`](public/about/index.html). Keep that page up to date when changing a room, and don't "fix" a room's barriers without checking they aren't the point. The landing, about and final pages are not part of the challenge and should stay fully accessible.
 
+## Styles
+All CSS lives in [`public/css/`](public/css/). Pages have no `<style>` blocks; each links its files in this order, so later files can override earlier ones:
+
+1. [`base.css`](public/css/base.css): design tokens (colors on `:root`), the reset and `body`. Every page.
+2. [`rooms.css`](public/css/rooms.css): room chrome (header, nav, hint/help panels, success modal, footer). The five rooms only.
+3. A page file: `room-1.css` … `room-5.css`, `home.css`, `about.css`, `final.css`, `next-steps.css`.
+
+Only put a rule in `rooms.css` if it is identical in every room. Anything that differs between rooms, including every deliberate barrier, belongs in that room's own `room-N.css`.
+
 ## Deployment
 This repo contains a [GitHub Action](https://github.com/genio-learn/gaad-2026/blob/main/.github/workflows/deploy.yml) which runs on commits to `main` and deploys changes to GitHub Pages, with the live version at [genio-learn.github.io/gaad-2026](https://genio-learn.github.io/gaad-2026/).
 

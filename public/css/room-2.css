@@ -1,0 +1,277 @@
+/* Styles specific to Room 2 (rooms/2/index.html). Loaded after the shared CSS, so it can override it. */
+
+:root {
+  --ref-color: #f0eef8;
+}
+
+kbd {
+  font-family: monospace;
+  font-size: 0.8em;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  padding: 0.1em 0.4em;
+}
+
+/* ── Utility: screen-reader only ──
+ Content here is announced by screen readers but invisible to sighted users.
+ This is a legitimate pattern — extra context that doesn't clutter the visual UI. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+nav a:focus-visible,
+nav a.real-link:focus-visible {
+  outline: none;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 0 3px var(--accent-light);
+  pointer-events: auto;
+}
+
+/* ── Main ── */
+main {
+  flex: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
+  width: 100%;
+}
+
+/* h1 is semantically correct but visually understated — bad design choice */
+h1 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.intro-text {
+  /* Styled like a heading visually — wrong visual hierarchy */
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 2rem;
+  max-width: 28ch;
+}
+
+/* ── Hint box ── */
+.hint-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--warning);
+  border-radius: 0 6px 6px 0;
+  padding: 0.875rem 1.25rem;
+  margin-bottom: 2.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* ── Archive section ──
+ h2 is semantically a section heading but visually styled like a footnote.
+ This is the kind of bad design that breaks visual hierarchy. */
+.archive-section > h2 {
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Card grid ──
+ Six article cards in a simple grid. DOM order and visual order match —
+ they read 1 through 6 either way. The trick in this room isn't ordering,
+ it's that one card's "button" isn't a button. */
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ── Archive card ── */
+.archive-card {
+  background: var(--surface);
+  padding: 1.25rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 180px;
+}
+
+/* Scan-line noise on some cards — purely decorative visual clutter */
+.archive-card.noisy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.018) 3px,
+    rgba(255, 255, 255, 0.018) 4px
+  );
+  pointer-events: none;
+}
+
+/* ── Decorative reference code ──
+ aria-hidden so screen readers skip it.
+ Visually HUGE and HIGH CONTRAST — looks important, means nothing.
+ This is the bad design trap: sighted users fixate on it, screen readers ignore it. */
+.ref-code {
+  font-family: monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ref-color);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+/* ── Article title (h3) ──
+ Semantically a heading but visually tiny and easy to miss.
+ Muted (but AA-contrast) — looks like metadata, IS the content. */
+.archive-card h3 {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #8785a3; /* ~5:1 on --surface */
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: auto;
+}
+
+/* ── Article dek ──
+ Visually prominent (looks like a heading) but semantically just a paragraph. */
+.archive-card p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ── "Read" control ──
+ Five of these are real <button>s. The sixth is a <div> wearing this exact
+ same class — pixel-identical to the eye, but not a button to the browser,
+ the keyboard, or a screen reader. That mismatch is the whole lesson. */
+.access-btn {
+  align-self: flex-end;
+  margin-top: auto;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: monospace;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+.access-btn:hover {
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+.access-btn:focus-visible {
+  outline: 3px solid var(--accent-light);
+  outline-offset: 3px;
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(5rem);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--text-muted);
+  border-radius: 0 8px 8px 0;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  color: var(--text);
+  z-index: 100;
+  opacity: 0;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+  max-width: min(360px, calc(100vw - 2rem));
+  text-align: center;
+  pointer-events: none;
+}
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--success);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+}
+.modal.modal-wrong {
+  border-top-color: var(--danger);
+}
+
+.modal .success-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.btn-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+}
+
+.btn-close {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+@media (max-width: 560px) {
+  main {
+    padding: 2rem 1.25rem 3rem;
+  }
+  header {
+    padding: 0.75rem 1.25rem;
+  }
+  .archive-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
