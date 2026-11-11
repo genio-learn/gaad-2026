@@ -1,0 +1,204 @@
+/* Styles specific to Room 1 (rooms/1/index.html). Loaded after the shared CSS, so it can override it. */
+
+kbd {
+  font-family: monospace;
+  font-size: 0.8em;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  padding: 0.1em 0.4em;
+  color: var(--text);
+}
+
+/* Keyboard focus on nav is very visible — that's the lesson */
+nav a:focus-visible {
+  outline: none;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 0 3px var(--accent-light);
+  pointer-events: auto;
+}
+
+nav a.real-link:focus-visible {
+  outline: none;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* ── Main ── */
+main {
+  flex: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
+  width: 100%;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.intro-text {
+  color: var(--text-muted);
+  max-width: 52ch;
+  margin-bottom: 2rem;
+}
+
+/* ── Hint box ── */
+.hint-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--warning);
+  border-radius: 0 6px 6px 0;
+  padding: 0.875rem 1.25rem;
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* ── Panel card ── */
+.panel-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+}
+
+.lock-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.panel-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.panel-card .panel-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  max-width: 36ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Unlock button ──
+   Mouse: cursor signals "won't work", clicks intercepted by JS
+   Keyboard: strong glow on :focus-visible ── */
+.unlock-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.unlock-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px var(--bg),
+    0 0 0 7px var(--accent-light),
+    0 0 24px 4px color-mix(in srgb, var(--accent) 40%, transparent);
+  cursor: pointer;
+}
+
+.unlock-btn:focus-visible::after {
+  content: 'Press Enter or Space';
+  position: absolute;
+  bottom: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--accent-light);
+  white-space: nowrap;
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(5rem);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--danger);
+  border-radius: 0 8px 8px 0;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  color: var(--text);
+  z-index: 100;
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  max-width: min(340px, calc(100vw - 2rem));
+  text-align: center;
+  pointer-events: none;
+}
+
+/* ── Modal ── */
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--success);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.modal .unlock-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.btn-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-close {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  main { padding: 2rem 1.25rem 3rem; }
+  header { padding: 0.75rem 1.25rem; }
+}

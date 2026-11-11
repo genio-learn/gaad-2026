@@ -1,0 +1,30 @@
+/* Embed copy of the intentional violations page (embed/about/). Loaded after about.css. */
+
+/* Same content width as the other embed steps. */
+main {
+  max-width: 860px;
+}
+
+/* Keyboard keys in the Room 4 note, styled as in the rooms. */
+kbd {
+  font-family: monospace;
+  font-size: 0.8em;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  padding: 0.1em 0.4em;
+}
+
+/* about.css makes every <strong> in an entry a block (for the entry title). Bold words inside the
+   description paragraphs (the Room 4 zoom button names) stay inline. */
+.violation-text p strong {
+  display: inline;
+  font-size: inherit;
+  margin-bottom: 0;
+  color: var(--text);
+}
+
+.violation-text p + p {
+  margin-top: 0.5rem;
+}

@@ -1,0 +1,31 @@
+/* Shared by every page. Page-specific rules live in each page's own <style>. */
+
+:root {
+  --bg: #0c0d1c;
+  --surface: #14152a;
+  --border: #252545;
+  --border-strong: #6f6e92; /* ≥3:1 against surfaces — for interactive component boundaries */
+  --accent: #6B47F0;
+  --accent-light: #a08bff;
+  --accent-pink: #EC1E8C;
+  --accent-blue: #4A5BEF;
+  --text: #f0eef8;
+  --text-muted: #9896a8;
+  --success: #4caf82;
+  --warning: #f0a050;
+  --surface-raised: #1c1d38;
+  --danger: #e05c5c;
+  --text-faint: #8785a3; /* ~5:1 on --surface — dimmer than --text-muted but still AA */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

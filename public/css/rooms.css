@@ -1,0 +1,309 @@
+/* Shared by the five challenge rooms (rules that are identical in every room).
+   Room-specific rules, including each room's deliberate barriers, stay in that room's own <style>.
+   Do not add a rule here unless it is truly identical across all rooms. */
+
+/* ── Skip link ── */
+.skip-link {
+  position: absolute;
+  top: -4rem;
+  left: 1rem;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0 0 6px 6px;
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 200;
+  transition: top 0.15s;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ── Header ── */
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.room-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+}
+
+/* ── Nav: pointer-events disabled so mouse clicks do nothing ── */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 0.25rem;
+}
+
+nav a {
+  display: inline-block;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  pointer-events: none;
+  cursor: default;
+  /* deliberately no :hover style */
+}
+
+/* The one nav link that actually works */
+nav a.real-link {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+nav a.real-link:hover {
+  color: var(--text);
+}
+
+main:focus { outline: none; }
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 0.5rem;
+}
+
+/* ── Progress dots ── */
+.progress {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.progress-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+
+.progress-dot.active {
+  background: var(--accent);
+}
+
+.hint-box strong { color: var(--text); }
+
+.toast.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ── Modal overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 20, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 150;
+  padding: 1.5rem;
+}
+
+.modal-overlay[hidden] { display: none; }
+
+.modal:focus { outline: none; }
+
+.modal h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal .modal-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.clue-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.clue-word {
+  font-size: 2.75rem;
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  color: var(--success);
+  display: block;
+  font-family: monospace;
+  margin-bottom: 1.5rem;
+}
+
+.btn-next:focus-visible {
+  outline: 3px solid var(--accent-light);
+  outline-offset: 3px;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--accent-light);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-back:hover {
+  border-color: var(--accent);
+}
+
+.btn-back:focus-visible {
+  outline: 3px solid var(--accent-light);
+  outline-offset: 3px;
+}
+
+.btn-close:hover {
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+.btn-close:focus-visible {
+  outline: 3px solid var(--accent-light);
+  outline-offset: 3px;
+}
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.genio-header-mark {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  color: var(--accent-light);
+  opacity: 0.8;
+}
+
+/* ── Simulation notice + "I can't work this out" help ──
+   These sit outside the challenge, so they are deliberately kept fully
+   accessible: mouse, keyboard, screen reader and voice all work here. ── */
+.sim-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent-light);
+  border-radius: 0 6px 6px 0;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.sim-box .sim-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin: 0 0 0.4rem;
+}
+
+.sim-box p { margin: 0; }
+
+.sim-box p + p { margin-top: 0.5rem; }
+
+.sim-box strong { color: var(--text); }
+
+.hint-box + .help-details { margin-top: -0.75rem; }
+
+.help-details {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.help-details > summary {
+  cursor: pointer;
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.help-details summary:focus-visible {
+  outline: 3px solid var(--accent-light);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.help-body { padding: 0 1.25rem 1.25rem; }
+
+.help-body .help-heading {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--text);
+  margin: 1rem 0 0.4rem;
+}
+
+.help-body .help-heading:first-child { margin-top: 0.25rem; }
+
+.help-body ol,
+.help-body ul { margin: 0; padding-left: 1.25rem; }
+
+.help-body li + li { margin-top: 0.35rem; }
+
+.help-body p { margin: 0.5rem 0 0; }
+
+.help-body strong { color: var(--text); }
+
+.clue-details {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.clue-details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent-light);
+}
+
+.footer-note { margin-top: 0.35rem; }
+
+.footer-note a { color: var(--accent-light); }
