@@ -6,8 +6,12 @@
   <title>Final Code — The Reverse Accessibility Lab · by Genio</title>
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/final.css">
+  <!-- Embed mode only (?embed=1): js/embed.js switches this on so the embed's buttons match its other pages. -->
+  <link rel="stylesheet" href="../css/buttons.css" media="not all" data-embed-only>
+  <link rel="stylesheet" href="../css/room-embed.css">
+  <script src="../js/embed.js"></script>
 </head>
-<body>
+<body data-room="final">
   <a href="#main" class="skip-link">Skip to main content</a>
 
   <header>
@@ -36,7 +40,7 @@
       <p class="help">Tip: The code check ignores uppercase/lowercase and extra spaces.</p>
       <div class="actions">
         <button class="btn btn-primary" id="verify-btn" type="button">Verify code</button>
-        <a class="btn btn-secondary" href="../rooms/1/">Restart challenge</a>
+        <a class="btn btn-secondary site-only" href="../rooms/1/">Restart challenge</a>
       </div>
       <div class="result" id="result" role="status" aria-live="polite" aria-atomic="true">
         Awaiting code entry.

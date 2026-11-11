@@ -6,9 +6,13 @@
   <title>Room 4: Intelligence Report — The Reverse Accessibility Lab</title>
   <link rel="stylesheet" href="../../css/base.css">
   <link rel="stylesheet" href="../../css/rooms.css">
+  <link rel="stylesheet" href="../../css/buttons.css">
   <link rel="stylesheet" href="../../css/room-4.css">
+  <link rel="stylesheet" href="../../css/room-embed.css">
+  <script src="../../js/embed.js"></script>
+  <script src="../../js/room-4-zoom.js"></script>
 </head>
-<body>
+<body data-room="4">
 
   <a href="#main" class="skip-link">Skip to main content</a>
 
@@ -31,7 +35,13 @@
 
   <main id="main" tabindex="-1">
 
-    <p class="sr-only">
+    <p class="sr-only embed-only">
+      Room 4 zoom tip: the control you need is in the Priority Annotations panel,
+      which is clipped at normal zoom. Use the Zoom in button in the simulated browser
+      zoom bar just before the report to reach 200 percent or more. The columns stack
+      and the button becomes easy to see and activate.
+    </p>
+    <p class="sr-only site-only">
       Room 4 zoom tip: the control you need is in the Priority Annotations panel
       on the right. At normal zoom it renders in very small text. Zoom in to
       200 percent or more to make the layout reflow — the panel will stack below
@@ -60,7 +70,20 @@
       <p>In this room we&rsquo;ve <strong>deliberately</strong> squeezed the button you need into a narrow column of tiny text, so at normal size it&rsquo;s easy to miss.</p>
     </aside>
 
-    <div class="hint-box" role="note">
+    <div class="hint-box embed-only" role="note">
+      <p>
+        <strong>Hint:</strong> The control you need is somewhere in this report, but
+        the layout makes it hard to find at normal zoom. Click <strong>Zoom in</strong> on the
+        <strong>Simulated browser zoom</strong> bar above the report until it reaches 200% or more,
+        and watch what happens to the layout.
+      </p>
+      <p class="hint-note">
+        Normally you&rsquo;d zoom with your browser: <kbd>Ctrl</kbd> and <kbd>+</kbd> on Windows,
+        or <kbd>Cmd</kbd> and <kbd>+</kbd> on a Mac. This simulated zoom is just for the purpose
+        of the challenge.
+      </p>
+    </div>
+    <div class="hint-box site-only" role="note">
       <strong>Hint:</strong> The control you need is somewhere in this report, but
       the layout makes it hard to find at normal zoom. Try zooming in to 200% or
       more (<kbd>Ctrl+=</kbd> on Windows/Linux, <kbd>Cmd+=</kbd> on Mac) and
@@ -71,13 +94,19 @@
       <summary>I can&rsquo;t work this out &mdash; show me how</summary>
       <div class="help-body">
         <h3 class="help-heading">How to solve it</h3>
-        <ol>
+        <ol class="embed-only">
+          <li>Click <strong>Zoom in</strong> on the <strong>Simulated browser zoom</strong> bar above the report. Keep going until you reach at least 200%.</li>
+          <li>Watch the three columns stack on top of each other. Scroll down to the <strong>Priority Annotations</strong> section.</li>
+          <li>Under the <strong>P1 &mdash; Action required</strong> note, select <strong>Acknowledge priority access</strong>.</li>
+        </ol>
+        <p class="embed-only">This embed is too narrow to show the full-width layout, so the report sits in a simulated screen with its own zoom. On the full site, your browser&rsquo;s zoom does exactly the same thing.</p>
+        <ol class="site-only">
           <li>Zoom in: <kbd>Ctrl</kbd> and <kbd>+</kbd> on Windows, or <kbd>Cmd</kbd> and <kbd>+</kbd> on a Mac. Keep going until you reach at least 200%.</li>
           <li>Watch the three columns stack on top of each other. Scroll down to the <strong>Priority Annotations</strong> section.</li>
           <li>Under the <strong>P1 &mdash; Action required</strong> note, select <strong>Acknowledge priority access</strong>.</li>
           <li>Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> and <kbd>0</kbd> to reset the zoom afterwards.</li>
         </ol>
-        <p>On a phone the columns are already stacked &mdash; just scroll down to Priority Annotations.</p>
+        <p class="site-only">On a phone the columns are already stacked &mdash; just scroll down to Priority Annotations.</p>
         <h3 class="help-heading">Why this matters for students</h3>
         <p>Here, zooming in makes things <em>better</em>, because the page is built to reflow. On many sites it&rsquo;s the opposite: zooming in squashes text, pushes buttons off the edge of the screen or forces sideways scrolling on every line. For a student with low vision, that can turn a five-minute task into a frustrating one &mdash; or make it impossible.</p>
         <details class="clue-details">

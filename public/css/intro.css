@@ -1,0 +1,146 @@
+/* Intro components shared by the main landing page (index.html) and the embed landing page (embed/index.html):
+   the top bar, links, the eyebrow label, the "broken on purpose" notice, the "no prior experience" callout,
+   and the numbered "how it works" steps. Buttons are in buttons.css. */
+
+/* ── Header ── */
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.genio-mark {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  color: var(--accent-light);
+}
+
+.header-title strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.header-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.genio-credit {
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+a {
+  color: var(--accent-light);
+}
+
+a:focus-visible {
+  outline: 3px solid var(--accent-light);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── "No prior experience" callout ── */
+.callout {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.callout p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.callout strong {
+  color: var(--text);
+}
+
+/* ── "Broken on purpose" notice ── */
+.purpose-notice {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--warning);
+  border-radius: 0 8px 8px 0;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.purpose-notice p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.purpose-notice .purpose-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--warning);
+  margin-bottom: 0.35rem;
+}
+
+.purpose-notice a {
+  color: var(--accent-light);
+}
+
+/* ── Eyebrow label ── */
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin-bottom: 0.75rem;
+}
+
+/* ── Numbered "how it works" steps ── */
+.steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.steps li {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.step-num {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  color: var(--accent-light);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-text strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 0.15rem;
+}
+
+.step-text span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}

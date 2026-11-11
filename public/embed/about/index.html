@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intentional Violations — The Reverse Accessibility Lab · by Genio</title>
+  <!-- Embed copy of ../../about/: no links out to the full site, Room 4 describes the embed's simulated zoom. -->
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/about.css">
+  <link rel="stylesheet" href="../../css/embed-about.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="header-brand">
+      <svg class="genio-mark" viewBox="0 0 616.43 616.43" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" focusable="false">
+        <path d="M218.26,453.13l-25.07-12.14c15.47-31.94,34.26-62.48,55.84-90.79l22.15,16.89c-20.46,26.83-38.26,55.78-52.93,86.04Z"/>
+        <path d="M308.22,434.36c-68.49,0-122.43-55.37-122.43-126.14s53.94-126.14,122.43-126.14,122.43,55.37,122.43,126.14-53.94,126.14-122.43,126.14ZM308.22,462.32c86.47,0,154.11-67.64,154.11-154.11s-67.64-154.11-154.11-154.11-154.11,67.64-154.11,154.11,67.64,154.11,154.11,154.11Z"/>
+        <path d="M296.92,335.98l-20.74-18.59c46.67-52.04,102.11-93.83,164.78-124.2l12.15,25.06c-59.41,28.79-111.96,68.4-156.19,117.73Z"/>
+        <path d="M238.38,313.16l-21.64-17.54c22.35-27.57,47.61-53.02,75.08-75.66l17.71,21.49c-26.03,21.45-49.98,45.58-71.16,71.7Z"/>
+      </svg>
+      <div class="header-title">
+        <strong>The Reverse Accessibility Lab</strong>
+        <p class="header-meta">A challenge by <span class="genio-credit">Genio</span></p>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <p class="eyebrow">Transparency notice</p>
+    <h1>Intentional violations</h1>
+    <p class="intro">
+      The Reverse Accessibility Lab is a simulation. Each room deliberately breaks criteria from WCAG 2.2 (the Web Content Accessibility Guidelines, the international standard for accessible websites) so that visitors can experience some of the barriers students with disabilities face in digital tools. Every issue below is intentional, limited to a single challenge room, and there to teach something. This page lists each one.
+    </p>
+
+    <div class="notice" role="note">
+      <strong>For auditors and automated tools:</strong> the issues in the challenge rooms (<code>rooms/1/</code> to <code>rooms/5/</code>) are intentional and documented here. They are not bugs or regressions. The landing page, this page and the final code page are not part of the challenge and are designed to be fully accessible &mdash; if you find a problem on them, please let us know.
+    </div>
+
+    <!-- Room 1 -->
+    <section class="room-section" aria-labelledby="room1-heading">
+      <div class="room-header">
+        <h2 id="room1-heading">Room 1 — Keyboard only</h2>
+        <span class="room-badge">⌨️ Keyboard navigation</span>
+      </div>
+      <p class="room-sim"><strong>Simulates:</strong> Students who can&rsquo;t use a mouse or trackpad &mdash; because of a physical disability, a tremor, repetitive strain injury or sight loss &mdash; and rely on the keyboard or a switch device.</p>
+      <ul class="violation-list">
+        <li>
+          <span class="criterion-tag">2.1.1</span>
+          <div class="violation-text">
+            <strong>Keyboard — pointer events disabled on all interactive elements</strong>
+            <p>Nav links have <code>pointer-events: none</code> and the unlock button intercepts pointer and touch events via JavaScript, making every control mouse-unreachable. The lesson: everything works by keyboard — tab focus is intentionally enhanced with a strong visible glow.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">2.4.7</span>
+          <div class="violation-text">
+            <strong>Focus Visible — no hover styles, mouse cursor signals failure</strong>
+            <p>Hover states are deliberately absent and the cursor is set to <code>not-allowed</code>. Focus-visible styles are amplified instead, inverting the usual pattern of hover-rich, focus-minimal interfaces.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- Room 2 -->
+    <section class="room-section" aria-labelledby="room2-heading">
+      <div class="room-header">
+        <h2 id="room2-heading">Room 2 — Screen reader</h2>
+        <span class="room-badge">🔊 Semantic structure</span>
+      </div>
+      <p class="room-sim"><strong>Simulates:</strong> Blind and partially sighted students who use a screen reader to hear the page and its structure read aloud.</p>
+      <ul class="violation-list">
+        <li>
+          <span class="criterion-tag">1.3.1</span>
+          <div class="violation-text">
+            <strong>Info and Relationships — heading hierarchy inverted</strong>
+            <p>The <code>&lt;h1&gt;</code> is visually tiny and muted while a <code>&lt;p&gt;</code> is styled to look like the main heading (large, bold, high-contrast). Screen readers announce the correct DOM order; sighted users read the visual lie.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">4.1.2</span>
+          <div class="violation-text">
+            <strong>Name, Role, Value — a <code>&lt;div&gt;</code> pretending to be a button</strong>
+            <p>Six articles each have a "Read" control. Five are real <code>&lt;button&gt;</code> elements; the sixth is a <code>&lt;div&gt;</code> with the same styling and no button role. It looks identical on screen, but a screen reader never announces it as a button and it is missing from the screen reader's list of buttons.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">2.1.1</span>
+          <div class="violation-text">
+            <strong>Keyboard — the impostor control only responds to a mouse click</strong>
+            <p>The <code>&lt;div&gt;</code> can receive keyboard focus, but has no <kbd>Enter</kbd> or <kbd>Space</kbd> handler, so it can only be activated with a pointer. Keyboard and screen-reader users cannot open the article it belongs to.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">2.4.6</span>
+          <div class="violation-text">
+            <strong>Headings and Labels — identical visible button labels</strong>
+            <p>Every control reads "Read" visually. Each real button has a distinct <code>aria-label</code> naming its article, so screen-reader users can tell them apart; sighted users see six identical labels.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- Room 3 -->
+    <section class="room-section" aria-labelledby="room3-heading">
+      <div class="room-header">
+        <h2 id="room3-heading">Room 3 — Voice control</h2>
+        <span class="room-badge">🎙️ Name, role, focus order</span>
+      </div>
+      <p class="room-sim"><strong>Simulates:</strong> Students with limited hand movement, chronic pain, fatigue or an injury who control their computer by voice.</p>
+      <ul class="violation-list">
+        <li>
+          <span class="criterion-tag">2.4.3</span>
+          <div class="violation-text">
+            <strong>Focus Order — tabindex values create a non-sequential tab sequence</strong>
+            <p>Twelve controls are assigned explicit <code>tabindex</code> values that jump the keyboard cursor across sections in an illogical order, making keyboard navigation disorienting. One control — the correct target — has a unique, descriptive label.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">2.5.3</span>
+          <div class="violation-text">
+            <strong>Label in Name — buttons carry vague or duplicated visible labels</strong>
+            <p>Labels include "Click here" (×3), "Submit" (×2), "More info" (×2), "Go", "Option", and "Next" (×2) — none actionable for voice control. The target button's accessible name matches a specific, unique spoken phrase.</p>
+          </div>
+        </li>
+        <li>
+          <span class="criterion-tag">1.3.1</span>
+          <div class="violation-text">
+            <strong>Info and Relationships — mouse-blocking overlay hides controls from pointer</strong>
+            <p>An <code>aria-hidden="true"</code> overlay sits above each interactive button at a higher z-index, intercepting mouse events. The accessibility tree exposes the real button beneath; pointer users hit a dead layer.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- Room 4 -->
+    <section class="room-section" aria-labelledby="room4-heading">
+      <div class="room-header">
+        <h2 id="room4-heading">Room 4 — Zoom &amp; magnification</h2>
+        <span class="room-badge">🔎 Reflow</span>
+      </div>
+      <p class="room-sim"><strong>Simulates:</strong> Students with low vision who zoom in to 200% or more, or use screen magnification, to read.</p>
+      <ul class="violation-list">
+        <li>
+          <span class="criterion-tag">1.4.10</span>
+          <div class="violation-text">
+            <strong>Reflow — critical control hidden in a narrow third column</strong>
+            <p>This embed is narrower than the room&rsquo;s layout breakpoint, so the report sits in a simulated browser screen with its own <strong>Zoom out</strong>, <strong>Zoom in</strong> and <strong>Reset</strong> controls. At 100% simulated zoom, a three-column grid keeps the "Acknowledge" button in a cramped annotations column with <code>overflow: hidden</code>, clipping it from view. Zoom in to 150% or more and the simulated screen narrows below the 960px grid breakpoint: the columns stack, and the button becomes fully visible and operable &mdash; reflow reveals what bad layout hid. (All text meets contrast minimums; the difficulty is size and clipping, not color.)</p>
+            <p>The simulated zoom is just for the purpose of the challenge. Normally you&rsquo;d zoom with your browser (<kbd>Ctrl</kbd> and <kbd>+</kbd> on Windows, <kbd>Cmd</kbd> and <kbd>+</kbd> on a Mac), which triggers exactly the same reflow on the full-size page.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <hr class="section-divider" />
+
+    <!-- Room 5 -->
+    <section class="room-section" aria-labelledby="room5-heading">
+      <div class="room-header">
+        <h2 id="room5-heading">Room 5 — Reduced motion</h2>
+        <span class="room-badge">🌀 Motion &amp; vestibular</span>
+      </div>
+      <p class="room-sim"><strong>Simulates:</strong> Students with vestibular disorders, migraines, ADHD, autism or a concussion, for whom movement on screen can cause dizziness, nausea or difficulty concentrating.</p>
+      <ul class="violation-list">
+        <li>
+          <span class="criterion-tag">2.3.3</span>
+          <div class="violation-text">
+            <strong>Animation from Interactions — continuous motion with no page-level off switch</strong>
+            <p>Five keyframe animations run on page load: bounce, spin, drift, pulse-border, and flicker — including on the button container itself. There is no on-page toggle; motion stops only when the OS <code>prefers-reduced-motion: reduce</code> setting is enabled. The lesson: the OS setting exists precisely for this, and enabling it unlocks the room.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <hr class="section-divider" />
+
+    <p style="font-size: 0.85rem; color: var(--text-muted);">
+      Questions or corrections? Email <a href="mailto:hello@genio.co">hello@genio.co</a>.
+    </p>
+
+  </main>
+
+
+</body>
+</html>

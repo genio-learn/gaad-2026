@@ -28,6 +28,15 @@ All CSS lives in [`public/css/`](public/css/). Pages have no `<style>` blocks; e
 2. [`rooms.css`](public/css/rooms.css): room chrome (header, nav, hint/help panels, success modal, footer). The five rooms only.
 3. A page file: `room-1.css` … `room-5.css`, `home.css`, `about.css`, `final.css`, `next-steps.css`.
 
+The landing pages also share [`intro.css`](public/css/intro.css) (top bar, banners, steps), and [`buttons.css`](public/css/buttons.css) holds the primary and secondary buttons.
+
+## Embed flow
+For embedding in an iframe on another site, start at `/embed/` (intro) → `/embed/how-it-works/` → the rooms with `?embed=1` → `/final/?embed=1`.
+
+`/embed/about/` is the embed's copy of the intentional violations page: it has no links out to the full site, and its Room 4 entry describes the embed's simulated zoom. The embed landing page opens it in a new tab. Keep it in step with `/about/` when a room's barriers change.
+
+In a room, `?embed=1` turns on embed mode via [`js/embed.js`](public/js/embed.js) and [`css/room-embed.css`](public/css/room-embed.css): the "← Lab" link, footer and top progress dots are hidden, and a bottom bar adds ← Previous, "Room N of 5" and Next →. Each room declares its number with `<body data-room="N">`. Without `?embed=1` the rooms behave exactly as before.
+
 Only put a rule in `rooms.css` if it is identical in every room. Anything that differs between rooms, including every deliberate barrier, belongs in that room's own `room-N.css`.
 
 ## Deployment

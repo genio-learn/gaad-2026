@@ -1,15 +1,5 @@
 /* Styles specific to home (index.html). Loaded after the shared CSS, so it can override it. */
 
-a {
-  color: var(--accent-light);
-}
-
-a:focus-visible {
-  outline: 3px solid var(--accent-light);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-
 /* ── Genio blob decoration ── */
 .blob-bg {
   position: fixed;
@@ -64,43 +54,6 @@ header, main, footer {
   z-index: 1;
 }
 
-/* ── Header ── */
-header {
-  border-bottom: 1px solid var(--border);
-  padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.genio-mark {
-  width: 2.25rem;
-  height: 2.25rem;
-  flex-shrink: 0;
-  color: var(--accent-light);
-}
-
-.header-title strong {
-  display: block;
-  font-size: 0.95rem;
-}
-
-.header-meta {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.genio-credit {
-  color: var(--accent-light);
-  font-weight: 700;
-}
-
 /* ── Main ── */
 main {
   flex: 1;
@@ -108,15 +61,6 @@ main {
   margin: 0 auto;
   padding: 3rem 2rem 4rem;
   width: 100%;
-}
-
-.eyebrow {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent-light);
-  margin-bottom: 0.75rem;
 }
 
 h1 {
@@ -133,51 +77,6 @@ h1 {
   max-width: 55ch;
 }
 
-/* ── Callout box ── */
-.callout {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
-  border-radius: 0 8px 8px 0;
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 2.5rem;
-}
-
-.callout p {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-}
-
-.callout strong {
-  color: var(--text);
-}
-
-/* ── "Broken on purpose" notice ── */
-.purpose-notice {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--warning);
-  border-radius: 0 8px 8px 0;
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 1.25rem;
-}
-
-.purpose-notice p {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-}
-
-.purpose-notice .purpose-title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--warning);
-  margin-bottom: 0.35rem;
-}
-
-.purpose-notice a {
-  color: var(--accent-light);
-}
-
 /* ── How it works ── */
 h2 {
   font-size: 1.1rem;
@@ -186,46 +85,6 @@ h2 {
   letter-spacing: 0.08em;
   color: var(--text-muted);
   margin-bottom: 1rem;
-}
-
-.steps {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
-}
-
-.steps li {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-}
-
-.step-num {
-  flex-shrink: 0;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: var(--surface);
-  border: 2px solid var(--accent);
-  color: var(--accent-light);
-  font-weight: 700;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.step-text strong {
-  display: block;
-  font-size: 0.95rem;
-  margin-bottom: 0.15rem;
-}
-
-.step-text span {
-  font-size: 0.85rem;
-  color: var(--text-muted);
 }
 
 /* ── Rooms preview ── */
@@ -314,55 +173,6 @@ h2 {
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-}
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--accent);
-  color: #fff;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 1rem;
-  padding: 0.75rem 1.75rem;
-  border-radius: 6px;
-  transition: background 0.15s;
-}
-
-.btn-primary:hover {
-  background: var(--accent-light);
-  color: var(--bg);
-}
-
-.btn-primary:focus-visible {
-  outline: 3px solid var(--accent-light);
-  outline-offset: 3px;
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: transparent;
-  color: var(--accent-light);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 1rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
-  border: 1px solid var(--border-strong);
-  transition: border-color 0.15s, background 0.15s;
-}
-
-.btn-secondary:hover {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-}
-
-.btn-secondary:focus-visible {
-  outline: 3px solid var(--accent-light);
-  outline-offset: 3px;
 }
 
 .cta-note {

@@ -1,0 +1,195 @@
+/* Embed mode for the challenge rooms. Every rule is scoped to html.embed, which js/embed.js sets
+   only when the URL has ?embed=1, so none of this affects the normal site. */
+
+/* No way back to the full-site Lab from inside the embed. */
+.embed header nav,
+.embed .home-link,
+.embed footer,
+.embed .progress {
+  display: none;
+}
+
+/* On the full site Room 1 (680px) and the final page (760px) are narrower than the other rooms (860px),
+   and Room 4 (1060px) is wider. In the embed every step uses the same width. Room 4's report sits in
+   its simulated zoom screen (js/room-4-zoom.js), which does its own layout, so it doesn't need the extra width. */
+.embed body[data-room="1"] main,
+.embed body[data-room="4"] main,
+.embed body[data-room="final"] main {
+  max-width: 860px;
+}
+
+/* ── Success popup fills the whole embed instead of floating as a small card ── */
+.embed .modal-overlay {
+  padding: 0;
+  background: var(--bg);
+}
+
+.embed .modal {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  border-width: 4px 0 0; /* keep each room's coloured top edge (green, or red for Room 2's wrong answer) */
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+/* Centre the content vertically, but start from the top when it is taller than the embed
+   (auto margins, unlike justify-content: center, never push content out of reach). */
+.embed .modal > :first-child {
+  margin-top: auto;
+}
+
+.embed .modal > :last-child {
+  margin-bottom: auto;
+}
+
+/* Wide enough that the text wraps onto few lines (so the popup fits without scrolling),
+   but still readable. The buttons stay narrower so they don't stretch. */
+.embed .modal > * {
+  max-width: 600px;
+}
+
+.embed .modal > .modal-actions {
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Tighter vertical rhythm than the full-site popup, so the clue and Continue fit in the embed without scrolling. */
+.embed .modal {
+  padding: 1rem 2rem;
+}
+
+.embed .modal .unlock-icon,
+.embed .modal .success-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.embed .modal .modal-desc {
+  margin-bottom: 0.75rem;
+}
+
+.embed .modal .clue-word {
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Continue and Close side by side instead of stacked; they wrap onto two rows if there isn't room. */
+.embed .modal-actions {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.embed .modal-actions .btn-next {
+  flex: 1 1 auto;
+  width: auto; /* Room 1 sets width: 100% on both buttons, which would stack them */
+}
+
+.embed .modal-actions .btn-close {
+  width: auto;
+}
+
+/* ── Bottom bar: ← Previous · Room N of 5 · Next → ──
+   Three columns so the counter stays centred even on the final page, which has no Next. */
+.embed .room-flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.embed .room-flow-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+  grid-column: 2;
+}
+
+.embed .room-flow-prev {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.embed .room-flow-next {
+  grid-column: 3;
+  justify-self: end;
+}
+
+/* Restart arrow icon on the final page's Restart button. */
+.embed .room-flow-icon {
+  width: 1.1em;
+  height: 1.1em;
+}
+
+.embed .room-flow-dots {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.embed .room-flow-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+
+.embed .room-flow-dot.is-done {
+  background: var(--accent-light);
+}
+
+.embed .room-flow-dot.is-current {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.embed .room-flow-count {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+/* Narrow screens (and Room 4 when zoomed): counter on its own row above the two buttons. */
+@media (max-width: 480px) {
+  .embed .room-flow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .embed .room-flow-progress {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .embed .room-flow-prev {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .embed .room-flow-next {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+/* ── Text that differs between the full site and the embed ──
+   Mark full-site-only copy with .site-only and its embed replacement with .embed-only. */
+.embed-only {
+  display: none;
+}
+
+.embed .embed-only {
+  display: revert;
+}
+
+.embed .site-only {
+  display: none;
+}

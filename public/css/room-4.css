@@ -441,3 +441,138 @@ h1 {
   main { padding: 2rem 1.25rem 3rem; }
   header { padding: 0.75rem 1.25rem; }
 }
+
+/*
+  ── Embed mode: simulated zoom (see js/room-4-zoom.js) ──
+  The embed is narrower than 960px, so the media queries above would always stack the report.
+  Inside the simulated screen, the three-column clipped layout holds until the *simulated* screen
+  is 960px or narrower (.is-reflowed), exactly like real zoom on the full site.
+*/
+.embed .zoom-canvas .report-grid {
+  grid-template-columns: 3fr 1.6fr 1fr;
+}
+
+.embed .zoom-canvas .annotations-col {
+  max-height: 17rem;
+  overflow: hidden;
+}
+
+.embed .zoom-canvas.is-reflowed .report-grid {
+  grid-template-columns: 1fr;
+}
+
+.embed .zoom-canvas.is-reflowed .annotations-col {
+  max-height: none;
+  overflow: visible;
+}
+
+.zoom-sim {
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.zoom-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--surface-raised);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.zoom-bar-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.zoom-btn {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.zoom-btn:hover {
+  border-color: var(--accent-light);
+}
+
+.zoom-btn:focus-visible {
+  outline: 3px solid var(--accent-light);
+  outline-offset: 2px;
+}
+
+.zoom-btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.zoom-reset {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.zoom-level {
+  min-width: 3.5rem;
+  text-align: center;
+  font-family: monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent-light);
+}
+
+.zoom-viewport {
+  background: var(--bg);
+  padding: 0;
+}
+
+/* Embed hint: a smaller note under the main hint explaining real browser zoom. */
+.hint-box .hint-note {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+}
+
+/* Narrow embeds: controls take the full row under the label. */
+@media (max-width: 480px) {
+  .zoom-controls {
+    width: 100%;
+    gap: 0.35rem;
+  }
+
+  .zoom-btn {
+    padding: 0.35rem 0.55rem;
+  }
+
+  .zoom-level {
+    min-width: 3rem;
+    flex: 1;
+  }
+}
+
+/* The report's own corners/borders sit flush inside the simulated screen. */
+.embed .zoom-canvas .report-banner {
+  border-radius: 0;
+}
+
+.embed .zoom-canvas .report-grid {
+  border-radius: 0;
+}
