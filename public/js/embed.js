@@ -12,6 +12,9 @@
  *
  * The room number comes from <body data-room="N">. The final code page uses <body data-room="final">:
  * its bar has ← Previous (Room 5), all five dots filled, and ↻ Restart (back to the start of the embed).
+ * After a correct code (the page fires `finalcode:correct`), Restart moves to the left in place of
+ * Previous and a Next steps → button (embed/next-steps/) appears on the right. `finalcode:incorrect`
+ * puts it back.
  *
  * Also, on any page:
  *   - <link data-embed-only media="not all"> stylesheets are switched on (media="all")
@@ -96,6 +99,22 @@
     bar.setAttribute('role', 'navigation');
     bar.setAttribute('aria-label', 'Challenge rooms');
     bar.append(prev, progress, next);
+
+    // Final page: after a correct code, show ↻ Restart · dots · Next steps →.
+    if (isFinal) {
+      var restart = next;
+      var nextSteps = link('btn-primary room-flow-next', '../embed/next-steps/', 'Next steps',
+                           'Next steps <span aria-hidden="true">→</span>');
+      var setSolved = function (solved) {
+        var focused = document.activeElement;
+        restart.classList.toggle('room-flow-prev', solved);
+        restart.classList.toggle('room-flow-next', !solved);
+        bar.replaceChildren(solved ? restart : prev, progress, solved ? nextSteps : restart);
+        if (focused && !bar.contains(focused) && (focused === prev || focused === nextSteps)) restart.focus();
+      };
+      document.addEventListener('finalcode:correct', function () { setSolved(true); });
+      document.addEventListener('finalcode:incorrect', function () { setSolved(false); });
+    }
 
     var main = document.querySelector('main');
     if (main) main.append(bar);
