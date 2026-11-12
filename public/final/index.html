@@ -59,6 +59,11 @@
     const verifyBtn = document.getElementById('verify-btn');
     const result = document.getElementById('result');
 
+    // Lets js/embed.js react to the result (in the embed, a correct code swaps in a Next steps button).
+    function announce(correct) {
+      document.dispatchEvent(new CustomEvent(correct ? 'finalcode:correct' : 'finalcode:incorrect'));
+    }
+
     function normalize(value) {
       return value.trim().replace(/\s+/g, ' ').toUpperCase();
     }
@@ -67,6 +72,7 @@
       const typed = normalize(codeInput.value);
 
       if (!typed) {
+        announce(false);
         result.className = 'result error';
         result.textContent = 'Enter your five-word code before verifying.';
         return;
@@ -75,7 +81,9 @@
       if (typed === expectedCode) {
         result.className = 'result success';
         result.textContent = '🎉 Well done! Your code is correct! 🎉';
+        announce(true);
       } else {
+        announce(false);
         result.className = 'result error';
         result.textContent = 'That code is not correct. Re-check your clues from all five rooms and try again.';
       }
