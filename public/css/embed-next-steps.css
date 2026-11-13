@@ -130,10 +130,25 @@ main > section {
   margin-top: 0;
 }
 
-.ns-footer-line {
+/* ── Footer: "Made by Genio" line on the left, Restart on the right (wraps below on narrow embeds) ── */
+.ns-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   margin-top: 2.5rem;
   padding-top: 1.25rem;
   border-top: 1px solid var(--border);
+}
+
+.ns-footer-line {
   font-size: 0.85rem;
   color: var(--text-muted);
+}
+
+/* Same size as the restart arrow on the final code page (.room-flow-icon in css/room-embed.css). */
+.ns-restart-icon {
+  width: 1.1em;
+  height: 1.1em;
 }
